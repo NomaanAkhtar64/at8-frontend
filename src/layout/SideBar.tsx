@@ -1,6 +1,8 @@
 import React from 'react'
 
-interface SidebarProps {}
+interface SidebarProps {
+    closeSidebar: () => void;
+}
 
 const Sidebar: React.FC<SidebarProps> = ({}) => {
   return <div className='sidebar'></div>

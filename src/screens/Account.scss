@@ -1,0 +1,50 @@
+.account-page {
+    margin: 5px;
+    padding: 5px;
+}
+.page {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 5px;
+}
+.form {
+    padding: 5px;
+}
+
+.tab {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.tab-btn {
+    width: 100%;
+    color: #fff;
+    border-radius: 0px !important;
+}
+
+.tab-btn:hover {
+    color: #fff;
+}
+
+@media (min-width: 992px) {
+    .account-page {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .page {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40%;
+    }
+}
+
+.signup-btn {
+    width: 100%;
+}
