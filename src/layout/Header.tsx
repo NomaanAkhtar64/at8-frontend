@@ -11,7 +11,9 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ name, logo, children }) => {
     return (
         <header className="main-header">
-            <div className="site-name">{name}</div>
+            <div className="site-name">
+                <Link to="/">{name}</Link>
+            </div>
             <div className="site-nav">{children}</div>
             <div className="header-backdrop">
                 <img className="header-shadow" src={backDrop} alt="" />

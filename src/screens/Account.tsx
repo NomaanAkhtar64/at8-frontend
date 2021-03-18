@@ -11,11 +11,14 @@ const Account: React.FC<AccountProps> = ({}) => {
     return (
         <>
             <div className="account-page">
-                <div className="page mt-5 pb-3">
+                <div className="page mt-5 pb-1">
                     <div className="tab">
                         <button
                             className="btn tab-btn"
+                            type="button"
                             style={{
+                                borderRadius: "0px",
+                                borderTopLeftRadius: "5px",
                                 background: isSignupActive
                                     ? "#23233d"
                                     : "black",
@@ -28,7 +31,10 @@ const Account: React.FC<AccountProps> = ({}) => {
                         </button>
                         <button
                             className="btn tab-btn"
+                            type="button"
                             style={{
+                                borderRadius: "0px",
+                                borderTopRightRadius: "5px",
                                 background: isSignupActive
                                     ? "black"
                                     : "#23233d",

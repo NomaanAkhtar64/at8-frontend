@@ -1,9 +1,19 @@
-import React from 'react'
+import React from "react";
 
 interface FooterProps {}
 
 const Footer: React.FC<FooterProps> = ({}) => {
-  return <footer></footer>
-}
+    return (
+        <footer>
+            <div className="footer">
+                <div className="heading">
+                    <h1>Contact</h1>
+                </div>
+                <hr/>
+                
+            </div>
+        </footer>
+    );
+};
 
-export default Footer
+export default Footer;

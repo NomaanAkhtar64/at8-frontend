@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 interface LoginProps {}
 
@@ -24,6 +25,11 @@ const Login: React.FC<LoginProps> = ({}) => {
                 <button type="submit" className="btn btn-secondary signup-btn">
                     LOGIN
                 </button>
+            </div>
+            <div>
+                <p className="forgot-password">
+                    <Link to="/forgot-password">Forgot Password?</Link>
+                </p>
             </div>
         </form>
     );
