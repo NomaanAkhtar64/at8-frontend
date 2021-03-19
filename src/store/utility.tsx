@@ -1,6 +1,6 @@
-export const updateObject = (oldObject, updatedProperties) => {
-    return {
-        ...oldObject,
-        ...updatedProperties,
-    };
-};
+export function updateObject<T>(oldObject: T, updatedProperties: Partial<T>) {
+  return {
+    ...oldObject,
+    ...updatedProperties,
+  }
+}

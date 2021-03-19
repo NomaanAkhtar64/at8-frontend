@@ -1,1 +1,8 @@
 /// <reference types="react-scripts" />
+/// <reference types="axios" />
+
+interface UserState {
+  token: null | string
+  error: null | Error
+  loading: boolean
+}
