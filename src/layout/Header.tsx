@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import backDrop from '../assets/header-backdrop.png'
-import logo from '../assets/AY8.png'
+import logo from '../assets/AT8-Logo.png'
 import * as actions from '../store/actions/auth'
 
 interface HeaderProps {
@@ -44,8 +44,8 @@ const Header: React.FC<HeaderProps> = ({
       <div className='header-wrapper'>
         <div className='site-name'>
           <Link to='/'>
-            {name}
-            {/* <img src={logo} alt="AT8" width="150px"/> */}
+            {/* {name} */}
+            <img src={logo} alt="AT8" width="40px"/>
           </Link>
         </div>
         <div className='site-nav'>{children}</div>
@@ -56,6 +56,7 @@ const Header: React.FC<HeaderProps> = ({
           {isAuthenticated ? (
             <div
               className='link-shadow link-animated_und'
+              style={{cursor: "pointer"}}
               onClick={() => actions.logout()}
             >
               Logout

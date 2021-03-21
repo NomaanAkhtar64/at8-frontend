@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { History } from "history";
+
 import * as actions from "../store/actions/auth";
 
 interface LoginProps extends UserState {
     onAuth: (email: string, password: string) => void;
+    history: History;
 }
 
-const Login: React.FC<LoginProps> = ({ onAuth }) => {
+const Login: React.FC<LoginProps> = ({ onAuth, history }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -17,6 +20,7 @@ const Login: React.FC<LoginProps> = ({ onAuth }) => {
             onSubmit={(e) => {
                 e.preventDefault();
                 onAuth(email, password);
+                // history.push("/");
             }}
         >
             <legend className="mb-4">Login</legend>

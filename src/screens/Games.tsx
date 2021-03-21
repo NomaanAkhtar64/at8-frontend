@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import "./Games.scss";
-import axios from "axios";
 import useGames from "../hooks/useGames";
 
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = ({}) => {
     const games = useGames();
-    console.log(games);
     return (
         <>
             {games.error ? (
@@ -34,7 +32,10 @@ const Home: React.FC<HomeProps> = ({}) => {
                             ))}
                         </>
                     ) : (
-                        <div className="spinner-border" role="status">
+                        <div
+                            className="spinner-border text-light"
+                            role="status"
+                        >
                             <span className="sr-only">Loading...</span>
                         </div>
                     )}
