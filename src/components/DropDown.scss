@@ -1,0 +1,113 @@
+.site-nav {
+  .dd-item {
+    position: absolute;
+    height: 48px;
+    width: 100%;
+    left: 0px;
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 20px;
+
+    border: 1px solid #333;
+    background: #d38282;
+    box-sizing: border-box;
+    color: #e3e3e3;
+  }
+  .black-link {
+    display: flex;
+    align-items: center;
+    background: #000;
+    justify-content: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 23px;
+    letter-spacing: 0.12em;
+    height: 100%;
+    padding: 0px 30px;
+    span,
+    a {
+      color: #ffffff;
+      cursor: pointer;
+    }
+    &:not(.black-dropdown) {
+      a:hover {
+        color: #db6983;
+      }
+    }
+    &.black-dropdown {
+      padding: 0px 20px 0px 30px;
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      .dd-title {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      img {
+        margin-left: 10px;
+      }
+      .dd-container {
+        width: 100%;
+      }
+    }
+  }
+}
+.sidebar-nav {
+  .dd-item {
+    height: 48px;
+    width: fit-content;
+    padding: 0px 10px;
+    color: #fff;
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .black-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    height: 100%;
+    margin: 10px 0px;
+    padding: 0px 50px 0px 30px;
+    span,
+    a {
+      color: #ffffff;
+      cursor: pointer;
+      padding: 10px 0px;
+    }
+    &:not(.black-dropdown) {
+    }
+    &.black-dropdown {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      .dd-title {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      img {
+        margin-left: auto;
+      }
+      .dd-container {
+        width: 100%;
+      }
+    }
+  }
+}
