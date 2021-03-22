@@ -24,9 +24,9 @@ const Home: React.FC<HomeProps> = () => {
                                                 alt="Tournament Thumbnail"
                                             />
                                         </div>
-                                        <div className="caption">
+                                        {/* <div className="caption">
                                             <h1>{game.name}</h1>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             ))}
