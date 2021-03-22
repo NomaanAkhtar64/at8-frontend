@@ -18,7 +18,7 @@ interface WindowSize {
   width: number
 }
 
-interface RestProfile {
+interface User {
   email: string
   username: string
   first_name: string
@@ -26,7 +26,7 @@ interface RestProfile {
   pk: number
 }
 
-interface ApiProfile {
+interface UserProfile {
   user: string
   pic: string
   discord_name_tag: string

@@ -14,8 +14,8 @@ const Profile: React.FC<ProfileProps> = () => {
 
   return (
     <>
-      <div className='profile-page container'>
-        <div className='tab mt-5'>
+      <div className='profile-page container my-5'>
+        <div className='tab'>
           <ul className='nav nav-tabs' style={{ width: '100%' }}>
             <li className='nav-item'>
               <span
