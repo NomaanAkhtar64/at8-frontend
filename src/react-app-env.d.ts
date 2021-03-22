@@ -56,3 +56,14 @@ interface Announcement {
   image: string
   pk: number
 }
+
+interface Teams {
+  email: string
+  name: string
+  slug: string
+  logo: string
+  captain: number
+  team_captains_discord_tag: string
+  payments: boolean
+  registration_date: Date
+}

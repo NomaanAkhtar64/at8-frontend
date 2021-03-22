@@ -5,14 +5,15 @@ import DropDownClose from '../assets/dropdown-close.png'
 import DropDownOpen from '../assets/dropdown-open.png'
 import { useLocation } from 'react-router'
 
-interface DropdownProps {
-  name: string
+export interface DropdownProps {
+  name: string | React.ReactElement<any>
+  variant?: 'purple' | 'black'
   children?:
     | React.ReactElement<DropDownItemProps>[]
     | React.ReactElement<DropDownItemProps>
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ name, children }) => {
+const Dropdown: React.FC<DropdownProps> = ({ name, children, variant }) => {
   const [isOpen, setOpen] = useState(false)
   const counter = useRef(0)
   const location = useLocation()
@@ -25,7 +26,11 @@ const Dropdown: React.FC<DropdownProps> = ({ name, children }) => {
   }, [location])
 
   return (
-    <div className={`black-link black-dropdown ${isOpen && 'open-link'}`}>
+    <div
+      className={`${
+        variant && variant === 'purple' ? 'purple-link' : 'black-link'
+      } ddropdown ${isOpen && 'open-link'}`}
+    >
       <div
         className='dd-title'
         onClick={() => {
@@ -45,7 +50,10 @@ const Dropdown: React.FC<DropdownProps> = ({ name, children }) => {
           <>
             {Array.isArray(children)
               ? children.map((dropdown, index) =>
-                  React.cloneElement(dropdown, { count: index + 1 })
+                  React.cloneElement(dropdown, {
+                    count: index + 1,
+                    isPurple: variant && variant === 'purple' ? true : false,
+                  })
                 )
               : React.cloneElement(children, { count: 1 })}
           </>

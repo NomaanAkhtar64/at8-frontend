@@ -1,19 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function useGames(slug = null) {
-    const [state, setState] = useState<Games[]>([]);
+export default function useTeams() {
+    const [state, setState] = useState<Teams[]>([]);
     const [error, setError] = useState("");
     const [hasLoaded, setHasLoaded] = useState(false);
 
     useEffect(() => {
         setHasLoaded(false);
         axios
-            .get(
-                `https://at8-backend.herokuapp.com/api/games/${
-                    slug == null ? "" : slug
-                }`
-            )
+            .get("https://at8-backend.herokuapp.com/api/teams/")
             .then((res) => {
                 setState(res.data);
                 setHasLoaded(true);
@@ -22,6 +18,7 @@ export default function useGames(slug = null) {
                 console.log(err);
                 setError(err);
             });
-    }, [slug]);
+    }, []);
+
     return { state, error, hasLoaded };
 }

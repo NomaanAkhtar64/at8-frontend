@@ -1,0 +1,27 @@
+.tour-item {
+  height: 200px;
+  width: 100%;
+  background: #fff;
+}
+.tour-item-wrapper {
+  &:nth-child(4n + 1) {
+    .tour-item {
+      background: #ded504;
+    }
+  }
+  &:nth-child(4n + 2) {
+    .tour-item {
+      background: #dadada;
+    }
+  }
+  &:nth-child(4n + 3) {
+    .tour-item {
+      background: #dadada;
+    }
+  }
+  &:nth-child(4n + 4) {
+    .tour-item {
+      background: #b5f2ff;
+    }
+  }
+}

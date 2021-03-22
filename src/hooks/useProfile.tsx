@@ -7,7 +7,8 @@ export default function useProfile() {
   const [error, setError] = useState('')
   const [hasLoaded, setHasLoaded] = useState(false)
   const counter = useRef(0)
-  console.log(state, profile)
+  // console.log(state, profile);
+
   useEffect(() => {
     setHasLoaded(false)
     const token = `Token ` + localStorage.getItem('token')
@@ -30,7 +31,9 @@ export default function useProfile() {
         setError(err)
       })
     axios
-      .get('https://at8-backend.herokuapp.com/api/userprofile/')
+      .get('https://at8-backend.herokuapp.com/api/userprofile/', {
+        headers: headers,
+      })
       .then((res) => {
         setProfile(res.data)
         if (counter.current >= 1) {

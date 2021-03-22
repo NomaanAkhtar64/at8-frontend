@@ -193,6 +193,19 @@ a {
   width: 100%;
   text-align: center;
   color: #000;
+  p {
+    margin: 16px;
+  }
+}
+
+.credits {
+  background-color: #ccc;
+  width: 100%;
+  padding: 2px;
+  text-align: center;
+  p {
+    margin: 10px;
+  }
 }
 
 @media (min-width: 992px) {

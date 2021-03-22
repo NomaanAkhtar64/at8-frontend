@@ -4,13 +4,31 @@ import { Link } from 'react-router-dom'
 export interface DropDownItemProps {
   count?: number
   text: string
-  to: string
+  to?: string
+  onClick?: () => void
+  isPurple?: boolean
 }
 
-const DropDownItem: React.FC<DropDownItemProps> = ({ text, count, to }) => {
+const DropDownItem: React.FC<DropDownItemProps> = ({
+  text,
+  count,
+  to,
+  onClick,
+  isPurple,
+}) => {
+  console.log({ isPurple })
   return (
-    <div className='dd-item' style={{ top: 68 + (count - 1) * 48 }}>
-      <Link to={to}>{text}</Link>
+    <div
+      className='dd-item'
+      style={{ top: 68 + (count - 1) * (isPurple ? 38 : 48) }}
+    >
+      {to ? (
+        <Link to={to}>{text}</Link>
+      ) : onClick ? (
+        <span onClick={() => onClick()}>{text}</span>
+      ) : (
+        <span>{text}</span>
+      )}
     </div>
   )
 }
