@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { BrowserRouter, Link } from 'react-router-dom'
 
 import Footer from './Footer'
@@ -7,14 +7,22 @@ import Dropdown from '../components/Dropdown'
 import './Layout.scss'
 import Sidebar from './SideBar'
 import DropDownItem from '../components/DropDownItem'
+import useGames from '../hooks/useGames'
 
 interface LayoutProps {}
 
 const Nav: React.FC<{}> = () => {
+  const games = useGames()
   return (
     <>
       <Dropdown name='Tournaments'>
-        <DropDownItem to='/name' text='Name'></DropDownItem>
+        {games.state.map((game, i) => (
+          <DropDownItem
+            key={i}
+            to={`/tournament/${game.slug}`}
+            text={game.name}
+          />
+        ))}
       </Dropdown>
       <Dropdown name='Rules'></Dropdown>
       <Dropdown name='FAQ'></Dropdown>

@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './DropDown.scss'
 import { DropDownItemProps } from './DropDownItem'
 import DropDownClose from '../assets/dropdown-close.png'
 import DropDownOpen from '../assets/dropdown-open.png'
+import { useLocation } from 'react-router'
 
 interface DropdownProps {
   name: string
@@ -13,6 +14,16 @@ interface DropdownProps {
 
 const Dropdown: React.FC<DropdownProps> = ({ name, children }) => {
   const [isOpen, setOpen] = useState(false)
+  const counter = useRef(0)
+  const location = useLocation()
+
+  useEffect(() => {
+    if (counter.current !== 0) {
+      setOpen(false)
+    }
+    counter.current++
+  }, [location])
+
   return (
     <div className={`black-link black-dropdown ${isOpen && 'open-link'}`}>
       <div

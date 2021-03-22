@@ -2,7 +2,7 @@ import React from 'react'
 
 interface FooterProps {}
 
-const Footer: React.FC<FooterProps> = ({}) => {
+const Footer: React.FC<FooterProps> = () => {
   return (
     <footer className='main-footer'>
       <div className='footer'>
@@ -16,6 +16,7 @@ const Footer: React.FC<FooterProps> = ({}) => {
               className='footer-link'
               href='https://www.facebook.com'
               target='_blank'
+              rel='noreferrer'
             >
               Facebook
             </a>
@@ -23,6 +24,7 @@ const Footer: React.FC<FooterProps> = ({}) => {
               className='footer-link'
               href='https://www.instagram.com'
               target='_blank'
+              rel='noreferrer'
             >
               Instagram
             </a>
@@ -30,6 +32,7 @@ const Footer: React.FC<FooterProps> = ({}) => {
               className='footer-link'
               href='https://discord.gg/92f6ZBKafN'
               target='_blank'
+              rel='noreferrer'
             >
               Discord
             </a>
@@ -37,6 +40,7 @@ const Footer: React.FC<FooterProps> = ({}) => {
               className='footer-link'
               href='mailto:at8rippix@gmail.com'
               target='_blank'
+              rel='noreferrer'
             >
               Email
             </a>

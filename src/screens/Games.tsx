@@ -5,7 +5,7 @@ import useGames from "../hooks/useGames";
 
 interface HomeProps {}
 
-const Home: React.FC<HomeProps> = ({}) => {
+const Home: React.FC<HomeProps> = () => {
     const games = useGames();
     return (
         <>

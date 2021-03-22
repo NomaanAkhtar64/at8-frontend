@@ -32,3 +32,27 @@ interface ApiProfile {
   discord_name_tag: string
   tournament: string
 }
+interface Date {
+  day: number
+  month: number
+  year: number
+}
+interface Tournament {
+  name: string
+  slug: string
+  starting_date: Date
+  ending_date: Date
+  winner: {
+    logo: string
+    name: string
+    slug: string
+    captain: string
+  }
+}
+
+interface Announcement {
+  subject: string
+  text: string
+  image: string
+  pk: number
+}

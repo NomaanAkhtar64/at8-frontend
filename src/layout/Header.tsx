@@ -11,6 +11,7 @@ interface HeaderProps {
   isSidebarOpen: boolean
   openSidebar: () => void
   isAuthenticated: boolean
+  onLogout: () => void
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -19,6 +20,7 @@ const Header: React.FC<HeaderProps> = ({
   isSidebarOpen,
   openSidebar,
   isAuthenticated,
+  onLogout,
 }) => {
   return (
     <header className='main-header'>
@@ -27,7 +29,6 @@ const Header: React.FC<HeaderProps> = ({
           className='open-sidebar'
           onClick={() => {
             openSidebar()
-            console.log('Opening Sidebar')
           }}
         >
           <svg
@@ -45,7 +46,12 @@ const Header: React.FC<HeaderProps> = ({
         <div className='site-name'>
           <Link to='/'>
             {/* {name} */}
-            <img src={logo} alt="AT8" width="40px"/>
+            <img
+              src={logo}
+              alt='AT8'
+              width='46px'
+              style={{ marginTop: '-2px' }}
+            />
           </Link>
         </div>
         <div className='site-nav'>{children}</div>
@@ -56,8 +62,8 @@ const Header: React.FC<HeaderProps> = ({
           {isAuthenticated ? (
             <div
               className='link-shadow link-animated_und'
-              style={{cursor: "pointer"}}
-              onClick={() => actions.logout()}
+              style={{ cursor: 'pointer' }}
+              onClick={() => onLogout()}
             >
               Logout
             </div>
@@ -72,12 +78,15 @@ const Header: React.FC<HeaderProps> = ({
   )
 }
 
-// export default Header;
-
 const mapStateToProps = (state: UserState) => {
   return {
     isAuthenticated: state.token !== null,
   }
 }
+const mapDispatchToProps = (dispatchEvent) => {
+  return {
+    onLogout: () => dispatchEvent(actions.logout()),
+  }
+}
 
-export default connect(mapStateToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

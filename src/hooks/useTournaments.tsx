@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-export default function useGames(slug = null) {
+export default function useTournaments(slug = null) {
   const [state, setState] = useState<Games[]>([])
   const [error, setError] = useState('')
   const [hasLoaded, setHasLoaded] = useState(false)

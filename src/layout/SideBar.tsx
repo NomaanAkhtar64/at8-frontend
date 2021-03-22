@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useLocation } from 'react-router'
 import useWindowSize from '../hooks/useWindowSize'
 
 interface SidebarProps {
@@ -13,6 +14,15 @@ const Sidebar: React.FC<SidebarProps> = ({ children, closeSidebar }) => {
       closeSidebar()
     }
   }, [width, closeSidebar])
+  const { pathname } = useLocation()
+
+  const counter = useRef(0)
+  useEffect(() => {
+    if (counter.current !== 0) {
+      closeSidebar()
+    }
+    counter.current++
+  }, [pathname, closeSidebar])
 
   return (
     <div className='sidebar'>

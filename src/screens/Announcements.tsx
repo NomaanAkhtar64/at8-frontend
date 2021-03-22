@@ -1,40 +1,33 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import axios from 'axios'
-
+import React from 'react'
 import './Announcement.scss'
+import useAnnouncements from '../hooks/useAnnouncements'
+import Loading from '../components/Loading'
 
 interface AnnouncementsProps {}
 
-const Announcements: React.FC<AnnouncementsProps> = ({}) => {
-  const [announcements, setAnnouncements] = useState<any[]>([])
+const Announcements: React.FC<AnnouncementsProps> = () => {
+  const announcements = useAnnouncements()
 
-  useEffect(() => {
-    axios
-      .get('https://at8-backend.herokuapp.com/api/announcements/')
-      .then((res) => {
-        console.log(res.data)
-        setAnnouncements(res.data)
-      })
-      .catch((err) => console.log(err))
-  }, [])
-
-  return (
-    <div className='announcement-grand-parent'>
-      {announcements.map((announcement, i) => (
-        <div className='announcement-parent' key={i}>
-          <div className='announcement-image'>
-            <img src={announcement.image} alt='Announcement' />
-          </div>
-          <div className='announcement-child'>
-            <h3 className='announcement-heading'>{announcement.subject}</h3>
-            <div className='announcement-text'>
-              <p>{announcement.text}</p>
+  if (announcements.hasLoaded) {
+    return (
+      <div className='announcement-grand-parent'>
+        {announcements.state.map((announcement, i) => (
+          <div className='announcement-parent' key={i}>
+            <div className='announcement-image'>
+              <img src={announcement.image} alt='Announcement' />
+            </div>
+            <div className='announcement-child'>
+              <h3 className='announcement-heading'>{announcement.subject}</h3>
+              <div className='announcement-text'>
+                <p>{announcement.text}</p>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
-  )
+        ))}
+      </div>
+    )
+  }
+  return <Loading />
 }
 
 export default Announcements
