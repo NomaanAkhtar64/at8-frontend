@@ -8,11 +8,14 @@ export default function useAnnouncements(id = null) {
 
   useEffect(() => {
     setHasLoaded(false)
+    var cancelHandler = axios.CancelToken.source()
+
     axios
       .get(
         `https://at8-backend.herokuapp.com/api/announcements/${
           id !== null ? id : ''
-        }`
+        }`,
+        { cancelToken: cancelHandler.token }
       )
       .then((res) => {
         console.log(res.data)
@@ -27,6 +30,10 @@ export default function useAnnouncements(id = null) {
         console.log(err)
         setError(err)
       })
+
+    return () => {
+      cancelHandler.cancel()
+    }
   }, [id])
   return { state, error, hasLoaded }
 }

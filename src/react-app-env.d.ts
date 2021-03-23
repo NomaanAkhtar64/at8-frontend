@@ -32,11 +32,13 @@ interface UserProfile {
   discord_name_tag: string
   tournament: string
 }
+
 interface Date {
   day: number
   month: number
   year: number
 }
+
 interface Tournament {
   name: string
   slug: string
@@ -55,6 +57,8 @@ interface Announcement {
   text: string
   image: string
   pk: number
+  link: string
+  date: Date
 }
 
 interface Teams {

@@ -5,7 +5,7 @@ interface TournamentsProps {}
 const Tournaments: React.FC<TournamentsProps> = () => {
   return (
     <div className='tournament-data'>
-      <table className='table table-hover table-dark text-center'>
+      <table className='table table-hover table-dark text-center my-4'>
         <thead>
           <tr>
             <th style={{ width: '40%' }} scope='col'>

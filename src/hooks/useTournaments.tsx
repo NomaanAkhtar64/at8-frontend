@@ -8,11 +8,14 @@ export default function useTournaments(slug = null) {
 
   useEffect(() => {
     setHasLoaded(false)
+    var cancelHandler = axios.CancelToken.source()
+
     axios
       .get(
         `https://at8-backend.herokuapp.com/api/games/${
           slug == null ? '' : slug
-        }`
+        }`,
+        { cancelToken: cancelHandler.token }
       )
       .then((res) => {
         setState(res.data)
@@ -22,6 +25,10 @@ export default function useTournaments(slug = null) {
         console.log(err)
         setError(err)
       })
+
+    return () => {
+      cancelHandler.cancel()
+    }
   }, [slug])
   return { state, error, hasLoaded }
 }

@@ -1,22 +1,19 @@
-import React from "react";
-import useTeams from "../../hooks/useTeams";
+import React from 'react'
+import useTeams from '../../hooks/useTeams'
 
 interface MyTeamProps {}
 
 const MyTeam: React.FC<MyTeamProps> = () => {
-    const teams = useTeams();
+  const teams = useTeams()
 
-    console.log(teams);
-    return (
-        <div className="team">
-            <div className="team-data"></div>
-            
-            
-            <div className="team-register">
+  console.log(teams)
+  return (
+    <div className='team'>
+      <div className='team-data'></div>
 
-            </div>
-        </div>
-    );
-};
+      <div className='team-register'></div>
+    </div>
+  )
+}
 
-export default MyTeam;
+export default MyTeam

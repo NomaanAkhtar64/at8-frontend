@@ -15,9 +15,11 @@ export default function useProfile() {
     const headers = {
       Authorization: token,
     }
+    var cancelHandler = axios.CancelToken.source()
     axios
       .get('https://at8-backend.herokuapp.com/rest-auth/user/', {
         headers: headers,
+        cancelToken: cancelHandler.token,
       })
       .then((res) => {
         setState(res.data)
@@ -45,6 +47,9 @@ export default function useProfile() {
         console.log(err)
         setError(err)
       })
+    return () => {
+      cancelHandler.cancel()
+    }
   }, [])
   return { state, profile, error, hasLoaded }
 }

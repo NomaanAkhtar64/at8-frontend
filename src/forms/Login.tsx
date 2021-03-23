@@ -48,7 +48,7 @@ const Login: React.FC<LoginProps> = ({ onAuth }) => {
       </div>
       <div>
         <p className='forgot-password'>
-          <Link to='/forgot-password'>Forgot Password?</Link>
+          <Link to='/reset-password'>Forgot Password?</Link>
         </p>
       </div>
     </form>
