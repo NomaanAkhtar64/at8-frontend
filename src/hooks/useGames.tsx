@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { __API_URL__ } from '../const'
 
 export default function useGames(slug = null) {
   const [state, setState] = useState<Games[]>([])
@@ -12,7 +13,7 @@ export default function useGames(slug = null) {
 
     axios
       .get(
-        `https://at8-backend.herokuapp.com/api/games/${
+        `${__API_URL__}/api/games/${
           slug == null ? '' : slug
         }`,
         {

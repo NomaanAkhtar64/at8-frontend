@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { __API_URL__ } from '../const'
 
 export default function useTeams() {
   const [state, setState] = useState<Teams[]>([])
@@ -11,7 +12,7 @@ export default function useTeams() {
 
     setHasLoaded(false)
     axios
-      .get('https://at8-backend.herokuapp.com/api/teams/', {
+      .get(`${__API_URL__}/api/teams/`, {
         cancelToken: cancelHandler.token,
       })
       .then((res) => {

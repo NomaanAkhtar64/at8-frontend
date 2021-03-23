@@ -4,6 +4,7 @@
   background: #fff;
 }
 .tour-item-wrapper {
+  z-index: -1;
   &:nth-child(4n + 1) {
     .tour-item {
       background: #ded504;

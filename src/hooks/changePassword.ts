@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { __API_URL__ } from '../const'
 import getHeaders from './getHeaders'
 
 export default function changePassword(password: string, passwordRe: string) {
@@ -6,7 +7,7 @@ export default function changePassword(password: string, passwordRe: string) {
 
   axios
     .post(
-      'https://at8-backend.herokuapp.com/rest-auth/password/change/',
+      `${__API_URL__}/rest-auth/password/change/`,
       {
         new_password1: password,
         new_password2: passwordRe,

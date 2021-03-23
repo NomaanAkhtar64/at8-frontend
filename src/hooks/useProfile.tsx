@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
+import { __API_URL__ } from '../const'
 import getHeaders from './getHeaders'
 
 export default function useProfile() {
@@ -14,7 +15,7 @@ export default function useProfile() {
     var cancelHandler = axios.CancelToken.source()
     const headers = getHeaders()
     axios
-      .get('https://at8-backend.herokuapp.com/rest-auth/user/', {
+      .get(`${__API_URL__}/rest-auth/user/`, {
         headers,
         cancelToken: cancelHandler.token,
       })
@@ -30,7 +31,7 @@ export default function useProfile() {
         setError(err)
       })
     axios
-      .get('https://at8-backend.herokuapp.com/api/userprofile/', {
+      .get(`${__API_URL__}/api/userprofile/`, {
         headers: headers,
       })
       .then((res) => {

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { __API_URL__ } from '../const'
 
 export default function useAnnouncements(id = null) {
   const [state, setState] = useState<Announcement[]>([])
@@ -12,7 +13,7 @@ export default function useAnnouncements(id = null) {
 
     axios
       .get(
-        `https://at8-backend.herokuapp.com/api/announcements/${
+        `${__API_URL__}/api/announcements/${
           id !== null ? id : ''
         }`,
         { cancelToken: cancelHandler.token }

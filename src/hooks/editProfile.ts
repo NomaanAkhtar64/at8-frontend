@@ -1,10 +1,11 @@
 import axios from 'axios'
+import { __API_URL__ } from '../const'
 import getHeaders from './getHeaders'
 
-export default function editProfile(values: Partial<User>) {
+export default function editProfile(values: Partial<UserProfile>) {
   const headers = getHeaders()
   axios
-    .put('https://at8-backend.herokuapp.com/api/userprofile/', values, {
+    .put(`${__API_URL__}/api/userprofile/`, values, {
       headers,
     })
     .then((res) => {

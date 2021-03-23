@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import Loading from "../components/Loading";
+import { __API_URL__ } from "../const";
 import "./ResetPassword.scss";
 
 interface ResetPasswordProps {}
@@ -19,7 +20,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
                             e.preventDefault();
                             axios
                                 .post(
-                                    "http://localhost:8000/api/reset-password/",
+                                    `${__API_URL__}/api/reset-password/`,
                                     {
                                         email: email,
                                     }

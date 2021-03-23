@@ -13,7 +13,7 @@ const Settings: React.FC<SettingsProps> = () => {
     return (
       <div className='profile-data'>
         <div className='profile-pic'>
-          <EditProfilePic />
+          <EditProfilePic profile={profile.profile} />
         </div>
         <div className='profile'>
           <EditUser user={profile.state} profile={profile.profile} />

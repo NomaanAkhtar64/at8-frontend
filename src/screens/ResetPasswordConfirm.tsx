@@ -4,6 +4,7 @@ import axios from "axios";
 import Loading from "../components/Loading";
 
 import "./ResetPasswordConfirm.scss";
+import { __API_URL__ } from "../const";
 
 interface ResetPasswordConfirmProps extends RouteComponentProps<{ token }> {}
 
@@ -21,7 +22,7 @@ const ResetPasswordConfirm: React.FC<ResetPasswordConfirmProps> = ({
     const token = match.params.token;
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/check-token/?token=${token}`)
+            .get(`${__API_URL__}/check-token/?token=${token}`)
             .then((res) => {
                 setIsTokenValid(true);
                 setHasChecked(true);
