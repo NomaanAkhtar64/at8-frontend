@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import * as actions from '../store/actions/auth'
+import checkLoginData from '../errors/check/checkLoginData'
 
 interface LoginProps extends UserState {
   onAuth: (email: string, password: string) => void
@@ -11,6 +12,7 @@ interface LoginProps extends UserState {
 const Login: React.FC<LoginProps> = ({ onAuth }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
   const history = useHistory()
 
   return (
@@ -18,8 +20,13 @@ const Login: React.FC<LoginProps> = ({ onAuth }) => {
       className='form'
       onSubmit={(e) => {
         e.preventDefault()
-        onAuth(email, password)
-        history.push('/')
+        let { hasError, message } = checkLoginData(email, password)
+        if (hasError) {
+          setError(message)
+        } else {
+          onAuth(email, password)
+          history.push('/')
+        }
       }}
     >
       <legend className='mb-4'>Login</legend>
@@ -41,6 +48,7 @@ const Login: React.FC<LoginProps> = ({ onAuth }) => {
           placeholder='Password'
         />
       </div>
+      {error !== '' && <div>{error}</div>}
       <div>
         <button type='submit' className='btn btn-secondary signup-btn'>
           LOGIN

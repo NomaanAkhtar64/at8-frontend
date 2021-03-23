@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
+import getHeaders from './getHeaders'
 
 export default function useProfile() {
   const [state, setState] = useState<User | null>(null)
@@ -7,18 +8,14 @@ export default function useProfile() {
   const [error, setError] = useState('')
   const [hasLoaded, setHasLoaded] = useState(false)
   const counter = useRef(0)
-  // console.log(state, profile);
 
   useEffect(() => {
     setHasLoaded(false)
-    const token = `Token ` + localStorage.getItem('token')
-    const headers = {
-      Authorization: token,
-    }
     var cancelHandler = axios.CancelToken.source()
+    const headers = getHeaders()
     axios
       .get('https://at8-backend.herokuapp.com/rest-auth/user/', {
-        headers: headers,
+        headers,
         cancelToken: cancelHandler.token,
       })
       .then((res) => {
@@ -37,11 +34,15 @@ export default function useProfile() {
         headers: headers,
       })
       .then((res) => {
-        setProfile(res.data)
-        if (counter.current >= 1) {
-          setHasLoaded(true)
+        if (res.data.length > 0) {
+          setProfile(res.data[0])
+          if (counter.current >= 1) {
+            setHasLoaded(true)
+          }
+          counter.current++
+        } else {
+          setError('USER PROFILE NOT FOUND')
         }
-        counter.current++
       })
       .catch((err) => {
         console.log(err)

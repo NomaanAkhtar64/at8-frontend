@@ -72,8 +72,8 @@ const Header: React.FC<HeaderProps> = ({
                   name={
                     <img
                       src={
-                        profile.profile[0].pic
-                          ? profile.profile[0].pic
+                        profile.profile
+                          ? profile.profile.pic
                           : defaultProfilePic
                       }
                       width='40px'

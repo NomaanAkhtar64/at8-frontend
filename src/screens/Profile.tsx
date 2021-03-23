@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import MyTeam from './Profile/MyTeam'
-import Settings from '../forms/Settings'
+import Settings from './Profile/Settings'
 import Tournaments from './Profile/Tournaments'
 import Loading from '../components/Loading'
 
