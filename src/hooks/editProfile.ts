@@ -1,10 +1,10 @@
 import axios from 'axios'
 import getHeaders from './getHeaders'
 
-export default function editUser(values: Partial<User>) {
+export default function editProfile(values: Partial<User>) {
   const headers = getHeaders()
   axios
-    .put(`https://at8-backend.herokuapp.com/rest-auth/user/`, values, {
+    .put('https://at8-backend.herokuapp.com/api/userprofile/', values, {
       headers,
     })
     .then((res) => {
