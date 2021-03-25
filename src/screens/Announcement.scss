@@ -5,6 +5,11 @@
   justify-content: center;
   a {
     text-decoration: none;
+    color: skyblue;
+  }
+  a:hover {
+    color: aqua;
+    text-decoration: underline;
   }
 }
 

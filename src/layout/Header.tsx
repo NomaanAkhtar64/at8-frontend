@@ -72,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({
                   name={
                     <img
                       src={
-                        profile.profile
+                        profile.profile.pic
                           ? profile.profile.pic
                           : defaultProfilePic
                       }

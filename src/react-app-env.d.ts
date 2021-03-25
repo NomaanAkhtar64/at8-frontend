@@ -70,4 +70,5 @@ interface Teams {
   team_captains_discord_tag: string
   payments: boolean
   registration_date: Date
+  players: Array
 }

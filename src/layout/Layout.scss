@@ -69,10 +69,6 @@ footer {
     z-index: 100;
 }
 
-a {
-    text-decoration: none !important;
-}
-
 .site-nav {
     height: 100%;
     display: none;
@@ -162,70 +158,63 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    background-color: #111;
+    background-color: #222;
     width: 100%;
-}
-
-.help {
-    background-color: #111;
-    width: 100%;
-    padding: 20px 40px;
-
-    h3 {
-        color: #fff;
-    }
+    color: #ccc;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .contact {
-    background-color: #222;
     padding: 20px 40px;
     width: 100%;
+}
 
-    .links {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
+.links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    a {
+        margin: 0px 4px;
+    }
+    
+    a:hover {
+        color: aqua;
+    }
+}
 
-        a {
-            margin: 0px 4px;
-        }
+.copyright {
+    padding: 0px 5px;
+    border-right: .5px solid #ccc;
+    text-align: center;
+}
+
+@media (min-width:992px) {
+    .main-footer {
+        padding: 0px 100px;
+    }
+    .copyright {
+        padding: 0px 35px;
+    }
+}
+
+.credits {
+    a {
+
+        color: skyblue;
     }
 
-    h3 {
-        color: #fff;
+    a:hover {
+        color: aqua;
     }
 }
 
 .footer-link {
     display: block;
     color: #fff;
-    text-decoration: underline;
 }
-
-// .copyright {
-//     padding: 2px;
-//     background: #fff;
-//     width: 100%;
-//     text-align: center;
-//     color: #000;
-
-//     p {
-//         margin: 16px;
-//     }
-// }
-
-// .credits {
-//     background-color: #333358;
-//     width: 100%;
-//     padding: 8px;
-//     text-align: center;
-
-//     p {
-//         margin: 0px 10px;
-//         color: #fff;
-//         font-size: 14px;
-//     }
-// }
 
 @media (min-width: 992px) {
     .site-nav {
@@ -238,20 +227,6 @@ a {
 
     .main-header .site-name {
         margin-left: 10vw;
-    }
-
-    .footer {
-        flex-direction: row;
-    }
-
-    .help {
-        width: 20%;
-    }
-
-    .contact {
-        .links {
-            flex-direction: column;
-        }
     }
 }
 

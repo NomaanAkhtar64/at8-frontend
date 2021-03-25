@@ -9,17 +9,6 @@
   width: 100%;
 }
 
-.team-data {
-  background-color: #343a40;
-  padding: 20px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-around;
-}
-
 .tournament-data {
   background-color: #343a40;
   padding: 20px;
@@ -115,6 +104,7 @@
 .btn {
   border-radius: 0px;
 }
+
 .btn-success {
   background-color: #808096;
   border-color: #808096;
@@ -125,7 +115,7 @@
 }
 .btn-success:not(:disabled):not(.disabled).active,
 .btn-success:not(:disabled):not(.disabled):active,
-.show > .btn-success.dropdown-toggle {
+.show>.btn-success.dropdown-toggle {
   color: #fff;
   background-color: #7b7b88;
   border-color: #7b7b88;
@@ -137,25 +127,97 @@
   border-color: #5f5f77;
   box-shadow: 0 0 0 0.2rem #5f5f7780;
 }
+
+.btn-outline-success {
+  border-color: #808096;
+  color: #fff;
+}
+.btn-outline-success:hover {
+  background-color: #5f5f77;
+  border-color: #5f5f77;
+}
+.btn-outline-success:not(:disabled):not(.disabled).active,
+.btn-outline-success:not(:disabled):not(.disabled):active,
+.show>.btn-outline-success.dropdown-toggle {
+  color: #fff;
+  background-color: #7b7b88;
+  border-color: #7b7b88;
+}
+.btn-outline-success.focus,
+.btn-outline-success:focus {
+  color: #fff;
+  background-color: #5f5f77;
+  border-color: #5f5f77;
+  box-shadow: 0 0 0 0.2rem #5f5f7780;
+}
 .btn-danger {
   background-color: #343a40;
   border-color: #343a40;
 }
+
 .btn-danger:hover {
   background-color: #25292c;
   border-color: #25292c;
 }
+
 .btn-danger:not(:disabled):not(.disabled).active,
 .btn-danger:not(:disabled):not(.disabled):active,
-.show > .btn-danger.dropdown-toggle {
+.show>.btn-danger.dropdown-toggle {
   color: #fff;
   background-color: #303438;
   border-color: #303438;
 }
+
 .btn-danger.focus,
 .btn-danger:focus {
   color: #fff;
   background-color: #25292c;
   border-color: #25292c;
   box-shadow: 0 0 0 0.2rem #25292c80;
+}
+
+.team {
+  background-color: #343A40;
+  width: 100%;
+}
+
+.team-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 20px;
+
+  .player {
+    width: 10%;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  img {
+    width: 100%;
+    border-radius: 25%;
+    border: #ccc 1px double;
+  }
+}
+
+.me {
+  border: yellow 1px double !important;
+  justify-content: flex-end;
+}
+
+.team-register {
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.register-form {
+  background-color: #ccc;
+  padding: 20px;
 }
