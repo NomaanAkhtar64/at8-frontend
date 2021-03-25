@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,500;1,700&display=swap');
+
 .profile-page {
   display: flex;
   flex-direction: column;
@@ -74,7 +76,7 @@
   }
 
   .profile {
-    width: 30%;
+    width: 32%;
   }
 
   .password-form {
@@ -109,10 +111,12 @@
   background-color: #808096;
   border-color: #808096;
 }
+
 .btn-success:hover {
   background-color: #5f5f77;
   border-color: #5f5f77;
 }
+
 .btn-success:not(:disabled):not(.disabled).active,
 .btn-success:not(:disabled):not(.disabled):active,
 .show>.btn-success.dropdown-toggle {
@@ -120,6 +124,7 @@
   background-color: #7b7b88;
   border-color: #7b7b88;
 }
+
 .btn-success.focus,
 .btn-success:focus {
   color: #fff;
@@ -132,10 +137,12 @@
   border-color: #808096;
   color: #fff;
 }
+
 .btn-outline-success:hover {
   background-color: #5f5f77;
   border-color: #5f5f77;
 }
+
 .btn-outline-success:not(:disabled):not(.disabled).active,
 .btn-outline-success:not(:disabled):not(.disabled):active,
 .show>.btn-outline-success.dropdown-toggle {
@@ -143,6 +150,7 @@
   background-color: #7b7b88;
   border-color: #7b7b88;
 }
+
 .btn-outline-success.focus,
 .btn-outline-success:focus {
   color: #fff;
@@ -150,6 +158,7 @@
   border-color: #5f5f77;
   box-shadow: 0 0 0 0.2rem #5f5f7780;
 }
+
 .btn-danger {
   background-color: #343a40;
   border-color: #343a40;
@@ -179,16 +188,35 @@
 .team {
   background-color: #343A40;
   width: 100%;
+  font-family: 'Roboto';
+}
+
+.team-name {
+  width: 50%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+@media (min-width:992px) {
+  .team-name {
+    width: 10%;
+    justify-content: space-around;
+  }
 }
 
 .team-data {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   padding: 20px;
+  background-color: #222;
 
   .player {
-    width: 10%;
+    width: 100%;
     text-align: center;
     color: #fff;
     display: flex;
@@ -196,28 +224,38 @@
     align-items: center;
     justify-content: center;
   }
+
   img {
     width: 100%;
-    border-radius: 25%;
-    border: #ccc 1px double;
+  }
+}
+
+.team-players {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: center;
+  border-left: #fff 1px solid;
+  white-space: nowrap;
+
+  a {
+    width: 50%;
+    margin: 25px;
+  }
+}
+
+@media (min-width: 992px) {
+  .team-players {
+    flex-direction: row;
+    padding: 0px 10px;
+
+    a {
+      width: 8%;
+    }
   }
 }
 
 .me {
-  border: yellow 1px double !important;
+  border: yellow 1px solid !important;
   justify-content: flex-end;
-}
-
-.team-register {
-  color: #000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.register-form {
-  background-color: #ccc;
-  padding: 20px;
 }

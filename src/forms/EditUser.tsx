@@ -13,9 +13,10 @@ const EditUser: React.FC<EditUserProps> = ({ user, profile }) => {
     const [username, setUsername] = useState(user.username);
     const [firstName, setFirstName] = useState(user.first_name);
     const [lastName, setLastName] = useState(user.last_name);
+    const [steamUrl, setSteamUrl] = useState(profile.steam_profile)
     const [discordTag, setDiscordTag] = useState(profile.discord_name_tag);
     const [error, setError] = useState("");
-
+    
     return (
         <form
             onSubmit={(e) => {
@@ -78,6 +79,16 @@ const EditUser: React.FC<EditUserProps> = ({ user, profile }) => {
                     className="form-control"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
+                />
+            </div>
+            <div className="mb-3">
+                <label>Steam Profile Link</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="URL"
+                    value={steamUrl}
+                    onChange={(e) => setSteamUrl(e.target.value)}
                 />
             </div>
             <div className="mb-3">

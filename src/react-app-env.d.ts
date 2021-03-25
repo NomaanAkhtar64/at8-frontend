@@ -31,6 +31,7 @@ interface UserProfile {
   pic: string
   discord_name_tag: string
   tournament: string
+  steam_profile: string
 }
 
 interface Date {
@@ -61,12 +62,18 @@ interface Announcement {
   date: Date
 }
 
+interface Captian {
+  profile: string
+  url: string
+  username: string
+}
+
 interface Teams {
   email: string
   name: string
   slug: string
   logo: string
-  captain: number
+  captain: Captian
   team_captains_discord_tag: string
   payments: boolean
   registration_date: Date
