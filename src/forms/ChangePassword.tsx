@@ -4,7 +4,7 @@ import changePassword from '../hooks/changePassword'
 
 interface ChangePasswordProps {}
 
-const ChangePassword: React.FC<ChangePasswordProps> = ({}) => {
+const ChangePassword: React.FC<ChangePasswordProps> = () => {
   const [password, setPassword] = useState('')
   const [passwordRe, setPasswordRe] = useState('')
   const [error, setError] = useState('')

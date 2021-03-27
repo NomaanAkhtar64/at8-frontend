@@ -16,7 +16,6 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
   onClick,
   isPurple,
 }) => {
-  console.log({ isPurple })
   return (
     <div
       className='dd-item'

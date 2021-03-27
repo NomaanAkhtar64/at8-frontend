@@ -5,16 +5,15 @@ import './Tournament.scss'
 interface TournamentProps extends RouteComponentProps<{ slug }> {}
 
 const Tournament: React.FC<TournamentProps> = ({ match }) => {
-  const tournamentSlug = match.params.slug
-  console.log(tournamentSlug)
+  // const tournamentSlug = match.params.slug
 
   return (
     <div className='container my-5 '>
       <div className='row'>
         <TournamentItem />
-        <TournamentItem />
-        <TournamentItem />
-        <TournamentItem />
+        {/* <TournamentItem /> */}
+        {/* <TournamentItem />
+        <TournamentItem /> */}
       </div>
     </div>
   )

@@ -1,0 +1,88 @@
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    background-color: #333;
+    border: 1px solid #aaa;
+    border-bottom: 1px solid #333;
+}
+
+button:focus {
+    outline: none;
+}
+
+.register-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+// register page
+
+.btn {
+    border-radius: 0px;
+}
+
+.btn-success {
+    background-color: #808096;
+    border-color: #808096;
+}
+
+.btn-success:hover {
+    background-color: #5f5f77;
+    border-color: #5f5f77;
+}
+
+.btn-success:not(:disabled):not(.disabled).active,
+.btn-success:not(:disabled):not(.disabled):active,
+.show>.btn-success.dropdown-toggle {
+    color: #fff;
+    background-color: #7b7b88;
+    border-color: #7b7b88;
+}
+
+.btn-success.focus,
+.btn-success:focus {
+    color: #fff;
+    background-color: #5f5f77;
+    border-color: #5f5f77;
+    box-shadow: 0 0 0 0.2rem #5f5f7780;
+}
+
+.register {
+    padding: 20px;
+    color: #000;
+    background-color: #333;
+}
+
+.register-form {
+    width: 100%;
+    background-color: #333;
+    display: flex;
+    flex-direction: column;
+}
+@media (min-width: 992px) {
+    .register-form {
+        flex-direction: row;
+    }
+    .form {
+        width: 50%;
+    }
+    .hint {
+        width: 50%;
+    }
+}
+.form {
+    background-color: #fff;
+    padding: 20px;
+    margin: 0px 10px;
+    legend {
+        text-align: center;
+    }
+}
+
+.hint {
+    width: 100%;
+    padding: 20px;
+    color: #fff;
+    margin: 0px 10px;
+}

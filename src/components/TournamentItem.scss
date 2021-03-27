@@ -1,5 +1,5 @@
 .tour-item {
-  height: 200px;
+  height: 300px;
   width: 100%;
   background: #fff;
 }
@@ -24,5 +24,100 @@
     .tour-item {
       background: #b5f2ff;
     }
+  }
+}
+
+.btn-danger {
+  background-color: #343a40;
+  border-color: #343a40;
+}
+
+.btn-danger:hover {
+  background-color: #25292c;
+  border-color: #25292c;
+}
+
+.btn-danger:not(:disabled):not(.disabled).active,
+.btn-danger:not(:disabled):not(.disabled):active,
+.show>.btn-danger.dropdown-toggle {
+  color: #fff;
+  background-color: #303438;
+  border-color: #303438;
+}
+
+.btn-danger.focus,
+.btn-danger:focus {
+  color: #fff;
+  background-color: #25292c;
+  border-color: #25292c;
+  box-shadow: 0 0 0 0.2rem #25292c80;
+}
+.tourna-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #333;
+  padding: 20px 0px;
+}
+@media (min-width: 992px) {
+  .tourna-page {
+    padding: 20px 80px;
+  }
+}
+
+.tourna {
+  color: #000;
+  background-color: #88f4ff;
+  padding: 20px;
+  margin: 20px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-side {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.slots {
+  padding: 5px;
+  border: #000 1px solid;
+  width: max-content;
+}
+.time {
+  display: flex;
+  flex-direction: column;
+}
+
+.date {
+  color: #7c7c7c;
+}
+
+.right-side {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prize-pool {
+  border: #000 1px solid;
+  padding: 5px;
+}
+
+.winner {
+  text-align: center;
+  img {
+    width: 100%;
   }
 }

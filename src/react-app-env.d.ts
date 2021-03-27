@@ -42,15 +42,28 @@ interface Date {
 
 interface Tournament {
   name: string
+  details: string
+  game: {
+    id: number
+    name: string
+    picture: string
+    slug: string
+  }
   slug: string
-  starting_date: Date
-  ending_date: Date
+  slots: number
+  prize: String
+  starting_time: string
+  ending_time: string
   winner: {
     logo: string
     name: string
     slug: string
-    captain: string
+    captain: {
+      username: string
+    }
   }
+  registration_date: string
+  teams: Array
 }
 
 interface Announcement {

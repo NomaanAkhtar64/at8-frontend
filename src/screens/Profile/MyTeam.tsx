@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useTeams from "../../hooks/useTeams";
 
 import SteamDefault from "../../assets/SteamDefault.png";
@@ -10,7 +10,6 @@ interface MyTeamProps {}
 const MyTeam: React.FC<MyTeamProps> = () => {
     const teams = useTeams();
     const profile = useProfile();
-    console.log(teams);
     if (profile.hasLoaded) {
         return (
             <div className="team">

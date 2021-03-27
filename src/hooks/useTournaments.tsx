@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { __API_URL__ } from '../const'
 
 export default function useTournaments(slug = null) {
-  const [state, setState] = useState<Games[]>([])
+  const [state, setState] = useState<Tournament[]>([])
   const [error, setError] = useState('')
   const [hasLoaded, setHasLoaded] = useState(false)
 
@@ -13,7 +13,7 @@ export default function useTournaments(slug = null) {
 
     axios
       .get(
-        `${__API_URL__}/api/games/${
+        `${__API_URL__}/api/tournaments/${
           slug == null ? '' : slug
         }`,
         { cancelToken: cancelHandler.token }
