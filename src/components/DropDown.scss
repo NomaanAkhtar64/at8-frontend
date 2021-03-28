@@ -138,11 +138,11 @@ header {
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 14px;
     letter-spacing: 0.12em;
     height: 100%;
     margin: 10px 0px;
-    padding: 0px 50px 0px 30px;
+    padding: 0px 15px 0px 10px;
     span,
     a {
       color: #ffffff;
@@ -168,5 +168,12 @@ header {
         width: 100%;
       }
     }
+  }
+}
+
+@media (min-width: 500px) {
+  .sidebar-nav .black-link {
+    padding: 0px 50px 0px 30px;
+    font-size: 18px;
   }
 }

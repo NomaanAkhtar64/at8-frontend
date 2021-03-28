@@ -1,10 +1,10 @@
 .loading-bar {
   width: 100vw;
-  height: 6px;
+  height: 3px;
   background: #aaa;
   .loading-track {
     width: 10px;
-    height: 6px;
+    height: 3px;
     background: #fff;
     animation: load 50ms;
   }
@@ -16,5 +16,12 @@
   }
   to {
     width: 100vw;
+  }
+}
+
+@media (min-width: 500px) {
+  .loading-bar,
+  .loading-bar .loading-track {
+    height: 6px;
   }
 }

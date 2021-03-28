@@ -1,0 +1,41 @@
+$cardWidth: 400px;
+$cardHeight: 600px;
+.card {
+  display: block;
+  margin: 0px auto;
+  width: $cardWidth;
+  min-width: $cardWidth;
+  height: $cardHeight;
+  position: relative;
+  // margin: 0px 4vw;
+  background: none;
+  position: relative;
+  img {
+    width: $cardWidth;
+    height: $cardHeight;
+    object-fit: cover;
+    z-index: -1;
+    position: absolute;
+  }
+  z-index: -1;
+}
+.card-overlay {
+  position: absolute;
+  user-select: none;
+  bottom: 0px;
+  background: rgba($color: #000000, $alpha: 0.5);
+  .name {
+    font-size: 32px;
+    font-family: Roboto;
+    font-weight: 700;
+    color: #ddd;
+    padding: 10px;
+  }
+}
+@media (max-width: 400px) {
+  .card {
+    width: 100vw;
+    min-width: 100vw;
+    height: 450px;
+  }
+}

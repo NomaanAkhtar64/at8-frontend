@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import useWindowSize from '../hooks/useWindowSize'
 
 export interface DropDownItemProps {
   count?: number
@@ -16,10 +17,13 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
   onClick,
   isPurple,
 }) => {
+  const win = useWindowSize()
   return (
     <div
       className='dd-item'
-      style={{ top: 68 + (count - 1) * (isPurple ? 38 : 48) }}
+      style={{
+        top: (win.width >= 500 ? 68 : 40) + (count - 1) * (isPurple ? 38 : 48),
+      }}
     >
       {to ? (
         <Link to={to}>{text}</Link>

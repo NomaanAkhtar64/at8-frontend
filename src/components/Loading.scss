@@ -7,34 +7,37 @@
   justify-content: center;
   .big-text {
     color: #fff;
-    font-size: 56px;
+    font-size: 30px;
     font-family: Roboto;
-    width: 200px;
+    width: 100px;
+    text-align: center;
   }
   .dots-array {
-    width: 200px;
+    width: 100px;
     display: flex;
     flex-direction: row;
     position: relative;
-    height: 50px;
+    height: 20px;
     svg {
       position: absolute;
       fill: #fff;
+      width: 20px;
+      height: 20px;
     }
     svg:nth-child(1) {
-      top: 20px;
-      left: 26px;
+      top: 10px;
+      left: 6px;
       color: none;
       animation: dot1ani 600ms infinite;
     }
     svg:nth-child(2) {
-      top: 20px;
-      left: 80px;
+      top: 10px;
+      left: 46px;
       animation: dot3ani 500ms infinite;
     }
     svg:nth-child(3) {
-      top: 20px;
-      left: 134px;
+      top: 10px;
+      left: 86px;
       animation: dot1ani 600ms infinite;
     }
   }
@@ -62,5 +65,36 @@
   }
   100% {
     top: 20px;
+  }
+}
+
+@media (min-width: 500px) {
+  .loading-screen .big-text {
+    font-size: 56px;
+  }
+  .loading-screen {
+    .big-text {
+      width: 200px;
+    }
+    .dots-array {
+      width: 200px;
+      height: 50px;
+      svg {
+        width: 38px;
+        height: 38px;
+      }
+      svg:nth-child(1) {
+        top: 20px;
+        left: 26px;
+      }
+      svg:nth-child(2) {
+        top: 20px;
+        left: 80px;
+      }
+      svg:nth-child(3) {
+        top: 20px;
+        left: 134px;
+      }
+    }
   }
 }
