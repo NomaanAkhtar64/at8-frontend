@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import PlayerFields from "./PlayerFields";
 
 interface RegisterProps {
     toPayment: () => void;
@@ -14,7 +15,33 @@ const Register: React.FC<RegisterProps> = ({ toPayment }) => {
     const [captain, setCaptain] = useState("");
     const [captainTag, setCaptainTag] = useState("");
     const [captainProfile, setCaptainProfile] = useState("");
-    const [players, setPlayers] = useState([]);
+    const [players, setPlayers] = useState([
+        {
+            idx: 1,
+            username: "",
+            url: "",
+        },
+        {
+            idx: 2,
+            username: "",
+            url: "",
+        },
+        {
+            idx: 3,
+            username: "",
+            url: "",
+        },
+        {
+            idx: 4,
+            username: "",
+            url: "",
+        },
+        {
+            idx: 5,
+            username: "",
+            url: "",
+        },
+    ]);
 
     return (
         <>
@@ -79,11 +106,15 @@ const Register: React.FC<RegisterProps> = ({ toPayment }) => {
                             <div className="hint">
                                 <h1>Help text</h1>
                                 <p>
-                                    Enter your Team Name and your Team Logo and
-                                    click on 'Enter' to proceed.
-                                    <br />
-                                    [Your Team Name must be as good as it can be
-                                    told publically]
+                                    <ul>
+                                        <li>Enter your Team Name.</li>
+                                        <small>
+                                            [Your Team Name must be as good as
+                                            it can be told publically]
+                                        </small>
+                                        <li>Enter your Team Logo.</li>
+                                        <li>Click on 'Enter' to proceed.</li>
+                                    </ul>
                                 </p>
                             </div>
                         </div>
@@ -138,11 +169,16 @@ const Register: React.FC<RegisterProps> = ({ toPayment }) => {
                                     style={{ width: "100%" }}
                                     onClick={() => {
                                         if (
-                                            captain !== "" &&
-                                            captainTag.match(
-                                                /([a-zA-Z0-9!@#$%-_])+[#]\d{4}/gm
-                                            ) !== null &&
-                                            captainProfile !== ""
+                                            (captain !== "" &&
+                                                captainTag.match(
+                                                    /([a-zA-Z0-9!@#$%-_])+[#]\d{4}/gm
+                                                ) !== null &&
+                                                captainProfile.match(
+                                                    /(https:)([/])+([/])+(steamcommunity)+([.])(com)+([/])+(profiles)+([/])+\d([0-9])+([/])/gm
+                                                ) !== null) ||
+                                            captainProfile.match(
+                                                /(https:)([/])+([/])+(steamcommunity)+([.])(com)+([/])+(id)+([/])/gm
+                                            ) !== null
                                         ) {
                                             setCaptainState("");
                                             setPlayerState("active");
@@ -156,14 +192,25 @@ const Register: React.FC<RegisterProps> = ({ toPayment }) => {
                             <div className="hint">
                                 <h1>Help text</h1>
                                 <p>
-                                    Enter your Team Captain's Username on AT8
-                                    site, discord username with tag (e.g.
-                                    name#1234) and steam profile URL if you
-                                    don't know where to see your steam profile
-                                    url then visit <Link to="/faq/">Here.</Link>{" "}
-                                    <br />
-                                    <br /> After adding all the info click on
-                                    'Enter' to proceed to the Players section.
+                                    <ul>
+                                        <li>
+                                            Enter your Team Captain's Username
+                                        </li>
+                                        <li>
+                                            Enter your discord username with tag
+                                            (e.g. name#1234)
+                                        </li>
+                                        <li>Enter steam profile URL</li>
+                                        <small>
+                                            If you don't know where to see your
+                                            steam profile url then visit{" "}
+                                            <Link to="/faq/">Here.</Link>
+                                        </small>
+                                        <li>
+                                            Click on 'Enter' to proceed to the
+                                            Players section.
+                                        </li>
+                                    </ul>
                                 </p>
                             </div>
                         </div>
@@ -175,160 +222,17 @@ const Register: React.FC<RegisterProps> = ({ toPayment }) => {
                                 className="form"
                                 onSubmit={() => {
                                     toPayment();
+                                    console.log(players);
                                 }}
                             >
                                 <legend>Players</legend>
-                                <div className="form-group">
-                                    <label>
-                                        <strong>Player 1</strong>
-                                    </label>
-
-                                    <div className="form-group">
-                                        <label>Username</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Username"
-                                            required
-                                            // value={players}
-                                            onChange={(e) => {
-                                                setPlayers([
-                                                    ...players,
-                                                    e.target.value,
-                                                ]);
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Steam Profile Link</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Steam Profile Url"
-                                            required
-                                            // value={players}
-                                            onChange={(e) => {
-                                                setPlayers([
-                                                    ...players,
-                                                    e.target.value,
-                                                ]);
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label>
-                                        <strong>Player 2</strong>
-                                    </label>
-                                    <div className="form-group">
-                                        <label>Username</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Username"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Steam Profile Link</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Steam Profile Url"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label>
-                                        <strong>Player 3</strong>
-                                    </label>
-                                    <div className="form-group">
-                                        <label>Username</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Username"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Steam Profile Link</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Steam Profile Url"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label>
-                                        <strong>Player 4</strong>
-                                    </label>
-                                    <div className="form-group">
-                                        <label>Username</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Username"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Steam Profile Link</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Steam Profile Url"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label>
-                                        <strong>Player 5</strong>
-                                    </label>
-                                    <div className="form-group">
-                                        <label>Username</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Username"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Steam Profile Link</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Steam Profile Url"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label>
-                                        <strong>Alternate Player</strong>
-                                    </label>
-                                    <div className="form-group">
-                                        <label>Username</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Username"
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Steam Profile Link</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Steam Profile Url"
-                                        />
-                                    </div>
-                                </div>
+                                {[...Array(5).keys()].map((i) => (
+                                    <PlayerFields
+                                        number={i + 1}
+                                        players={players}
+                                        setPlayers={setPlayers}
+                                    />
+                                ))}
                                 <button
                                     type="submit"
                                     className="btn btn-success"
@@ -340,16 +244,21 @@ const Register: React.FC<RegisterProps> = ({ toPayment }) => {
                             <div className="hint">
                                 <h1>Help Text</h1>
                                 <p>
-                                    Enter all the usernames and Steam Profile
-                                    Urls of all the 5 players of your team and
-                                    also the Alternate player if you have one.
-                                    <br />
-                                    If you don't know where to see the profile
-                                    URL then visit <Link to="/faq/">Here.</Link>
-                                    <br />
-                                    <br /> After adding all the information
-                                    click on 'Submit' to proceed to the Payment
-                                    tab.
+                                    <ul>
+                                        <li>
+                                            Enter all the usernames and Steam
+                                            Profile Urls.
+                                        </li>
+                                        <small>
+                                            If you don't know where to see the
+                                            profile URL then visit{" "}
+                                            <Link to="/faq/">Here.</Link>
+                                        </small>
+                                        <li>
+                                            Click on 'Submit' to proceed to the
+                                            Payment tab.
+                                        </li>
+                                    </ul>
                                 </p>
                             </div>
                         </div>

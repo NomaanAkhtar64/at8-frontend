@@ -3,23 +3,28 @@
   width: 100%;
   background: #fff;
 }
+
 .tour-item-wrapper {
   z-index: -1;
+
   &:nth-child(4n + 1) {
     .tour-item {
       background: #ded504;
     }
   }
+
   &:nth-child(4n + 2) {
     .tour-item {
       background: #dadada;
     }
   }
+
   &:nth-child(4n + 3) {
     .tour-item {
       background: #dadada;
     }
   }
+
   &:nth-child(4n + 4) {
     .tour-item {
       background: #b5f2ff;
@@ -52,24 +57,33 @@
   border-color: #25292c;
   box-shadow: 0 0 0 0.2rem #25292c80;
 }
+
 .tourna-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: #333;
+  background-color: #6d3343;
   padding: 20px 0px;
 }
+
 @media (min-width: 992px) {
   .tourna-page {
     padding: 20px 80px;
   }
 }
 
+.tournament-heading {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
 .tourna {
-  color: #000;
-  background-color: #88f4ff;
+  color: #fff;
+  background-color: #333;
   padding: 20px;
   margin: 20px;
   height: 100%;
@@ -87,11 +101,13 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
 .slots {
   padding: 5px;
   border: #000 1px solid;
   width: max-content;
 }
+
 .time {
   display: flex;
   flex-direction: column;
@@ -117,6 +133,7 @@
 
 .winner {
   text-align: center;
+
   img {
     width: 100%;
   }

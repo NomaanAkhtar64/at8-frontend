@@ -25,7 +25,7 @@ const TournamentItem: React.FC<TournamentItemProps> = () => {
         <>
             {tournaments.hasLoaded ? (
                 <div className="tourna-page">
-                    <h1 className="text-white">Tournaments</h1>
+                    <h1 className="text-white tournament-heading">Tournaments</h1>
                     {tournaments.state.map((tournament, i) => (
                         <div key={i} className="tourna">
                             <div className="left-side">

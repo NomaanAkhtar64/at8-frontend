@@ -91,4 +91,12 @@ interface Teams {
   payments: boolean
   registration_date: Date
   players: Array
+  text_proof: string
+  image_proof: string
+  payment_details: string
+}
+
+interface Payment {
+  tournament: number
+  payment_details: string
 }

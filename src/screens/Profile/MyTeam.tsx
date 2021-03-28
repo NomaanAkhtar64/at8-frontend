@@ -32,6 +32,7 @@ const MyTeam: React.FC<MyTeamProps> = () => {
                                     <p color="white">
                                         {team.registration_date}
                                     </p>
+                                    Status: <p>{team.payments ? "Verified" : "Pending"}</p>
                                 </div>
                                 <div className="team-players">
                                     <a

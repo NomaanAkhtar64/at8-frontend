@@ -81,8 +81,37 @@ button:focus {
 }
 
 .hint {
-    width: 100%;
     padding: 20px;
     color: #fff;
     margin: 0px 10px;
+}
+
+.payment-page {
+    background-color: #333;
+    padding: 20px;
+}
+
+.details {
+    padding: 20px;
+}
+
+.verify-form {
+    background-color: #fff;
+    color: #000;
+    padding: 20px;
+}
+
+.payment-select {
+    height: 40px;
+    padding: 10px;
+}
+
+.success-page {
+    background-color: #333;
+    padding: 20px;
+}
+
+.success {
+    text-align: center;
+    color: #fff;
 }

@@ -2,8 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { __API_URL__ } from "../const";
 
-export default function useTeams() {
-    const [state, setState] = useState<Teams[]>([]);
+export default function usePayment() {
+    const [state, setState] = useState<Payment[]>([]);
     const [error, setError] = useState("");
     const [hasLoaded, setHasLoaded] = useState(false);
 
@@ -12,7 +12,7 @@ export default function useTeams() {
 
         setHasLoaded(false);
         axios
-            .get(`${__API_URL__}/api/teams/`, {
+            .get(`${__API_URL__}/api/payment/`, {
                 cancelToken: cancelHandler.token,
             })
             .then((res) => {

@@ -34,11 +34,6 @@ const RegisterTeam: React.FC<RegisterTeamProps> = () => {
                             role="tab"
                             aria-controls="nav-home"
                             aria-selected="true"
-                            onClick={() => {
-                                setSelectRegister(true);
-                                setSelectPayment(false);
-                                setSelectSuccess(false);
-                            }}
                         >
                             Register
                         </button>
@@ -53,6 +48,11 @@ const RegisterTeam: React.FC<RegisterTeamProps> = () => {
                             role="tab"
                             aria-controls="nav-profile"
                             aria-selected="false"
+                            onClick={() => {
+                                setSelectRegister(false);
+                                setSelectPayment(true);
+                                setSelectSuccess(false);
+                            }}
                         >
                             Payment
                         </button>
@@ -67,6 +67,11 @@ const RegisterTeam: React.FC<RegisterTeamProps> = () => {
                             role="tab"
                             aria-controls="nav-contact"
                             aria-selected="false"
+                            onClick={() => {
+                                setSelectRegister(false);
+                                setSelectPayment(false);
+                                setSelectSuccess(true);
+                            }}
                         >
                             Success
                         </button>
@@ -92,7 +97,10 @@ const RegisterTeam: React.FC<RegisterTeamProps> = () => {
                         role="tabpanel"
                         aria-labelledby="nav-profile-tab"
                     >
-                        <Payment />
+                        <Payment toSuccess={() => {
+                            setSelectPayment(false);
+                            setSelectSuccess(true);
+                        }} />
                     </div>
                 )}
                 {selectSuccess && (
