@@ -26,8 +26,6 @@ interface AppProps {
 }
 
 const App: React.FC<AppProps> = ({ onTryAutoSignup, isAuthenticated }) => {
-    console.log(isAuthenticated);
-
     useEffect(() => {
         onTryAutoSignup();
     }, [onTryAutoSignup]);

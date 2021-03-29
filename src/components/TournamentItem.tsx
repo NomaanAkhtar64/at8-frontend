@@ -36,7 +36,8 @@ const TournamentItem: React.FC<TournamentItemProps> = () => {
                                     {tournament.name}
                                 </h3>
                                 <hr color="black" />
-                                <p>{tournament.details}</p>
+
+                                {parse(`<p>${tournament.details}</p>`)}
                                 <h4 className="slots">
                                     Slots Available:{" "}
                                     {tournament.slots - tournament.teams.length}
