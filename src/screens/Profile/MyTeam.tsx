@@ -10,6 +10,7 @@ interface MyTeamProps {}
 const MyTeam: React.FC<MyTeamProps> = () => {
     const teams = useTeams();
     const profile = useProfile();
+    console.log(teams)
     if (profile.hasLoaded) {
         return (
             <div className="team">

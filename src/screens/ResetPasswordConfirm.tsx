@@ -68,7 +68,7 @@ const ResetPasswordConfirm: React.FC<ResetPasswordConfirmProps> = ({
                                     } else {
                                         axios
                                             .post(
-                                                "http://localhost:8000/api/reset-password-confirm/",
+                                                `${__API_URL__}/api/reset-password-confirm/`,
                                                 {
                                                     token,
                                                     pass1,
@@ -77,7 +77,7 @@ const ResetPasswordConfirm: React.FC<ResetPasswordConfirmProps> = ({
                                             )
                                             .then((res) => {
                                                 console.log(res);
-                                                history.push("/signup");
+                                                history.push("/");
                                             })
                                             .catch((err) => {
                                                 console.log(err);

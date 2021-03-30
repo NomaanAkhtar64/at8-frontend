@@ -6,7 +6,7 @@ import Layout from './layout/Layout'
 import * as actions from './store/actions/auth'
 import LoadingBar from './components/LoadingBar'
 import Profile from './screens/Profile'
-import FAQ from './screens/FAQ'
+import FAQ from './screens/Faq'
 
 const Home = lazy(() => import('./screens/Home'))
 const Account = lazy(() => import('./screens/Account'))
