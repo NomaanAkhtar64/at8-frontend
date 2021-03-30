@@ -1,134 +1,53 @@
-import parse from "html-react-parser";
-import React, { useState } from "react";
+import React from 'react'
+import { RouteComponentProps } from 'react-router'
+import { Link } from 'react-router-dom'
+import useFAQ from '../hooks/useFAQ'
+import art from '../assets/at8_art.jpg'
+import './FAQ.scss'
 
-import Loading from "../components/Loading";
-import { __API_URL__ } from "../const";
-import supportForm from "../hooks/supportForm";
-import useFaq from "../hooks/useFaq";
-import useProfile from "../hooks/useProfile";
-import "./Faq.scss";
+interface FAQListBoxProps {
+  faq: FAQ
+}
+const FAQListBox: React.FC<FAQListBoxProps> = ({ faq }) => {
+  console.log(faq)
+  const { images, name, description, slug } = faq
+  return (
+    <div className='faq-list-box'>
+      <div className='faq-lb-content'>
+        <div>
+          <Link to={'/faq/' + slug} className='faq-lb-title'>
+            {name}
+          </Link>
+        </div>
+        <div className='faq-body'>
+          <div className='faq-image'>
+            <img
+              src={
+                art
+                // images[0].image
+              }
+              alt=''
+            />
+          </div>
+          <div>
+            <div className='faq-lb-description'>{description}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
-interface FaqProps {}
+interface FAQProps extends RouteComponentProps {}
+const FAQ: React.FC<FAQProps> = ({}) => {
+  const FAQs = useFAQ()
+  return (
+    <div className='faq-list-container'>
+      {FAQs.state.map((fq, i) => (
+        <FAQListBox key={i} faq={fq} />
+      ))}
+    </div>
+  )
+}
 
-const Faq: React.FC<FaqProps> = () => {
-    const [request, setRequest] = useState(false);
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [issue, setIssue] = useState("");
-    const faqs = useFaq();
-    const profile = useProfile();
-    return (
-        <>
-            <div className="main-faq">
-                {faqs.hasLoaded ? (
-                    <div className="faq-page">
-                        {faqs.state.map((faq, i) => (
-                            <div key={i} className="faq">
-                                <h2 className="faq-name">{faq.name}</h2>
-                                {parse(`<p>${faq.details}</p>`)}
-
-                                <hr />
-                                <div className="faq-steps">
-                                    {faq.images.map((step, i) => (
-                                        <div key={i} className="step">
-                                            {parse(`<h6>${step.caption}</h6>`)}
-                                            <img
-                                                src={step.image}
-                                                alt="Thread Image"
-                                                width="100%"
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <Loading />
-                )}
-
-                <div className="support">
-                    {request ? (
-                        <div className="request-form">
-                            <form
-                                onSubmit={(e) => {
-                                    e.preventDefault();
-                                    supportForm(
-                                        profile.profile.user,
-                                        firstName,
-                                        lastName,
-                                        issue
-                                    );
-                                }}
-                            >
-                                <legend>Support request form</legend>
-                                <div className="form-name">
-                                    <div
-                                        className="form-group"
-                                        style={{ width: "45%" }}
-                                    >
-                                        <label>First Name</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            required
-                                            value={firstName}
-                                            onChange={(e) =>
-                                                setFirstName(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                    <div
-                                        className="form-group"
-                                        style={{ width: "45%" }}
-                                    >
-                                        <label>Last Name</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={lastName}
-                                            onChange={(e) =>
-                                                setLastName(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="form-group">
-                                    <label>
-                                        State your issue descriptively
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        required
-                                        value={issue}
-                                        onChange={(e) =>
-                                            setIssue(e.target.value)
-                                        }
-                                    />
-                                </div>
-                                <button
-                                    type="submit"
-                                    className="btn btn-success"
-                                >
-                                    Submit
-                                </button>
-                            </form>
-                        </div>
-                    ) : (
-                        <button
-                            type="button"
-                            className="btn btn-outline-primary btn-lg"
-                            onClick={() => setRequest(true)}
-                        >
-                            Submit a request?
-                        </button>
-                    )}
-                </div>
-            </div>
-        </>
-    );
-};
-
-export default Faq;
+export default FAQ

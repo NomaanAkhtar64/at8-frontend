@@ -44,7 +44,7 @@ const Home: React.FC<HomeProps> = () => {
               {games.state.map((game, idx) => (
                 <SwiperSlide
                   key={idx}
-                  onDoubleClick={() => history.push(`tournaments/${game.slug}`)}
+                  onClick={() => history.push(`tournaments/${game.slug}`)}
                 >
                   <Card image={game.picture} name={game.name} />
                 </SwiperSlide>
