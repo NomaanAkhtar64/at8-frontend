@@ -62,7 +62,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
                   <button type='button' className='btn btn-danger btn-lg'>
                     {slots - teams.length > 0 ? (
                       <Link
-                        to='/register/'
+                        to={{ pathname: '/register', state: tournament }}
                         style={{
                           textDecoration: 'none',
                           color: '#fff',
