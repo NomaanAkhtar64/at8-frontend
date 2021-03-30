@@ -8,6 +8,7 @@ interface UserState {
 }
 
 interface Games {
+  id: number
   name: string
   picture: string
   slug: string
@@ -27,7 +28,7 @@ interface User {
 }
 
 interface UserProfile {
-  user: string
+  user: number
   pic: string
   discord_name_tag: string
   tournament: string
@@ -41,14 +42,10 @@ interface Date {
 }
 
 interface Tournament {
+  id: number
   name: string
   details: string
-  game: {
-    id: number
-    name: string
-    picture: string
-    slug: string
-  }
+  game: Games
   slug: string
   slots: number
   prize: String
@@ -75,30 +72,31 @@ interface Announcement {
   date: Date
 }
 
-interface Captian {
-  profile: string
+interface Player {
+  profile?: string
   url: string
   username: string
 }
 
 interface Teams {
-  email: string
+  id: number
+  user: number
   name: string
   slug: string
   logo: string
   captain: Captian
   team_captains_discord_tag: string
-  payments: boolean
   registration_date: Date
   players: Array
-  text_proof: string
-  image_proof: string
-  payment_details: string
 }
 
 interface Payment {
   tournament: number
-  payment_details: string
+  user: number
+  team: number
+  has_paid: boolean
+  text_proof: string
+  image_proof: string | any
 }
 
 interface FAQImage {

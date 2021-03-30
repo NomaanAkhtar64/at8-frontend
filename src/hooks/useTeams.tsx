@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { __API_URL__ } from "../const";
 
-export default function useTeams() {
+export default function useTeams(user: number = null) {
     const [state, setState] = useState<Teams[]>([]);
     const [error, setError] = useState("");
     const [hasLoaded, setHasLoaded] = useState(false);
@@ -12,7 +12,9 @@ export default function useTeams() {
 
         setHasLoaded(false);
         axios
-            .get(`${__API_URL__}/api/teams/`, {
+            .get(`${__API_URL__}/api/teams/${
+                user === null ? '' : '?user=' + user
+            }`, {
                 cancelToken: cancelHandler.token,
             })
             .then((res) => {
@@ -26,7 +28,7 @@ export default function useTeams() {
         return () => {
             cancelHandler.cancel();
         };
-    }, []);
+    }, [user]);
 
     return { state, error, hasLoaded };
 }

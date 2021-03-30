@@ -69,7 +69,7 @@ const Profile: React.FC<ProfileProps> = () => {
               </li>
             </ul>
           </div>
-          {teamSelect && <MyTeam />}
+          {teamSelect && <MyTeam profile={profile.profile} user={profile.state} />}
           {tournaSelect && <Tournaments />}
           {settingSelect && <Settings />}
         </div>

@@ -9,7 +9,6 @@ interface FAQListBoxProps {
   faq: FAQ
 }
 const FAQListBox: React.FC<FAQListBoxProps> = ({ faq }) => {
-  console.log(faq)
   const { images, name, description, slug } = faq
   return (
     <div className='faq-list-box'>

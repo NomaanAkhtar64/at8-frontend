@@ -2,7 +2,7 @@ import axios from "axios";
 import { __API_URL__ } from "../const";
 
 export default function supportForm(
-    user: string,
+    user: number,
     first_name: string,
     last_name: string,
     issue: string

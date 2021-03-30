@@ -54,7 +54,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
             </div>
           ) : (
             <>
-              <h4 className='px-2'>Prize Pool: Rs. {prize}</h4>
+              <h4 className='px-2'>Prize Pool: {prize}</h4>
 
               {today >= Date.parse(registration_date) &&
               today < Date.parse(starting_time) ? (
@@ -62,7 +62,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
                   <button type='button' className='btn btn-danger btn-lg'>
                     {slots - teams.length > 0 ? (
                       <Link
-                        to={{ pathname: '/register', state: tournament }}
+                        to={{ pathname: '/register', state: {tournament} }}
                         style={{
                           textDecoration: 'none',
                           color: '#fff',

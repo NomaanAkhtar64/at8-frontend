@@ -24,7 +24,7 @@ const Payment: React.FC<PaymentProps> = ({ toSuccess }) => {
                             {payment.state.map((pay, i) => (
                                 <div className="">
                                     <h3>Details of Transaction</h3>
-                                    <p>{pay.payment_details}</p>
+                                    {/* <p>{pay.payment_details}</p> */}
                                 </div>
                             ))}
                         </div>

@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import registerTeam from "../hooks/registerTeam";
+import useProfile from "../hooks/useProfile";
 import PlayerFields from "./PlayerFields";
 
 interface RegisterProps {
-    toPayment: () => void;
+    toPayment: (i: number) => void;
+    game: number;
 }
 
-const Register: React.FC<RegisterProps> = ({ toPayment }) => {
+const Register: React.FC<RegisterProps> = ({ toPayment, game }) => {
     const [basicState, setBasicState] = useState("active");
     const [captainState, setCaptainState] = useState("");
     const [playerState, setPlayerState] = useState("");
     const [name, setName] = useState("");
-    const [logo, setLogo] = useState({});
+    const [logo, setLogo] = useState<File>(null);
     const [captain, setCaptain] = useState("");
     const [captainTag, setCaptainTag] = useState("");
     const [captainProfile, setCaptainProfile] = useState("");
@@ -42,6 +45,8 @@ const Register: React.FC<RegisterProps> = ({ toPayment }) => {
             url: "",
         },
     ]);
+
+    const profile = useProfile();
 
     return (
         <>
@@ -79,8 +84,8 @@ const Register: React.FC<RegisterProps> = ({ toPayment }) => {
                                                 }}
                                             />
                                             <label className="custom-file-label">
-                                                {logo["name"] ? (
-                                                    <p>{logo["name"]}</p>
+                                                {logo ? (
+                                                    <p>{logo.name}</p>
                                                 ) : (
                                                     "Choose file"
                                                 )}
@@ -220,8 +225,24 @@ const Register: React.FC<RegisterProps> = ({ toPayment }) => {
                         <div className="register-form">
                             <form
                                 className="form"
-                                onSubmit={() => {
-                                    toPayment();
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    registerTeam(
+                                        profile.profile.user,
+                                        name,
+                                        logo,
+                                        {
+                                            username: captain,
+                                            url: captainProfile,
+                                        },
+                                        captainTag,
+                                        game,
+                                        players
+                                    ).then((id) => {
+                                        if (typeof id === "number") {
+                                            toPayment(id);
+                                        }
+                                    });
                                     console.log(players);
                                 }}
                             >
