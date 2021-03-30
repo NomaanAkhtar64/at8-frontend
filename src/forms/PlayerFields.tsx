@@ -22,7 +22,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
         <div className="form-group">
             <label>
                 <strong>
-                    {number == 5 ? "Alternate Player" : `Player ${number + 1}`}
+                    {number === 5 ? "Alternate Player" : `Player ${number + 1}`}
                 </strong>
             </label>
             <div className="form-group">

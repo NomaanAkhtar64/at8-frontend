@@ -45,7 +45,14 @@
 .request-form {
     background-color: #fff;
     padding: 20px;
-    width: 50%;
+    width: 100%;
+    margin: 20px 0;
+}
+@media(min-width:992px) {
+    .request-form {
+        width: 50%;
+        margin: 0px;
+    }
 }
 
 .form-name {
@@ -53,4 +60,28 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+}
+
+.btn-outline-primary {
+    color: #fff;
+    border-color: #fff;
+}
+
+.btn-outline-primary:hover {
+    color: #000;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+.btn-outline-primary.focus,
+.btn-outline-primary:focus {
+    box-shadow: 0 0 0 .2rem rgba(255, 255, 255, 0.44);
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.show>.btn-outline-primary.dropdown-toggle {
+    color: #000;
+    background-color: #fff;
+    border-color: #fff;
 }

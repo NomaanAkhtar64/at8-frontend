@@ -2,15 +2,21 @@ import parse from "html-react-parser";
 import React, { useState } from "react";
 
 import Loading from "../components/Loading";
+import { __API_URL__ } from "../const";
+import supportForm from "../hooks/supportForm";
 import useFaq from "../hooks/useFaq";
+import useProfile from "../hooks/useProfile";
 import "./Faq.scss";
 
 interface FaqProps {}
 
 const Faq: React.FC<FaqProps> = () => {
     const [request, setRequest] = useState(false);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [issue, setIssue] = useState("");
     const faqs = useFaq();
-    console.log(faqs);
+    const profile = useProfile();
     return (
         <>
             <div className="main-faq">
@@ -18,7 +24,6 @@ const Faq: React.FC<FaqProps> = () => {
                     <div className="faq-page">
                         {faqs.state.map((faq, i) => (
                             <div key={i} className="faq">
-                                {console.log(faq.details)}
                                 <h2 className="faq-name">{faq.name}</h2>
                                 {parse(`<p>${faq.details}</p>`)}
 
@@ -45,22 +50,46 @@ const Faq: React.FC<FaqProps> = () => {
                 <div className="support">
                     {request ? (
                         <div className="request-form">
-                            <form>
+                            <form
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    supportForm(
+                                        profile.profile.user,
+                                        firstName,
+                                        lastName,
+                                        issue
+                                    );
+                                }}
+                            >
                                 <legend>Support request form</legend>
                                 <div className="form-name">
-                                    <div className="form-group" style={{width: "45%"}}>
+                                    <div
+                                        className="form-group"
+                                        style={{ width: "45%" }}
+                                    >
                                         <label>First Name</label>
                                         <input
                                             type="text"
                                             className="form-control"
                                             required
+                                            value={firstName}
+                                            onChange={(e) =>
+                                                setFirstName(e.target.value)
+                                            }
                                         />
                                     </div>
-                                    <div className="form-group" style={{width: "45%"}}>
+                                    <div
+                                        className="form-group"
+                                        style={{ width: "45%" }}
+                                    >
                                         <label>Last Name</label>
                                         <input
                                             type="text"
                                             className="form-control"
+                                            value={lastName}
+                                            onChange={(e) =>
+                                                setLastName(e.target.value)
+                                            }
                                         />
                                     </div>
                                 </div>
@@ -72,6 +101,11 @@ const Faq: React.FC<FaqProps> = () => {
                                     <input
                                         type="text"
                                         className="form-control"
+                                        required
+                                        value={issue}
+                                        onChange={(e) =>
+                                            setIssue(e.target.value)
+                                        }
                                     />
                                 </div>
                                 <button
@@ -85,7 +119,7 @@ const Faq: React.FC<FaqProps> = () => {
                     ) : (
                         <button
                             type="button"
-                            className="btn btn-outline-primary"
+                            className="btn btn-outline-primary btn-lg"
                             onClick={() => setRequest(true)}
                         >
                             Submit a request?
