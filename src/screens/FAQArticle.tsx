@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router'
 
 import Loading from '../components/Loading'
 import supportForm from '../hooks/supportForm'
-import useFAQ from '../hooks/useFaq'
+import useFAQ from '../hooks/useFAQ'
 import useProfile from '../hooks/useProfile'
 import './FAQArticle.scss'
 

@@ -1,151 +1,98 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import parse from "html-react-parser";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import parse from 'html-react-parser'
+import './TournamentItem.scss'
 
-import useTournaments from "../hooks/useTournaments";
-import Loading from "./Loading";
-import "./TournamentItem.scss";
+interface TournamentItemProps {
+  tournament: Tournament
+}
 
-interface TournamentItemProps {}
-const TournamentItem: React.FC<TournamentItemProps> = () => {
-    const tournaments = useTournaments();
-    const date = new Date(new Date().getTime());
-    const today = Date.parse(date.toString());
-    console.log(tournaments);
+const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
+  const {
+    name,
+    slots,
+    teams,
+    details,
+    starting_time,
+    ending_time,
+    winner,
+    prize,
+    registration_date,
+  } = tournament
+  const date = new Date(new Date().getTime())
+  const today = Date.parse(date.toString())
+  console.log(winner)
+  return (
+    <div className='tourna'>
+      <div className='tourna-top'>
+        <h3 className='tourna-name'>{name}</h3>
+        <p className='tourna-body'>{parse(details)}</p>
+      </div>
+      <div className='tourna-bottom'>
+        <div className='tourna-left'>
+          {!winner && <h4>Slots Available: {slots - teams.length}</h4>}
 
-    return (
-        // <div className='p-2 col-lg-6 col-12 tour-item-wrapper'>
-        //   <div className='tour-item '>
-        //     <div className='row'>
-        //       <div className='col-12 col-md-8'>Left</div>
-        //       <div className='col-12 col-md-4'>Right</div>
-        //     </div>
-        //   </div>
-        // </div>
-        <>
-            {tournaments.hasLoaded ? (
-                <div className="tourna-page">
-                    <h1 className="text-white tournament-heading">Tournaments</h1>
-                    {tournaments.state.map((tournament, i) => (
-                        <div key={i} className="tourna">
-                            <div className="left-side">
-                                <h3
-                                    className="tourna-name"
-                                    style={{ textAlign: "center" }}
-                                >
-                                    {tournament.name}
-                                </h3>
-                                <hr color="black" />
+          <div className='tourna-time'>
+            <h6>
+              From:
+              <span className='grey'> {starting_time}</span>
+            </h6>
+            <h6>
+              To:
+              <span className='grey'> {ending_time}</span>
+            </h6>
+          </div>
+        </div>
+        <div className='tourna-right'>
+          {winner ? (
+            <div className='winner'>
+              <img src={winner.logo} alt='' />
+              <div className='winner-body'>
+                <h4>Winner</h4>
+                <h4 className='grey'>{winner.name}</h4>
+              </div>
+            </div>
+          ) : (
+            <>
+              <h4 className='px-2'>Prize Pool: Rs. {prize}</h4>
 
-                                {parse(`<p>${tournament.details}</p>`)}
-                                <h4 className="slots">
-                                    Slots Available:{" "}
-                                    {tournament.slots - tournament.teams.length}
-                                </h4>
-
-                                <div className="time">
-                                    <span>
-                                        From:{" "}
-                                        <p
-                                            className="date"
-                                            style={{ display: "inline" }}
-                                        >
-                                            {tournament.starting_time}
-                                        </p>
-                                    </span>
-                                    <span>
-                                        To:{" "}
-                                        <p
-                                            className="date"
-                                            style={{ display: "inline" }}
-                                        >
-                                            {tournament.ending_time}
-                                        </p>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="right-side">
-                                {tournament.winner ? (
-                                    <div className="winner">
-                                        <h4>Winner</h4>
-                                        <img
-                                            src={tournament.winner.logo}
-                                            alt="Logo"
-                                        />
-                                    </div>
-                                ) : (
-                                    <>
-                                        <span
-                                            className="prize-pool"
-                                            style={{ textAlign: "center" }}
-                                        >
-                                            <h4>Prize Pool</h4>
-                                            <h4>{tournament.prize}</h4>
-                                        </span>
-
-                                        <div className="register-btn">
-                                            {today >=
-                                                Date.parse(
-                                                    tournament.starting_time
-                                                ) &&
-                                            today <
-                                                Date.parse(
-                                                    tournament.ending_time
-                                                ) ? (
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-danger btn-lg"
-                                                >
-                                                    {tournament.slots -
-                                                        tournament.teams
-                                                            .length >
-                                                    0 ? (
-                                                        <Link
-                                                            to="/register/"
-                                                            style={{
-                                                                textDecoration:
-                                                                    "none",
-                                                                color: "#fff",
-                                                            }}
-                                                        >
-                                                            Register
-                                                        </Link>
-                                                    ) : (
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-danger btn-lg"
-                                                        >
-                                                            Slots Are Full
-                                                        </button>
-                                                    )}
-                                                </button>
-                                            ) : (
-                                                <span
-                                                    style={{
-                                                        textAlign: "center",
-                                                    }}
-                                                >
-                                                    <h5>Registration Opens:</h5>
-                                                    <p className="date">
-                                                        {
-                                                            tournament.starting_time
-                                                        }
-                                                    </p>
-                                                </span>
-                                            )}
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                    ))}
+              {today >= Date.parse(registration_date) &&
+              today < Date.parse(starting_time) ? (
+                <div className='register-btn'>
+                  <button type='button' className='btn btn-danger btn-lg'>
+                    {slots - teams.length > 0 ? (
+                      <Link
+                        to='/register/'
+                        style={{
+                          textDecoration: 'none',
+                          color: '#fff',
+                        }}
+                      >
+                        Register
+                      </Link>
+                    ) : (
+                      <button
+                        type='button'
+                        className='btn btn-danger btn-lg'
+                        disabled
+                      >
+                        Slots Are Full
+                      </button>
+                    )}
+                  </button>
                 </div>
-            ) : (
-                <Loading />
-            )}
-        </>
-    );
-};
+              ) : (
+                <h6 className='tourna-registerdate'>
+                  Registration Open:
+                  <span className='grey'> {registration_date}</span>
+                </h6>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
 
-export default TournamentItem;
+export default TournamentItem

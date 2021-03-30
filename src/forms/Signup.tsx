@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 
 import * as actions from '../store/actions/auth'
 import checkSignupData from '../errors/check/checkSignupData'
+import { useHistory } from 'react-router'
+import Error from '../components/Error'
 
 interface SignupProps extends UserState {
   onSignUp: (
@@ -12,21 +14,25 @@ interface SignupProps extends UserState {
     password1: string,
     password2: string
   ) => void
-  toLogin: () => void
 }
 
-const Signup: React.FC<SignupProps> = ({ onSignUp, toLogin }) => {
+const Signup: React.FC<SignupProps> = ({ onSignUp }) => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordRe, setPasswordRe] = useState('')
   const [error, setError] = useState<null | string | Error | AxiosError>(null)
+  const [isDisabled, setDisable] = useState(false)
+  const history = useHistory()
+  const [serverError, setServerError] = useState<null | string>(null)
 
   return (
     <form
       className='form'
       onSubmit={(e) => {
+        setServerError(null)
         e.preventDefault()
+        setDisable(true)
         const { hasError, message } = checkSignupData(
           username,
           email,
@@ -37,6 +43,7 @@ const Signup: React.FC<SignupProps> = ({ onSignUp, toLogin }) => {
         if (hasError) {
           setError(message)
           console.log(message)
+          setDisable(false)
         } else {
           axios
             .post('https://at8-backend.herokuapp.com/check-user/', {
@@ -46,14 +53,19 @@ const Signup: React.FC<SignupProps> = ({ onSignUp, toLogin }) => {
             .then((res) => {
               console.log(res.data)
               onSignUp(username, email, password, passwordRe)
-              toLogin()
+              history.push('/signup/confirm', { email: email })
+              setDisable(true)
             })
             .catch((err) => {
               console.log(err)
+              if (err.response) {
+                setServerError(err.response.data)
+              }
             })
         }
       }}
     >
+      {serverError && <Error>{serverError}</Error>}
       <legend className='mb-4'>Signup</legend>
       <div className='mb-3'>
         <input

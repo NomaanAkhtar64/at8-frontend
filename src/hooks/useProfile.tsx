@@ -4,8 +4,8 @@ import { __API_URL__ } from '../const'
 import getHeaders from './getHeaders'
 
 export default function useProfile() {
-  const [state, setState] = useState<User | null>(null)
-  const [profile, setProfile] = useState<UserProfile | null>(null)
+  const [state, setState] = useState<User>(null)
+  const [profile, setProfile] = useState<UserProfile>(null)
   const [error, setError] = useState('')
   const [hasLoaded, setHasLoaded] = useState(false)
   const counter = useRef(0)

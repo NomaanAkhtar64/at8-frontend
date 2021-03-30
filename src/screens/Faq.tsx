@@ -1,9 +1,9 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Link } from 'react-router-dom'
-import useFAQ from '../hooks/useFaq'
+import useFAQ from '../hooks/useFAQ'
 import art from '../assets/at8_art.jpg'
-import './Faq.scss'
+import './FAQ.scss'
 
 interface FAQListBoxProps {
   faq: FAQ

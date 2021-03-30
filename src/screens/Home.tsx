@@ -35,12 +35,7 @@ const Home: React.FC<HomeProps> = () => {
       <>
         <div className='home-banner'>
           <div className='banner-background'>
-            <Swiper
-              spaceBetween={40}
-              onSlideChange={() => console.log('slide change')}
-              onSwiper={(swiper) => console.log(swiper)}
-              breakpoints={makeBreakPoints()}
-            >
+            <Swiper spaceBetween={40} breakpoints={makeBreakPoints()}>
               {games.state.map((game, idx) => (
                 <SwiperSlide
                   key={idx}

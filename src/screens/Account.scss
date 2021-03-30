@@ -11,10 +11,6 @@
   border-radius: 5px;
 }
 
-.form {
-  padding: 5px;
-}
-
 .tab {
   display: flex;
   flex-direction: row;
@@ -67,6 +63,39 @@
 
 .account-page form {
   width: 100%;
-  padding: 40px 50px;
-  // height: 500px;
+  padding: 40px 15px;
+}
+@media (min-width: 500px) {
+  .account-page form {
+    width: 100%;
+    padding: 40px 50px;
+  }
+}
+
+.signup-confirm {
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+  margin: 20px 0px;
+  svg {
+    width: 120px;
+    height: 120px;
+    color: #333;
+  }
+}
+
+@media (min-width: 500px) {
+  .signup-confirm {
+    font-size: 18px;
+    svg {
+      width: 150px;
+      height: 150px;
+    }
+  }
+}
+@media (min-width: 992px) {
+  .signup-confirm {
+    font-size: 20px;
+  }
 }
