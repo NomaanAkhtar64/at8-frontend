@@ -80,6 +80,7 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game }) => {
                         id='inputGroupFile02'
                         required
                         onChange={(e) => {
+                          console.log(e.target.files[0])
                           setLogo(e.target.files[0])
                         }}
                       />
@@ -183,7 +184,7 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game }) => {
               <form
                 className='form'
                 onSubmit={(e) => {
-                  e.preventDefault()
+                  e.preventDefault();
                   registerTeam(
                     profile.profile.user,
                     name,
@@ -206,6 +207,7 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game }) => {
                 <legend>Players</legend>
                 {[...Array(5).keys()].map((i) => (
                   <PlayerFields
+                    key={i}
                     number={i + 1}
                     players={players}
                     setPlayers={setPlayers}

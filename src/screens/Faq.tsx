@@ -38,7 +38,7 @@ const FAQListBox: React.FC<FAQListBoxProps> = ({ faq }) => {
 }
 
 interface FAQProps extends RouteComponentProps {}
-const FAQ: React.FC<FAQProps> = ({}) => {
+const FAQ: React.FC<FAQProps> = () => {
   const FAQs = useFAQ()
   return (
     <div className='faq-list-container'>

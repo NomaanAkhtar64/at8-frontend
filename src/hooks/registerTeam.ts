@@ -10,10 +10,11 @@ export default function registerTeam(
     game: number,
     player: Player[]
 ) {
+    const formData = new FormData();
+    formData.append("logo", logo, logo.name)
     const token = `Token ` + localStorage.getItem("token");
     const headers = {
-        Authorization: token,
-        "Content-Type": "multipart/form-data",
+        "content-type": "multipart/form-data",
     };
     return axios
         .post<Teams>(
@@ -21,14 +22,14 @@ export default function registerTeam(
             {
                 user,
                 name,
-                logo,
+                formData,
                 captain,
                 team_captains_discord_tag,
                 game,
                 player,
             },
             {
-                headers,
+                headers: headers
             }
         )
         .then((res) => {
