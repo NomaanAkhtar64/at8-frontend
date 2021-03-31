@@ -1,10 +1,5 @@
 import React, { lazy, Suspense, useEffect } from 'react'
-import {
-  Route,
-  RouteComponentProps,
-  useHistory,
-  useLocation,
-} from 'react-router'
+import { Route, useLocation } from 'react-router'
 import { connect } from 'react-redux'
 
 import Layout from './layout/Layout'

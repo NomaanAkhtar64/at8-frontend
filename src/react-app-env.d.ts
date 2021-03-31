@@ -6,7 +6,12 @@ interface UserState {
   error: null | Error
   loading: boolean
 }
-
+interface Site {
+  payement_details: string
+  help_team_basic: string
+  help_team_captain: string
+  help_team_players: string
+}
 interface Games {
   id: number
   name: string

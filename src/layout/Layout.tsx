@@ -8,6 +8,7 @@ import './Layout.scss'
 import Sidebar from './SideBar'
 import DropDownItem from '../components/DropDownItem'
 import useGames from '../hooks/useGames'
+import { SiteProvider } from '../hooks/useSite'
 
 interface LayoutProps {}
 
@@ -59,7 +60,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           >
             <Nav />
           </Header>
-          <main>{children}</main>
+          <main>
+            <SiteProvider>{children}</SiteProvider>
+          </main>
           <Footer></Footer>
         </>
       )}

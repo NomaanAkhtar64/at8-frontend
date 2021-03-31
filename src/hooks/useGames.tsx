@@ -12,14 +12,9 @@ export default function useGames(slug = null) {
     var cancelHandler = axios.CancelToken.source()
 
     axios
-      .get(
-        `${__API_URL__}/api/games/${
-          slug == null ? '' : slug
-        }`,
-        {
-          cancelToken: cancelHandler.token,
-        }
-      )
+      .get(`${__API_URL__}/api/games/${slug == null ? '' : slug}`, {
+        cancelToken: cancelHandler.token,
+      })
       .then((res) => {
         setState(res.data)
         setHasLoaded(true)
