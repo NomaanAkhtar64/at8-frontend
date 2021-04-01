@@ -54,7 +54,9 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
             </div>
           ) : (
             <>
-              <h4 className='px-2'>Prize Pool: {prize}</h4>
+              <h4 className='tourna-prize'>
+                Prize Pool: <span>{prize}</span>
+              </h4>
 
               {today >= Date.parse(registration_date) &&
               today < Date.parse(starting_time) ? (

@@ -75,6 +75,15 @@
   }
 }
 
+.tourna-prize {
+  display: flex;
+  flex-direction: row;
+  padding: 0px 2rem;
+  width: 100%;
+  span {
+    margin-left: auto;
+  }
+}
 .tourna-registerdate {
   margin: auto 0px;
   display: block;
