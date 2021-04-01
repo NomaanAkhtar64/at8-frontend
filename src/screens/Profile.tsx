@@ -7,73 +7,64 @@ import Loading from '../components/Loading'
 
 import './Profile.scss'
 import useProfile from '../hooks/useProfile'
+import useEntries from '../hooks/useEntries'
+import { RouteComponentProps } from 'react-router'
+import { Link } from 'react-router-dom'
 
-interface ProfileProps {}
-
-const Profile: React.FC<ProfileProps> = () => {
-  const [teamSelect, setTeamSelect] = useState(true)
-  const [tournaSelect, setTournaSelect] = useState(false)
-  const [settingSelect, setSettingSelect] = useState(false)
-
+const Profile: React.FC<RouteComponentProps> = ({ location }) => {
+  const entries = useEntries()
   const profile = useProfile()
-  if (profile.hasLoaded) {
+  const { pathname } = location
+  if (entries.hasLoaded) {
     return (
       <>
         <div className='profile-page container my-5'>
           <div className='tab'>
             <ul className='nav nav-tabs' style={{ width: '100%' }}>
               <li className='nav-item'>
-                <span
-                  className={`nav-link ${teamSelect ? 'active' : 'text-white'}`}
+                <Link
+                  className={`nav-link ${
+                    pathname === '/profile/teams' ? 'active' : 'text-white'
+                  }`}
                   aria-current='page'
                   style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    setTeamSelect(true)
-                    setTournaSelect(false)
-                    setSettingSelect(false)
-                  }}
+                  to='/profile/teams'
                 >
                   My Team
-                </span>
+                </Link>
               </li>
               <li className='nav-item'>
-                <span
+                <Link
                   className={`nav-link ${
-                    tournaSelect ? 'active' : 'text-white'
+                    pathname === '/profile/entries' ? 'active' : 'text-white'
                   }`}
                   aria-current='page'
                   style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    setTeamSelect(false)
-                    setTournaSelect(true)
-                    setSettingSelect(false)
-                  }}
+                  to='/profile/entries'
                 >
                   Tournament Entries
-                </span>
+                </Link>
               </li>
               <li className='nav-item'>
-                <span
+                <Link
+                  to='/profile/settings'
                   className={`nav-link ${
-                    settingSelect ? 'active' : 'text-white'
+                    pathname === '/profile/settings' ? 'active' : 'text-white'
                   }`}
                   style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    setTeamSelect(false)
-                    setTournaSelect(false)
-                    setSettingSelect(true)
-                  }}
                 >
                   Settings
-                </span>
+                </Link>
               </li>
             </ul>
           </div>
-          {teamSelect && (
+          {pathname === '/profile/teams' && (
             <MyTeam profile={profile.profile} user={profile.state} />
           )}
-          {tournaSelect && <Tournaments />}
-          {settingSelect && <Settings />}
+          {pathname === '/profile/entries' && (
+            <Tournaments entries={entries.state} />
+          )}
+          {pathname === '/profile/settings' && <Settings />}
         </div>
       </>
     )

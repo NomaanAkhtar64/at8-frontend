@@ -9,22 +9,19 @@ interface SettingsProps {}
 const Settings: React.FC<SettingsProps> = () => {
   const profile = useProfile()
 
-  if (profile.hasLoaded && profile.profile) {
-    return (
-      <div className='profile-data'>
-        <div className='profile-pic'>
-          <EditProfilePic profile={profile.profile} />
-        </div>
-        <div className='profile'>
-          <EditUser user={profile.state} profile={profile.profile} />
-        </div>
-        <div className='password-form '>
-          <ChangePassword />
-        </div>
+  return (
+    <div className='profile-data'>
+      <div className='profile-pic'>
+        <EditProfilePic profile={profile.profile} />
       </div>
-    )
-  }
-  return <Loading />
+      <div className='profile'>
+        <EditUser user={profile.state} profile={profile.profile} />
+      </div>
+      <div className='password-form '>
+        <ChangePassword />
+      </div>
+    </div>
+  )
 }
 
 export default Settings

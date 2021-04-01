@@ -124,8 +124,18 @@ interface Entry {
   text_proof?: string
   image_proof?: string
   has_paid?: boolean
+  date?: string
 }
-
+interface EntryDetail {
+  id?: number
+  entry_id: number
+  tournament: Tournament
+  team: Teams
+  text_proof?: string
+  image_proof?: string
+  has_paid: boolean
+  date: string
+}
 interface TournamentRegister {
   game: { id: number; name: string }
   tournament: { id: number; name: string }

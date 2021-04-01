@@ -9,6 +9,7 @@ import Sidebar from './SideBar'
 import DropDownItem from '../components/DropDownItem'
 import useGames from '../hooks/useGames'
 import { SiteProvider } from '../hooks/useSite'
+import { ProfileProvider } from '../hooks/useProfile'
 
 interface LayoutProps {}
 
@@ -25,7 +26,6 @@ const Nav: React.FC<{}> = () => {
           />
         ))}
       </Dropdown>
-      {/* <Dropdown name='Rules'></Dropdown> */}
       <div className='black-link'>
         <Link to='/faq'>FAQ</Link>
       </div>
@@ -61,7 +61,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <Nav />
           </Header>
           <main>
-            <SiteProvider>{children}</SiteProvider>
+            <ProfileProvider>
+              <SiteProvider>{children}</SiteProvider>
+            </ProfileProvider>
           </main>
           <Footer></Footer>
         </>

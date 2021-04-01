@@ -58,7 +58,6 @@ const App: React.FC<AppProps> = ({
         <Route exact path='/games' component={Games} />
         <Route exact path='/announcements' component={Announcements} />
         <Route
-          exact
           path='/profile'
           component={isAuthenticated ? Profile : Redirecter}
         />
