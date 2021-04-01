@@ -49,7 +49,7 @@ const Profile: React.FC<ProfileProps> = () => {
                     setSettingSelect(false)
                   }}
                 >
-                  Tournament History
+                  Tournament Entries
                 </span>
               </li>
               <li className='nav-item'>
@@ -69,7 +69,9 @@ const Profile: React.FC<ProfileProps> = () => {
               </li>
             </ul>
           </div>
-          {teamSelect && <MyTeam profile={profile.profile} user={profile.state} />}
+          {teamSelect && (
+            <MyTeam profile={profile.profile} user={profile.state} />
+          )}
           {tournaSelect && <Tournaments />}
           {settingSelect && <Settings />}
         </div>
