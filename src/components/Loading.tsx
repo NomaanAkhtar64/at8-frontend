@@ -15,7 +15,7 @@ const Loading: React.FC<LoadingProps> = () => {
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
         >
-          <circle cx='19' cy='19' r='17.5' stroke='#666' stroke-width='3' />
+          <circle cx='19' cy='19' r='17.5' stroke='#666' strokeWidth='3' />
         </svg>
         <svg
           width='38'
@@ -24,7 +24,7 @@ const Loading: React.FC<LoadingProps> = () => {
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
         >
-          <circle cx='19' cy='19' r='17.5' stroke='#666' stroke-width='3' />
+          <circle cx='19' cy='19' r='17.5' stroke='#666' strokeWidth='3' />
         </svg>
         <svg
           width='38'
@@ -33,7 +33,7 @@ const Loading: React.FC<LoadingProps> = () => {
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
         >
-          <circle cx='19' cy='19' r='17.5' stroke='#666' stroke-width='3' />
+          <circle cx='19' cy='19' r='17.5' stroke='#666' strokeWidth='3' />
         </svg>
       </div>
     </div>

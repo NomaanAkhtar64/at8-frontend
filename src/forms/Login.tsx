@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import * as actions from '../store/actions/auth'
 import checkLoginData from '../errors/check/checkLoginData'
 import Error from '../components/Error'
 import { AxiosError } from 'axios'
-
 interface LoginProps extends UserState {
   onAuth: (email: string, password: string) => void
   serverError: AxiosError<{ non_field_errors: string[] }> | null
@@ -48,7 +47,7 @@ const Login: React.FC<LoginProps> = ({
           setError(message)
           setDisable(false)
         } else {
-          onAuth(email, password)
+          console.log(onAuth(email, password))
         }
       }}
     >

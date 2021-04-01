@@ -21,7 +21,7 @@ const ResetPassword = lazy(() => import('./screens/ResetPassword'))
 const ResetPasswordConfirm = lazy(
   () => import('./screens/ResetPasswordConfirm')
 )
-const RegisterTeam = lazy(() => import('./screens/RegisterTeam'))
+const EnterTournament = lazy(() => import('./screens/EnterTournament'))
 
 interface AppProps {
   onTryAutoSignup: () => void
@@ -72,7 +72,7 @@ const App: React.FC<AppProps> = ({
         <Route
           exact
           path='/register/'
-          component={isAuthenticated ? RegisterTeam : Redirecter}
+          component={isAuthenticated ? EnterTournament : Redirecter}
         />
         <Route exact path='/faq' component={FAQ} />
         <Route exact path='/faq/:slug' component={FAQArticle} />

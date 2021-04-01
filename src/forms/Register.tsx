@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import registerTeam from '../hooks/registerTeam'
 import useProfile from '../hooks/useProfile'
 import useSite from '../hooks/useSite'
 import parser from 'html-react-parser'
 import PlayerFields from './PlayerFields'
-
+import * as regex from '../regex'
+import imgToBase64 from '../utils/imgToBase64'
 interface RegisterProps {
   toPayment: (i: number) => void
-  game: number
+  game: TournamentRegister['game']
+  tournament: TournamentRegister['tournament']
 }
 
 type Active = 'basic' | 'captain' | 'player'
-const Register: React.FC<RegisterProps> = ({ toPayment, game }) => {
+const Register: React.FC<RegisterProps> = ({ toPayment, game, tournament }) => {
   const [active, setActive] = useState<Active>('basic')
   const [name, setName] = useState('')
   const [logo, setLogo] = useState<File>(null)
@@ -47,6 +49,7 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game }) => {
       url: '',
     },
   ])
+  const [isDisabled, setDisabled] = useState(false)
 
   const profile = useProfile()
 
@@ -58,6 +61,27 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game }) => {
             <div className='register-form'>
               <form className='form'>
                 <legend>Basic</legend>
+
+                <div className='form-group'>
+                  <label>Game</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    value={game.name}
+                    // onChange={(e) => setCaptain(e.target.value)}
+                    readOnly
+                  />
+                </div>
+                <div className='form-group'>
+                  <label>Tournament</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    value={tournament.name}
+                    // onChange={(e) => setCaptain(e.target.value)}
+                    readOnly
+                  />
+                </div>
                 <div className='form-group'>
                   <label>Team Name</label>
                   <input
@@ -154,15 +178,9 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game }) => {
                   style={{ width: '100%' }}
                   onClick={() => {
                     if (
-                      (captain !== '' &&
-                        captainTag.match(/([a-zA-Z0-9!@#$%-_])+[#]\d{4}/gm) !==
-                          null &&
-                        captainProfile.match(
-                          /(https:)([/])+([/])+(steamcommunity)+([.])(com)+([/])+(profiles)+([/])+\d([0-9])+([/])/gm
-                        ) !== null) ||
-                      captainProfile.match(
-                        /(https:)([/])+([/])+(steamcommunity)+([.])(com)+([/])+(id)+([/])/gm
-                      ) !== null
+                      captain !== '' &&
+                      captainTag.match(regex.DISCORD_TAG) !== null &&
+                      captainProfile.match(regex.STEAM_PROFILE) !== null
                     ) {
                       setActive('player')
                     }
@@ -183,25 +201,29 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game }) => {
             <div className='register-form'>
               <form
                 className='form'
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  registerTeam(
+                onSubmit={async (e) => {
+                  e.preventDefault()
+                  const validPlayers = players.filter((p) =>
+                    p.idx === 5
+                      ? p.url.length > 0 && p.username.length > 0
+                      : true
+                  )
+                  const imgBase64 = await imgToBase64(logo)
+                  const teamId = await registerTeam(
                     profile.profile.user,
                     name,
-                    logo,
+                    imgBase64,
                     {
                       username: captain,
                       url: captainProfile,
                     },
                     captainTag,
-                    game,
-                    players
-                  ).then((id) => {
-                    if (typeof id === 'number') {
-                      toPayment(id)
-                    }
-                  })
-                  console.log(players)
+                    game.id,
+                    validPlayers
+                  )
+                  if (teamId) {
+                    toPayment(teamId)
+                  }
                 }}
               >
                 <legend>Players</legend>
@@ -211,6 +233,7 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game }) => {
                     number={i + 1}
                     players={players}
                     setPlayers={setPlayers}
+                    disabled={isDisabled}
                   />
                 ))}
                 <button

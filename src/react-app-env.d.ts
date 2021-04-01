@@ -115,3 +115,18 @@ interface FAQ {
   description: string
   images: FAQImage[]
 }
+interface Entry {
+  id?: number
+  entry_id?: number
+  tournament: number
+  team: number
+  user: number
+  text_proof?: string
+  image_proof?: string
+  has_paid?: boolean
+}
+
+interface TournamentRegister {
+  game: { id: number; name: string }
+  tournament: { id: number; name: string }
+}

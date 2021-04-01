@@ -65,8 +65,14 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
                         to={{
                           pathname: '/register',
                           state: {
-                            gameId: tournament.game.id,
-                            tournamentId: tournament.id,
+                            game: {
+                              id: tournament.game.id,
+                              name: tournament.game.name,
+                            },
+                            tournament: {
+                              id: tournament.id,
+                              name: tournament.name,
+                            },
                           },
                         }}
                         style={{

@@ -1,28 +1,23 @@
 import React, { useState } from 'react'
 
-import './RegisterTeam.scss'
+import './EnterTournament.scss'
 import Payment from '../forms/Payment'
 import Register from '../forms/Register'
 import Success from '../forms/Success'
 import { Redirect, RouteComponentProps } from 'react-router'
 import useProfile from '../hooks/useProfile'
 
-interface RegisterTeamProps
-  extends RouteComponentProps<
-    {},
-    {},
-    { gameId: number; tournamentId: number }
-  > {}
-
-const RegisterTeam: React.FC<RegisterTeamProps> = ({ location }) => {
+const EnterTournament: React.FC<
+  RouteComponentProps<{}, {}, TournamentRegister>
+> = ({ location }) => {
   const [selectRegister, setSelectRegister] = useState(true)
   const [selectPayment, setSelectPayment] = useState(false)
   const [selectSuccess, setSelectSuccess] = useState(false)
   const [teamId, setTeamId] = useState<number>(null)
-  const { gameId, tournamentId } = location.state
+  const { game, tournament } = location.state
 
   const profile = useProfile()
-  if (!gameId || !tournamentId) {
+  if (!game || !tournament) {
     return <Redirect to='/'></Redirect>
   }
   return (
@@ -82,7 +77,8 @@ const RegisterTeam: React.FC<RegisterTeamProps> = ({ location }) => {
               aria-labelledby='nav-home-tab'
             >
               <Register
-                game={gameId}
+                game={game}
+                tournament={tournament}
                 toPayment={(id) => {
                   setSelectPayment(true)
                   setSelectRegister(false)
@@ -99,7 +95,7 @@ const RegisterTeam: React.FC<RegisterTeamProps> = ({ location }) => {
               aria-labelledby='nav-profile-tab'
             >
               <Payment
-                tournamentId={tournamentId}
+                tournamentId={tournament.id}
                 teamId={teamId}
                 userId={profile.profile.user}
                 toSuccess={() => {
@@ -125,4 +121,4 @@ const RegisterTeam: React.FC<RegisterTeamProps> = ({ location }) => {
   )
 }
 
-export default RegisterTeam
+export default EnterTournament

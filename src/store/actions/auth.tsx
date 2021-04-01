@@ -38,7 +38,7 @@ export const authClearError = () => {
 export const authLogin = (email, password) => {
   return (dispatchEvent) => {
     dispatchEvent(authStart())
-    Axios.post('https://at8-backend.herokuapp.com/rest-auth/login/', {
+    return Axios.post('https://at8-backend.herokuapp.com/rest-auth/login/', {
       email: email,
       password: password,
     })
@@ -48,6 +48,7 @@ export const authLogin = (email, password) => {
         localStorage.setItem('token', token)
         localStorage.setItem('Email', userEmail)
         dispatchEvent(authSuccess(token))
+        return
       })
       .catch((err) => {
         dispatchEvent(authFail(err))
