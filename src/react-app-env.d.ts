@@ -27,7 +27,7 @@ interface WindowSize {
 interface User {
   email: string
   username: string
-  first_name: string
+  first_name: picstring
   last_name: string
   pk: number
 }

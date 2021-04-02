@@ -1,13 +1,25 @@
 import React, { useState } from "react";
+import editProfile from "../hooks/editProfile";
+import useProfile from "../hooks/useProfile";
+import imgToBase64 from "../utils/imgToBase64";
 
 interface EditProfilePicProps {
     profile: UserProfile;
 }
 const EditProfilePic: React.FC<EditProfilePicProps> = ({ profile }) => {
-    const [pic, setPic] = useState({});
+    const [pic, setPic] = useState<File>(null);
     const [picUrl, setPicUrl] = useState(null);
+
+    const profileUser = useProfile();
+
     return (
-        <form>
+        <form
+            onSubmit={async (e) => {
+                e.preventDefault();
+                const pic64 = await imgToBase64(pic);
+                editProfile({ user: profileUser.state.pk, pic: pic64 });
+            }}
+        >
             <legend>Profile Picture</legend>
 
             <div className="profile-pic-container">
@@ -37,7 +49,7 @@ const EditProfilePic: React.FC<EditProfilePicProps> = ({ profile }) => {
                             }}
                         />
                         <label className="custom-file-label">
-                            {pic["name"] ? <p>{pic["name"]}</p> : "Choose file"}
+                            {pic ? <p>{pic["name"]}</p> : "Choose file"}
                         </label>
                     </div>
                 </div>
