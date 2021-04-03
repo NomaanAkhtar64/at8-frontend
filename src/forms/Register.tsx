@@ -21,29 +21,24 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game, tournament }) => {
   const [captainTag, setCaptainTag] = useState('')
   const [captainProfile, setCaptainProfile] = useState('')
   const site = useSite()
-  const [players, setPlayers] = useState([
+  const [players, setPlayers] = useState<Player[]>([
     {
-      idx: 1,
       username: '',
       url: '',
     },
     {
-      idx: 2,
       username: '',
       url: '',
     },
     {
-      idx: 3,
       username: '',
       url: '',
     },
     {
-      idx: 4,
       username: '',
       url: '',
     },
     {
-      idx: 5,
       username: '',
       url: '',
     },
@@ -138,7 +133,7 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game, tournament }) => {
               <form className='form'>
                 <legend>Team Captain</legend>
                 <div className='form-group'>
-                  <label>Team Captain</label>
+                  <label>Username</label>
                   <input
                     type='text'
                     className='form-control'
@@ -202,10 +197,8 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game, tournament }) => {
                 className='form'
                 onSubmit={async (e) => {
                   e.preventDefault()
-                  const validPlayers = players.filter((p) =>
-                    p.idx === 5
-                      ? p.url.length > 0 && p.username.length > 0
-                      : true
+                  const validPlayers = players.filter((p, i) =>
+                    i === 4 ? p.url.length > 0 && p.username.length > 0 : true
                   )
                   const imgBase64 = await imgToBase64(logo)
                   const teamId = await registerTeam(
@@ -230,8 +223,14 @@ const Register: React.FC<RegisterProps> = ({ toPayment, game, tournament }) => {
                   <PlayerFields
                     key={i}
                     number={i + 1}
-                    players={players}
-                    setPlayers={setPlayers}
+                    isAlternate={i === 4}
+                    player={players[i]}
+                    updatePlayer={(p) => {
+                      setPlayers([
+                        ...players.filter((pl, indx) => indx !== i),
+                        p,
+                      ])
+                    }}
                     disabled={isDisabled}
                   />
                 ))}

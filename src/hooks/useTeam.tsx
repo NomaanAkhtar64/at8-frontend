@@ -2,24 +2,20 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { __API_URL__ } from '../const'
 
-export default function useTeams(user: number = null) {
-  const teamStorage = localStorage.getItem('team-list')
-  const [state, setState] = useState<Teams[]>(
-    teamStorage ? JSON.parse(teamStorage) : []
-  )
+export default function useTeams(user: number = null, id: number = null) {
+  const [state, setState] = useState<Teams>(null)
   const [error, setError] = useState('')
-  const [hasLoaded, setHasLoaded] = useState(teamStorage ? true : false)
+  const [hasLoaded, setHasLoaded] = useState(false)
 
   useEffect(() => {
     var cancelHandler = axios.CancelToken.source()
 
     axios
-      .get(`${__API_URL__}/api/teams/${user === null ? '' : '?user=' + user}`, {
+      .get(`${__API_URL__}/api/teams/${id}`, {
         cancelToken: cancelHandler.token,
       })
       .then((res) => {
         setState(res.data)
-        localStorage.setItem('team-list', JSON.stringify(res.data))
         setHasLoaded(true)
       })
       .catch((err) => {
@@ -34,7 +30,7 @@ export default function useTeams(user: number = null) {
     return () => {
       cancelHandler.cancel()
     }
-  }, [user])
+  }, [user, id])
 
   return { state, error, hasLoaded }
 }

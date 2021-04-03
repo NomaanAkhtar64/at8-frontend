@@ -84,15 +84,15 @@ interface Player {
 }
 
 interface Teams {
-  id: number
+  id?: number
   user: number
   name: string
-  slug: string
+  slug?: string
   logo: string
-  captain: Captian
+  captain: Player
   team_captains_discord_tag: string
-  registration_date: Date
-  players: Array
+  registration_date?: Date
+  players: Player[]
 }
 
 interface Payment {

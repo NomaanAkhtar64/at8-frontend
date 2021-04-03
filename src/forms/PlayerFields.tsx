@@ -1,30 +1,26 @@
 import React from 'react'
 
-interface Player {
-  idx: number
-  username: string
-  url: string
-}
-
 interface PlayerFieldsProps {
   number: number
-  players: Player[]
+  isAlternate: boolean
+  player: Player
   disabled: boolean
-  setPlayers: (p: Player[]) => void
+  updatePlayer: (p: Player) => void
 }
 
 const PlayerFields: React.FC<PlayerFieldsProps> = ({
   number,
-  players,
-  setPlayers,
+  isAlternate,
+  player,
+  updatePlayer,
   disabled,
 }) => {
-  const player = players.find((pl) => pl.idx === number)
+  console.log(player)
   return (
     <div className='form-group'>
       <label>
         <strong>
-          {number === 5 ? 'Alternate Player' : `Player ${number + 1}`}
+          {isAlternate ? 'Alternate Player' : `Player ${number + 1}`}
         </strong>
       </label>
       <div className='form-group'>
@@ -36,10 +32,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
           required={number !== 5}
           value={player.username}
           onChange={(e) =>
-            setPlayers([
-              ...players.filter((pl) => pl.idx !== number),
-              { ...player, username: e.target.value },
-            ])
+            updatePlayer({ ...player, username: e.target.value })
           }
           disabled={disabled}
         />
@@ -52,12 +45,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
           placeholder='Steam Profile Url'
           required={number !== 5}
           value={player.url}
-          onChange={(e) =>
-            setPlayers([
-              ...players.filter((pl) => pl.idx !== number),
-              { ...player, url: e.target.value },
-            ])
-          }
+          onChange={(e) => updatePlayer({ ...player, url: e.target.value })}
           disabled={disabled}
         />
       </div>

@@ -17,8 +17,8 @@ const EditUser: React.FC<EditUserProps> = ({ user, profile }) => {
   const [steamUrl, setSteamUrl] = useState(profile.steam_profile)
   const [discordTag, setDiscordTag] = useState(profile.discord_name_tag)
   const [error, setError] = useState('')
-  const profileUser = useProfile();
-  console.log(profileUser);
+  const profileUser = useProfile()
+  console.log(profileUser)
 
   return (
     <form
@@ -40,7 +40,12 @@ const EditUser: React.FC<EditUserProps> = ({ user, profile }) => {
           })
         }
         if (isValid) {
-          editProfile({ user: profileUser.state.pk, steam_profile: steamUrl, discord_name_tag: discordTag })
+          setError(null)
+          editProfile({
+            user: profileUser.state.pk,
+            steam_profile: steamUrl,
+            discord_name_tag: discordTag,
+          })
         } else {
           setError(msg)
         }
@@ -104,7 +109,7 @@ const EditUser: React.FC<EditUserProps> = ({ user, profile }) => {
           onChange={(e) => setDiscordTag(e.target.value)}
         />
       </div>
-      {error !== '' && <div>{error}</div>}
+      {error !== '' && <div className='error'>{error}</div>}
       <div className='btns'>
         <button type='submit' className='btn btn-success profile-btn'>
           Save

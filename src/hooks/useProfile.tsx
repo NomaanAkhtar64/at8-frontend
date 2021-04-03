@@ -19,7 +19,6 @@ const Provider: React.FC<{ isAuthenticated: boolean }> = ({
   const [error, setError] = useState('')
   const [hasLoaded, setHasLoaded] = useState(false)
   const counter = useRef(0)
-  console.log({ state, profile, hasLoaded })
   useEffect(() => {
     var cancelHandler = axios.CancelToken.source()
     if (isAuthenticated) {
