@@ -151,11 +151,13 @@ footer {
     width: 30px;
   }
 }
+
 .site-name {
   img {
-    width: 24px;
+    width: 100px;
   }
 }
+
 .account .profile-pic {
   width: 30px;
   height: 30px;
@@ -163,29 +165,35 @@ footer {
 }
 
 @media (min-width: 500px) {
+
   .header-wrapper,
   .header-shadow {
     height: 68px;
   }
+
   .site-name {
     img {
-      width: 46px;
+      width: 125px;
     }
   }
+
   .open-sidebar {
     svg {
       top: 14px;
       width: 40px;
     }
   }
+
   .link-shadow {
     font-size: 22px;
   }
+
   .account .profile-pic {
     width: 30px;
     height: 30px;
   }
 }
+
 .main-footer {
   display: flex;
   flex-direction: column;
@@ -222,6 +230,7 @@ footer {
   a:hover {
     color: aqua;
   }
+
   .socials {
     display: flex;
     flex-direction: row;
@@ -235,14 +244,17 @@ footer {
   text-align: center;
   font-size: 14px;
 }
+
 @media (min-width: 500px) {
   .footer {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+
     .links {
       flex-direction: row;
     }
   }
+
   .copyright {
     border-right: 0.5px solid #ccc;
     border-bottom: none;
@@ -254,6 +266,7 @@ footer {
   .main-footer {
     padding: 0px 100px;
   }
+
   .copyright {
     padding: 0px 35px;
   }
@@ -307,6 +320,7 @@ button {
     margin-top: 10px;
 
     .sidebar-close {
+
       &:hover,
       &:focus {
         background: rgba($color: #fff, $alpha: 0.3);

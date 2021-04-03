@@ -9,6 +9,7 @@ import Profile from "./screens/Profile";
 import Redirecter from "./screens/Redirecter";
 import "./BootStrapOverrides.scss";
 import { AxiosError } from "axios";
+import EditTeam from "./forms/EditTeam";
 
 const Home = lazy(() => import("./screens/Home"));
 const Account = lazy(() => import("./screens/Account"));
@@ -63,8 +64,16 @@ const App: React.FC<AppProps> = ({
                     </>
                 ) : (
                     <>
-                        <Route exact path="/signup" component={redirectTo("/profile/settings")} />
-                        <Route exact path="/login" component={redirectTo("/profile/settings")} />
+                        <Route
+                            exact
+                            path="/signup"
+                            component={redirectTo("/profile/settings")}
+                        />
+                        <Route
+                            exact
+                            path="/login"
+                            component={redirectTo("/profile/settings")}
+                        />
                     </>
                 )}
                 <Route exact path="/games" component={Games} />
@@ -85,6 +94,7 @@ const App: React.FC<AppProps> = ({
                     path="/register/"
                     component={isAuthenticated ? EnterTournament : Redirecter}
                 />
+                <Route exact path="/register/team/edit/:id/" component={EditTeam} />
                 <Route exact path="/faq" component={FAQ} />
                 <Route exact path="/faq/:slug" component={FAQArticle} />
                 <Route exact path="/signup/confirm" component={Account} />

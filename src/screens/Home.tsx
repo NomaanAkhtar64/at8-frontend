@@ -47,7 +47,6 @@ const Home: React.FC<HomeProps> = () => {
             </Swiper>
           </div>
         </div>
-        <h1>Home</h1>
       </>
     )
   }
