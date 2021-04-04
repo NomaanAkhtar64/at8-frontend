@@ -140,3 +140,8 @@ interface TournamentRegister {
   game: { id: number; name: string }
   tournament: { id: number; name: string }
 }
+
+interface Home {
+  name: string
+  video: string
+}

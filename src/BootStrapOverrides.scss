@@ -23,3 +23,25 @@
   border-color: #25292c;
   box-shadow: 0 0 0 0.2rem #25292c80;
 }
+
+.btn-warning {
+  color: #000;
+  background-color: #fff;
+  border-color: #fff;
+}
+.btn-warning:hover {
+  color: #212529;
+  background-color: #a29696;
+  border-color: #a29696;
+}
+.btn-warning:not(:disabled):not(.disabled).active, .btn-warning:not(:disabled):not(.disabled):active, .show > .btn-warning.dropdown-toggle {
+  color: #212529;
+  background-color: #a29696;
+  border-color: #a29696;
+}
+.btn-warning.focus, .btn-warning:focus {
+  color: #212529;
+  background-color: #a29696;
+  border-color: #a29696;
+  box-shadow: 0 0 0 .2rem rgba(162, 149, 111, 0.5);
+}

@@ -15,7 +15,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
   updatePlayer,
   disabled,
 }) => {
-  console.log(player)
+  // console.log(player)
   return (
     <div className='form-group'>
       <label>
