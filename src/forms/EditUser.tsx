@@ -18,7 +18,6 @@ const EditUser: React.FC<EditUserProps> = ({ user, profile }) => {
   const [discordTag, setDiscordTag] = useState(profile.discord_name_tag)
   const [error, setError] = useState('')
   const profileUser = useProfile()
-  console.log(profileUser)
 
   return (
     <form

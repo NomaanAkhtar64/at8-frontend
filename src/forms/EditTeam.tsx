@@ -1,8 +1,10 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, useHistory } from "react-router";
 import Loading from "../components/Loading";
+import editTeamRegister from "../hooks/editTeamRegister";
 import useProfile from "../hooks/useProfile";
 import useTeam from "../hooks/useTeam";
+import imgToBase64 from "../utils/imgToBase64";
 import PlayerFields from "./PlayerFields";
 
 interface EditTeamProps {
@@ -14,7 +16,7 @@ interface FormProps {
 }
 const Form: React.FC<FormProps> = (props) => {
     const t = props.team;
-    // console.log(t);
+    console.log(t);
     const [name, setName] = useState<string>(t.name);
     const [logo, setLogo] = useState<File>(null);
     const [logoURL, setLogoURL] = useState(null);
@@ -25,12 +27,35 @@ const Form: React.FC<FormProps> = (props) => {
     const [captainProfile, setCaptainProfile] = useState<string>(t.captain.url);
     const [players, setPlayers] = useState<Player[]>(t.players);
     const [isDisabled, setDisabled] = useState(false);
-
+    const history = useHistory()
     return (
-        <form className="edit-form">
-            <div className="profile-data" style={{flexDirection: "column"}}>
+        <form
+            className="edit-form"
+            onSubmit={(e) => {
+                e.preventDefault();
+                const validPlayers = players.filter((p, i) =>
+                    i === 4 ? p.url.length > 0 && p.username.length > 0 : true
+                );
+                const imgBase64 = imgToBase64(logo);
+                editTeamRegister({
+                    id: t.id,
+                    user: t.user,
+                    name: name,
+                    // logo: imgBase64,
+                    captain: {
+                        username: captain,
+                        url: captainProfile,
+                    },
+                    team_captains_discord_tag: captainTag,
+                    
+                    // validPlayers
+                });
+            }}
+        >
+            <div className="profile-data" style={{ flexDirection: "column" }}>
                 <div className="back-btn ml-3">
                     <button
+                        type="button"
                         className="btn btn-warning"
                         style={{
                             borderTopLeftRadius: "50px",
@@ -69,7 +94,6 @@ const Form: React.FC<FormProps> = (props) => {
                                         accept="image/*"
                                         className="custom-file-input"
                                         id="inputGroupFile02"
-                                        required
                                         onChange={(e) => {
                                             // console.log(e.target.files[0]);
                                             setLogo(e.target.files[0]);
@@ -153,7 +177,7 @@ const Form: React.FC<FormProps> = (props) => {
             </div>
 
             <div className="edit-team-btns">
-                <button type="button" className="btn btn-success">
+                <button type="submit" className="btn btn-success">
                     Save
                 </button>
                 <button type="button" className="btn btn-danger">

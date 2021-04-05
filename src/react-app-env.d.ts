@@ -89,7 +89,7 @@ interface Teams {
   user: number
   name: string
   slug?: string
-  logo: string
+  logo: string | any
   captain: Player
   team_captains_discord_tag: string
   registration_date?: Date
