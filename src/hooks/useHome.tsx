@@ -9,8 +9,6 @@ export default function useHome() {
 
     useEffect(() => {
         setHasLoaded(false);
-        var cancelHandler = axios.CancelToken.source();
-
         axios
             .get(`${__API_URL__}/api/home/`)
             .then((res) => {

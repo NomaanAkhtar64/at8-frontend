@@ -14,7 +14,7 @@ interface FormProps {
 }
 const Form: React.FC<FormProps> = (props) => {
     const t = props.team;
-    console.log(t);
+    // console.log(t);
     const [name, setName] = useState<string>(t.name);
     const [logo, setLogo] = useState<File>(null);
     const [logoURL, setLogoURL] = useState(null);
@@ -71,7 +71,7 @@ const Form: React.FC<FormProps> = (props) => {
                                         id="inputGroupFile02"
                                         required
                                         onChange={(e) => {
-                                            console.log(e.target.files[0]);
+                                            // console.log(e.target.files[0]);
                                             setLogo(e.target.files[0]);
                                             setLogoURL({
                                                 logoURL: URL.createObjectURL(

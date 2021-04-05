@@ -35,14 +35,30 @@ const Home: React.FC<HomeProps> = () => {
     if (games.hasLoaded) {
         return (
             <>
-                <div className="art-gif">
-                    {home.state.map((video, i) => (
-                        <div key={i} className="video-container">
-                            <video id="at8-gif" src={video.video} width="100%" controls />
-                        </div>
-                    ))}
-                </div>
-                <div className="home-banner" style={{width: "100%"}}>
+                {home.hasLoaded ? (
+                    <div className="art-gif">
+                        {home.state.map((video, i) => (
+                            <div key={i} className="video-container">
+                                <video
+                                    id="at8-gif"
+                                    src={video.video}
+                                    width="100%"
+                                    autoPlay
+                                    muted
+                                    onEnded={() =>
+                                        (document.getElementById(
+                                            "at8-gif"
+                                        ).style.display = "none")
+                                    }
+                                />
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <Loading />
+                )}
+
+                <div className="home-banner" style={{ width: "100%" }}>
                     <div className="banner-background">
                         <Swiper
                             spaceBetween={40}

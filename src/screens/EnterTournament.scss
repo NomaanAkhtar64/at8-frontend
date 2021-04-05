@@ -115,3 +115,33 @@ button:focus {
     text-align: center;
     color: #fff;
 }
+
+.register-team-btns {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.register-options-btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .register-options-btns {
+        width: 60%;
+    }
+}
+
+.team-select {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    background-color:  #e9ecef;
+}

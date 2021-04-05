@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { __API_URL__ } from '../const'
 
-export default function useTeams(user: number = null, id: number = null) {
+export default function useTeam(user: number = null, id: number = null) {
   const [state, setState] = useState<Teams>(null)
   const [error, setError] = useState('')
   const [hasLoaded, setHasLoaded] = useState(false)

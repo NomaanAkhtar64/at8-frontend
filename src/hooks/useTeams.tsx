@@ -14,7 +14,7 @@ export default function useTeams(user: number = null) {
     var cancelHandler = axios.CancelToken.source()
 
     axios
-      .get(`${__API_URL__}/api/teams/${user === null ? '' : '?user=' + user}`, {
+      .get(`${__API_URL__}/api/teams/?user=${user}`, {
         cancelToken: cancelHandler.token,
       })
       .then((res) => {

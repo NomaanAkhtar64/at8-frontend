@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import useSite from "../hooks/useSite";
 import PlayerFields from "./PlayerFields";
-import parser from 'html-react-parser'
-import * as regex from '../regex'
-import imgToBase64 from '../utils/imgToBase64'
-import registerTeam from '../hooks/registerTeam'
+import parser from "html-react-parser";
+import * as regex from "../regex";
+import imgToBase64 from "../utils/imgToBase64";
+import registerTeam from "../hooks/registerTeam";
 import useProfile from "../hooks/useProfile";
-import '../screens/EnterTournament.scss';
+import "../screens/EnterTournament.scss";
 
 interface CreateTeamProps {}
 
-type Active = 'basic' | 'captain' | 'player'
+type Active = "basic" | "captain" | "player";
 const CreateTeam: React.FC<CreateTeamProps> = ({}) => {
     const [active, setActive] = useState<Active>("basic");
     const [name, setName] = useState("");
@@ -42,12 +42,12 @@ const CreateTeam: React.FC<CreateTeamProps> = ({}) => {
             url: "",
         },
     ]);
-    const [isDisabled, setDisabled] = useState(false)
-    const profile = useProfile()
+    const [isDisabled, setDisabled] = useState(false);
+    const profile = useProfile();
     return (
-        <div className="create-team-form" style={{width: "100%"}}>
+        <div className="create-team-form" style={{ width: "100%" }}>
             <div className="register">
-            <div className="back-btn my-3">
+                <div className="back-btn my-3">
                     <button
                         className="btn btn-warning"
                         style={{
@@ -218,21 +218,24 @@ const CreateTeam: React.FC<CreateTeamProps> = ({}) => {
                         >
                             <legend>Players</legend>
                             {[...Array(5).keys()].map((i) => (
-                                <PlayerFields
-                                    key={i}
-                                    number={i + 1}
-                                    isAlternate={i === 4}
-                                    player={players[i]}
-                                    updatePlayer={(p) => {
-                                        setPlayers([
-                                            ...players.filter(
-                                                (pl, indx) => indx !== i
-                                            ),
-                                            p,
-                                        ]);
-                                    }}
-                                    disabled={isDisabled}
-                                />
+                                <>
+                                    {console.log(i)}
+                                    <PlayerFields
+                                        key={i}
+                                        number={i + 1}
+                                        isAlternate={i === 4}
+                                        player={players[i]}
+                                        updatePlayer={(p) => {
+                                            setPlayers([
+                                                ...players.filter(
+                                                    (pl, indx) => indx !== i
+                                                ),
+                                                p,
+                                            ]);
+                                        }}
+                                        disabled={isDisabled}
+                                    />
+                                </>
                             ))}
                             <button
                                 type="submit"

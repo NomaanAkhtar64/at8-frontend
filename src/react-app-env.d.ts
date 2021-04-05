@@ -11,6 +11,7 @@ interface Site {
   help_team_basic: string
   help_team_captain: string
   help_team_players: string
+  help_team_existing: string
 }
 interface Games {
   id: number

@@ -77,6 +77,8 @@ const EnterTournament: React.FC<
               aria-labelledby='nav-home-tab'
             >
               <Register
+                profile={profile.profile}
+                user={profile.state}
                 game={game}
                 tournament={tournament}
                 toPayment={(id) => {
