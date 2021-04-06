@@ -100,7 +100,6 @@ const MyTeam: React.FC<MyTeamProps> = ({ profile, user }) => {
                                 </div>
                             </div>
                         ))}
-                        {/* {createTeam ? ( */}
                         <div className="create-team"></div>
                         <div className="create-team-btn text-center my-3">
                             <button
@@ -111,16 +110,21 @@ const MyTeam: React.FC<MyTeamProps> = ({ profile, user }) => {
                                 Create your Team
                             </button>
                         </div>
-                        {/* )} */}
                         {(teams.state.length === 0 || !teams.state) && (
                             <div className="no-team">No Teams Found</div>
                         )}
                     </div>
                 );
             case "create":
-                return <CreateTeam />;
+                return <CreateTeam toBack={() => setActive("teams")} />;
             case "edit":
-                return <EditTeam userId={profile.user} teamId={teamToEdit} />;
+                return (
+                    <EditTeam
+                        toBack={() => setActive("teams")}
+                        userId={profile.user}
+                        teamId={teamToEdit}
+                    />
+                );
         }
     }
     return <Loading />;

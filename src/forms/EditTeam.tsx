@@ -1,7 +1,5 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { RouteComponentProps, useHistory } from "react-router";
+import React, { useState } from "react";
 import Loading from "../components/Loading";
-import editTeamRegister from "../hooks/editTeamRegister";
 import useProfile from "../hooks/useProfile";
 import useTeam from "../hooks/useTeam";
 import imgToBase64 from "../utils/imgToBase64";
@@ -10,9 +8,11 @@ import PlayerFields from "./PlayerFields";
 interface EditTeamProps {
     userId: number;
     teamId: number;
+    toBack: () => void;
 }
 interface FormProps {
     team: Teams;
+    getBack: () => void;
 }
 const Form: React.FC<FormProps> = (props) => {
     const t = props.team;
@@ -27,29 +27,28 @@ const Form: React.FC<FormProps> = (props) => {
     const [captainProfile, setCaptainProfile] = useState<string>(t.captain.url);
     const [players, setPlayers] = useState<Player[]>(t.players);
     const [isDisabled, setDisabled] = useState(false);
-    const history = useHistory()
     return (
         <form
             className="edit-form"
             onSubmit={(e) => {
                 e.preventDefault();
-                const validPlayers = players.filter((p, i) =>
-                    i === 4 ? p.url.length > 0 && p.username.length > 0 : true
-                );
-                const imgBase64 = imgToBase64(logo);
-                editTeamRegister({
-                    id: t.id,
-                    user: t.user,
-                    name: name,
-                    // logo: imgBase64,
-                    captain: {
-                        username: captain,
-                        url: captainProfile,
-                    },
-                    team_captains_discord_tag: captainTag,
-                    
-                    // validPlayers
-                });
+                // const validPlayers = players.filter((p, i) =>
+                //     i === 4 ? p.url.length > 0 && p.username.length > 0 : true
+                // );
+                // const imgBase64 = imgToBase64(logo);
+                // editTeamRegister({
+                //     id: t.id,
+                //     user: t.user,
+                //     name: name,
+                //     logo: imgBase64,
+                //     captain: {
+                //         username: captain,
+                //         url: captainProfile,
+                //     },
+                //     team_captains_discord_tag: captainTag,
+
+                //     validPlayers
+                // });
             }}
         >
             <div className="profile-data" style={{ flexDirection: "column" }}>
@@ -61,6 +60,7 @@ const Form: React.FC<FormProps> = (props) => {
                             borderTopLeftRadius: "50px",
                             borderBottomLeftRadius: "50px",
                         }}
+                        onClick={() => props.getBack()}
                     >
                         Back
                     </button>
@@ -95,7 +95,6 @@ const Form: React.FC<FormProps> = (props) => {
                                         className="custom-file-input"
                                         id="inputGroupFile02"
                                         onChange={(e) => {
-                                            // console.log(e.target.files[0]);
                                             setLogo(e.target.files[0]);
                                             setLogoURL({
                                                 logoURL: URL.createObjectURL(
@@ -188,10 +187,10 @@ const Form: React.FC<FormProps> = (props) => {
     );
 };
 
-const EditTeam: React.FC<EditTeamProps> = ({ userId, teamId }) => {
+const EditTeam: React.FC<EditTeamProps> = ({ userId, teamId, toBack }) => {
     const teams = useTeam(userId, teamId);
     if (teams.hasLoaded) {
-        return <Form team={teams.state} />;
+        return <Form getBack={() => toBack()} team={teams.state} />;
     }
     return <Loading />;
 };

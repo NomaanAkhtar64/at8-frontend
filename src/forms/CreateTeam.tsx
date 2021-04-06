@@ -8,10 +8,12 @@ import registerTeam from "../hooks/registerTeam";
 import useProfile from "../hooks/useProfile";
 import "../screens/EnterTournament.scss";
 
-interface CreateTeamProps {}
+interface CreateTeamProps {
+    toBack: () => void;
+}
 
 type Active = "basic" | "captain" | "player";
-const CreateTeam: React.FC<CreateTeamProps> = ({}) => {
+const CreateTeam: React.FC<CreateTeamProps> = ({ toBack }) => {
     const [active, setActive] = useState<Active>("basic");
     const [name, setName] = useState("");
     const [logo, setLogo] = useState<File>(null);
@@ -19,7 +21,6 @@ const CreateTeam: React.FC<CreateTeamProps> = ({}) => {
     const [captainTag, setCaptainTag] = useState("");
     const [captainProfile, setCaptainProfile] = useState("");
     const site = useSite();
-    console.log(site);
     const [players, setPlayers] = useState<Player[]>([
         {
             username: "",
@@ -47,19 +48,20 @@ const CreateTeam: React.FC<CreateTeamProps> = ({}) => {
     return (
         <div className="create-team-form" style={{ width: "100%" }}>
             <div className="register">
-                <div className="back-btn my-3">
-                    <button
-                        className="btn btn-warning"
-                        style={{
-                            borderTopLeftRadius: "50px",
-                            borderBottomLeftRadius: "50px",
-                        }}
-                    >
-                        Back
-                    </button>
-                </div>
                 {active === "basic" && (
                     <div className="register-form">
+                        <div className="back-btn my-3">
+                            <button
+                                className="btn btn-warning"
+                                style={{
+                                    borderTopLeftRadius: "50px",
+                                    borderBottomLeftRadius: "50px",
+                                }}
+                                onClick={() => toBack()}
+                            >
+                                Back
+                            </button>
+                        </div>
                         <form className="form">
                             <legend>Basic</legend>
 
@@ -121,6 +123,18 @@ const CreateTeam: React.FC<CreateTeamProps> = ({}) => {
                 )}
                 {active === "captain" && (
                     <div className="register-form">
+                        <div className="back-btn my-3">
+                            <button
+                                className="btn btn-warning"
+                                style={{
+                                    borderTopLeftRadius: "50px",
+                                    borderBottomLeftRadius: "50px",
+                                }}
+                                onClick={() => setActive("basic")}
+                            >
+                                Back
+                            </button>
+                        </div>
                         <form className="form">
                             <legend>Team Captain</legend>
                             <div className="form-group">
@@ -191,35 +205,46 @@ const CreateTeam: React.FC<CreateTeamProps> = ({}) => {
 
                 {active === "player" && (
                     <div className="register-form">
+                        <div className="back-btn my-3">
+                            <button
+                                className="btn btn-warning"
+                                style={{
+                                    borderTopLeftRadius: "50px",
+                                    borderBottomLeftRadius: "50px",
+                                }}
+                                onClick={() => setActive("captain")}
+                            >
+                                Back
+                            </button>
+                        </div>
                         <form
                             className="form"
-                            // onSubmit={async (e) => {
-                            //     e.preventDefault();
-                            //     const validPlayers = players.filter((p, i) =>
-                            //         i === 4
-                            //             ? p.url.length > 0 &&
-                            //               p.username.length > 0
-                            //             : true
-                            //     );
-                            //     const imgBase64 = await imgToBase64(logo);
-                            //     const teamId = await registerTeam(
-                            //         profile.profile.user,
-                            //         name,
-                            //         imgBase64,
-                            //         {
-                            //             username: captain,
-                            //             url: captainProfile,
-                            //         },
-                            //         captainTag,
-                            //         game.id,
-                            //         validPlayers
-                            //     );
-                            // }}
+                            onSubmit={async (e) => {
+                                e.preventDefault();
+                                const validPlayers = players.filter((p, i) =>
+                                    i === 4
+                                        ? p.url.length > 0 &&
+                                          p.username.length > 0
+                                        : true
+                                );
+                                const imgBase64 = await imgToBase64(logo);
+                                // const teamId = await registerTeam(
+                                //     profile.profile.user,
+                                //     name,
+                                //     imgBase64,
+                                //     {
+                                //         username: captain,
+                                //         url: captainProfile,
+                                //     },
+                                //     captainTag,
+                                //     game.id,
+                                //     validPlayers
+                                // );
+                            }}
                         >
                             <legend>Players</legend>
                             {[...Array(5).keys()].map((i) => (
                                 <>
-                                    {console.log(i)}
                                     <PlayerFields
                                         key={i}
                                         number={i + 1}

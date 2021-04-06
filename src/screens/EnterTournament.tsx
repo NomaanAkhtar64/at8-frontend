@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
+import { Redirect, RouteComponentProps } from 'react-router'
 
 import './EnterTournament.scss'
 import Payment from '../forms/Payment'
 import Register from '../forms/Register'
 import Success from '../forms/Success'
-import { Redirect, RouteComponentProps } from 'react-router'
 import useProfile from '../hooks/useProfile'
 
 const EnterTournament: React.FC<

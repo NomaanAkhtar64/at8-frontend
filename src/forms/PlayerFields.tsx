@@ -1,56 +1,58 @@
-import React from 'react'
+import React from "react";
 
 interface PlayerFieldsProps {
-  number: number
-  isAlternate: boolean
-  player: Player
-  disabled: boolean
-  updatePlayer: (p: Player) => void
+    number: number;
+    isAlternate: boolean;
+    player: Player;
+    disabled: boolean;
+    updatePlayer: (p: Player) => void;
 }
 
 const PlayerFields: React.FC<PlayerFieldsProps> = ({
-  number,
-  isAlternate,
-  player,
-  updatePlayer,
-  disabled,
+    number,
+    isAlternate,
+    player,
+    updatePlayer,
+    disabled,
 }) => {
-  // console.log(player)
-  return (
-    <div className='form-group'>
-      <label>
-        <strong>
-          {isAlternate ? 'Alternate Player' : `Player ${number + 1}`}
-        </strong>
-      </label>
-      <div className='form-group'>
-        <label>Username</label>
-        <input
-          type='text'
-          className='form-control'
-          placeholder='Username'
-          required={number !== 5}
-          value={player.username}
-          onChange={(e) =>
-            updatePlayer({ ...player, username: e.target.value })
-          }
-          disabled={disabled}
-        />
-      </div>
-      <div className='form-group'>
-        <label>Steam Profile Link</label>
-        <input
-          type='text'
-          className='form-control'
-          placeholder='Steam Profile Url'
-          required={number !== 5}
-          value={player.url}
-          onChange={(e) => updatePlayer({ ...player, url: e.target.value })}
-          disabled={disabled}
-        />
-      </div>
-    </div>
-  )
-}
+    console.log(updatePlayer);
+    return (
+        <div className="form-group">
+            <label>
+                <strong>
+                    {isAlternate ? "Alternate Player" : `Player ${number + 1}`}
+                </strong>
+            </label>
+            <div className="form-group">
+                <label>Username</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Username"
+                    required={number !== 5}
+                    value={player.username}
+                    onChange={(e) =>
+                        updatePlayer({ ...player, username: e.target.value })
+                    }
+                    disabled={disabled}
+                />
+            </div>
+            <div className="form-group">
+                <label>Steam Profile Link</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Steam Profile Url"
+                    required={number !== 5}
+                    value={player.url}
+                    onChange={(e) =>
+                        updatePlayer({ ...player, url: e.target.value })
+                    }
+                    disabled={disabled}
+                />
+            </div>
+        </div>
+    );
+};
 
-export default PlayerFields
+export default PlayerFields;
