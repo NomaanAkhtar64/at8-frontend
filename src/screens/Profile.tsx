@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import MyTeam from './Profile/MyTeam'
 import Settings from './Profile/Settings'

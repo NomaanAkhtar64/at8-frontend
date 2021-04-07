@@ -363,3 +363,16 @@
 .edit-form {
   width: 100%;
 }
+
+.back-btn {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    // justify-content: space-between;
+    align-items: center;
+}
+
+.btn-delete {
+    background-color: rgb(126, 4, 4);
+    color: #fff;
+}
