@@ -32,7 +32,7 @@ export default function registerTeam(
     )
     .then((res) => {
       console.log(res.data)
-      return res.data.id
+      return res.data
     })
     .catch((err) => console.log(err))
 }
