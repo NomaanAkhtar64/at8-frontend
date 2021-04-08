@@ -3,9 +3,9 @@ import React from 'react'
 interface PlayerFieldsProps {
   number: number
   isAlternate: boolean
-  player: Player
+  player: Player | PI
   disabled: boolean
-  updatePlayer: (p: Player) => void
+  updatePlayer: (p: Player | PI) => void
 }
 
 const PlayerFields: React.FC<PlayerFieldsProps> = ({
@@ -15,7 +15,6 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
   updatePlayer,
   disabled,
 }) => {
-  console.log(updatePlayer)
   return (
     <div className='form-group'>
       <label>

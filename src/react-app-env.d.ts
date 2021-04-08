@@ -147,3 +147,6 @@ interface Home {
   name: string
   video: string
 }
+interface PI extends Player {
+  index: number
+}

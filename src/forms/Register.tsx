@@ -33,24 +33,29 @@ const Register: React.FC<RegisterProps> = ({
   const [captainProfile, setCaptainProfile] = useState('')
   const [teamSelect, setTeamSelect] = useState('')
   const site = useSite()
-  const [players, setPlayers] = useState<Player[]>([
+  const [players, setPlayers] = useState<(PI | Player)[]>([
     {
+      index: 0,
       username: '',
       url: '',
     },
     {
+      index: 1,
       username: '',
       url: '',
     },
     {
+      index: 2,
       username: '',
       url: '',
     },
     {
+      index: 3,
       username: '',
       url: '',
     },
     {
+      index: 4,
       username: '',
       url: '',
     },
@@ -304,21 +309,27 @@ const Register: React.FC<RegisterProps> = ({
                       }}
                     >
                       <legend>Players</legend>
-                      {[...Array(5).keys()].map((i) => (
-                        <PlayerFields
-                          key={i}
-                          number={i + 1}
-                          isAlternate={i === 4}
-                          player={players[i]}
-                          updatePlayer={(p) => {
-                            setPlayers([
-                              ...players.filter((pl, indx) => indx !== i),
-                              p,
-                            ])
-                          }}
-                          disabled={isDisabled}
-                        />
-                      ))}
+                      {players
+                        .sort((a, b) => a['index'] - b['index'])
+                        .map((p, i) => (
+                          <>
+                            <PlayerFields
+                              key={i}
+                              number={i + 1}
+                              isAlternate={i === 4}
+                              player={p}
+                              updatePlayer={(pl) => {
+                                setPlayers([
+                                  ...players.filter(
+                                    (pl) => pl['index'] !== p['index']
+                                  ),
+                                  pl,
+                                ])
+                              }}
+                              disabled={isDisabled}
+                            />
+                          </>
+                        ))}
                       <button
                         type='submit'
                         className='btn btn-success'
@@ -353,9 +364,9 @@ const Register: React.FC<RegisterProps> = ({
                   className='form'
                   onSubmit={(e) => {
                     e.preventDefault()
-                    var RegisterTeam = teams.state.filter(
-                      (team) => team.id === parseInt(teamSelect)
-                    )
+                    if (teamSelect !== '') {
+                      toPayment(parseInt(teamSelect))
+                    }
                   }}
                 >
                   <div className='form-group'>
@@ -382,16 +393,14 @@ const Register: React.FC<RegisterProps> = ({
                   <div className='form-group'>
                     <label>Select your team if already registered</label>
                     <select
-                      className='form-select team-select'
+                      className='form-control team-select'
                       aria-label='Default select example'
                       onChange={(e) => {
                         setTeamSelect(e.target.value)
                       }}
+                      value={teamSelect}
                       required
                     >
-                      <option selected value=''>
-                        ----------------
-                      </option>
                       {teams.state.map((team, i) => (
                         <option key={i} value={team.id}>
                           {team.name}

@@ -52,6 +52,7 @@ const Dropdown: React.FC<DropdownProps> = ({ name, children, variant }) => {
               ? children.map((dropdown, index) =>
                   React.cloneElement(dropdown, {
                     count: index + 1,
+                    key: index,
                     isPurple: variant && variant === 'purple' ? true : false,
                   })
                 )
