@@ -2,7 +2,6 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Link } from 'react-router-dom'
 import useFAQ from '../hooks/useFAQ'
-import art from '../assets/at8_art.jpg'
 import './FAQ.scss'
 
 interface FAQListBoxProps {
@@ -22,8 +21,7 @@ const FAQListBox: React.FC<FAQListBoxProps> = ({ faq }) => {
           <div className='faq-image'>
             <img
               src={
-                art
-                // images[0].image
+                images[0].image
               }
               alt=''
             />

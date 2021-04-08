@@ -8,6 +8,7 @@
   display: flex;
   justify-content: flex-start;
 }
+
 .banner-background {
   height: 100%;
   position: relative;
@@ -17,12 +18,14 @@
   display: flex;
   overflow: hidden;
 }
+
 .banner-wrapper {
   width: fit-content;
   height: fit-content;
   margin: 0px auto;
   z-index: 0;
 }
+
 .scroller {
   position: absolute;
   width: 100%;
@@ -31,16 +34,19 @@
   left: 0px;
   z-index: 100;
 }
+
 @media (max-width: 400px) {
   .banner-background {
     width: 100vw;
   }
 }
+
 @media (min-width: 992px) {
   .home-banner {
     padding: 0px 10vw;
     background: #222;
   }
+
   .banner-background {
     width: 80vw;
     padding: 40px 60px;
@@ -51,5 +57,13 @@
 .video-container {
   // margin: 50px 0;
   // padding: 0 50px;
-  background-color: #333;
+  // background-color: #333;
+  background: none;
+}
+
+.art-gif {
+  background: url("../assets/AT8.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }

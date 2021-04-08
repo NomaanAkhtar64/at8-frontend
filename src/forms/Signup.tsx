@@ -53,7 +53,7 @@ const Signup: React.FC<SignupProps> = ({ onSignUp }) => {
             .then((res) => {
               console.log(res.data)
               onSignUp(username, email, password, passwordRe)
-              history.push('/signup/confirm', { email: email })
+              history.push('/login')
               setDisable(true)
             })
             .catch((err) => {
