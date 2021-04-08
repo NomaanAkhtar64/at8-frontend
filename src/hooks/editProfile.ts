@@ -5,7 +5,7 @@ import getHeaders from "./getHeaders";
 export default function editProfile(values: Partial<UserProfile>) {
     const headers = getHeaders();
     axios
-        .put(`${__API_URL__}/api/edit-profile/`, values, {
+        .patch(`${__API_URL__}/api/edit-profile/`, values, {
             headers: {
                 ...headers,
             },

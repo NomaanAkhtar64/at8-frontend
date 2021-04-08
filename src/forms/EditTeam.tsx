@@ -17,7 +17,6 @@ interface FormProps {
 }
 const Form: React.FC<FormProps> = (props) => {
     const t = props.team;
-    console.log(t);
     const [name, setName] = useState<string>(t.name);
     const [logo, setLogo] = useState<File>(null);
     const [logoURL, setLogoURL] = useState(null);
