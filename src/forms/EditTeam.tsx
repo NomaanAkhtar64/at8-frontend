@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Loading from "../components/Loading";
+import deleteTeam from "../hooks/deleteTeam";
 import editTeamRegister from "../hooks/editTeamRegister";
 import useTeam from "../hooks/useTeam";
 import imgToBase64 from "../utils/imgToBase64";
@@ -58,7 +59,7 @@ const Form: React.FC<FormProps> = (props) => {
             }}
         >
             <div className="profile-data" style={{ flexDirection: "column" }}>
-                <div className="back-btn px-3">
+                <div className="back-btn edit px-3">
                     <button
                         type="button"
                         className="btn btn-warning"
@@ -74,6 +75,10 @@ const Form: React.FC<FormProps> = (props) => {
                         type="button"
                         className="btn btn-delete"
                         style={{ marginLeft: "auto" }}
+                        onClick={() => {
+                            deleteTeam(t.id);
+                            props.getBack();
+                        }}
                     >
                         DELETE
                     </button>
