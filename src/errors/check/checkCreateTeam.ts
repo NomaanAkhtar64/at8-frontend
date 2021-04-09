@@ -12,13 +12,13 @@ export default function checkCreateTeam(
         message = "Captain name is required";
         hasError = true;
     }
-
-    if (!regex.DISCORD_TAG.test(captainTag)) {
+// !regex.DISCORD_TAG.test(captainTag)
+    if (captainTag.match(regex.DISCORD_TAG) === null) {
         message = "Invalid Discord tag";
         hasError = true;
     }
-
-    if (!regex.STEAM_PROFILE.test(captainProfile)) {
+// !regex.STEAM_PROFILE.test(captainProfile)
+    if (captainProfile.match(regex.STEAM_PROFILE) === null) {
         message = "Invalid Steam profile url";
         hasError = true;
     }
