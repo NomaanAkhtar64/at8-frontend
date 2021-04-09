@@ -97,9 +97,9 @@ const EnterTournament: React.FC<
               aria-labelledby='nav-profile-tab'
             >
               <Payment
-                tournamentId={tournament.id}
                 teamId={teamId}
                 userId={profile.profile.user}
+                tournament={tournament}
                 toSuccess={() => {
                   setSelectPayment(false)
                   setSelectSuccess(true)

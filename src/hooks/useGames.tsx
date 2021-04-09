@@ -1,14 +1,17 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { __API_URL__ } from '../const'
 
 export default function useGames(slug = null) {
-  const [state, setState] = useState<Games[]>([])
+  const cachedGames = useMemo(() => localStorage.getItem('games'), [])
+
+  const [state, setState] = useState<Games[]>(
+    cachedGames ? JSON.parse(cachedGames) : []
+  )
   const [error, setError] = useState('')
-  const [hasLoaded, setHasLoaded] = useState(false)
+  const [hasLoaded, setHasLoaded] = useState(cachedGames ? true : false)
 
   useEffect(() => {
-    setHasLoaded(false)
     var cancelHandler = axios.CancelToken.source()
 
     axios
@@ -17,6 +20,7 @@ export default function useGames(slug = null) {
       })
       .then((res) => {
         setState(res.data)
+        localStorage.setItem('games', JSON.stringify(res.data))
         setHasLoaded(true)
       })
       .catch((err) => {

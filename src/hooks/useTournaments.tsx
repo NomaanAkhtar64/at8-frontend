@@ -1,27 +1,34 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { __API_URL__ } from '../const'
 
 export default function useTournaments(slug: string = null) {
-  const [state, setState] = useState<Tournament[]>([])
+  const cachedTournaments = useMemo(
+    () =>
+      slug
+        ? localStorage.getItem(`tournaments-${slug}`)
+        : localStorage.getItem('tournaments'),
+    [slug]
+  )
+
+  const [state, setState] = useState<Tournament[]>(
+    cachedTournaments ? JSON.parse(cachedTournaments) : []
+  )
   const [error, setError] = useState('')
-  const [hasLoaded, setHasLoaded] = useState(false)
+  const [hasLoaded, setHasLoaded] = useState(cachedTournaments ? true : false)
 
   useEffect(() => {
-    setHasLoaded(false)
+    const url = `${__API_URL__}/api/tournaments/${slug ? '?slug=' + slug : ''}`
     var cancelHandler = axios.CancelToken.source()
-
     axios
-      .get(
-        `${__API_URL__}/api/tournaments/${
-          slug === null ? '' : '?slug=' + slug
-        }`,
-        {
-          cancelToken: cancelHandler.token,
-        }
-      )
+      .get(url, { cancelToken: cancelHandler.token })
       .then((res) => {
         setState(res.data)
+        if (slug) {
+          localStorage.setItem(`tournaments-${slug}`, JSON.stringify(res.data))
+        } else {
+          localStorage.setItem('tournaments', res.data)
+        }
         setHasLoaded(true)
       })
       .catch((err) => {

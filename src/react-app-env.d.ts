@@ -65,8 +65,10 @@ interface Tournament {
       username: string
     }
   }
+  fee: string
   registration_date: string
-  teams: Array
+  hasFee: boolean
+  teams: Teams[]
 }
 
 interface Announcement {
@@ -123,7 +125,8 @@ interface Entry {
   tournament: number
   team: number
   user: number
-  text_proof?: string
+  date_transaction?: string
+  time_transaction?: string
   image_proof?: string
   has_paid?: boolean
   date?: string
@@ -140,7 +143,7 @@ interface EntryDetail {
 }
 interface TournamentRegister {
   game: { id: number; name: string }
-  tournament: { id: number; name: string }
+  tournament: { id: number; name: string; price: string; hasFee: boolean }
 }
 
 interface Home {

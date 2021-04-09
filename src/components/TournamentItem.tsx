@@ -74,6 +74,8 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
                             tournament: {
                               id: tournament.id,
                               name: tournament.name,
+                              fee: tournament.fee,
+                              hasFee: tournament.hasFee,
                             },
                           },
                         }}

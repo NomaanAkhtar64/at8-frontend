@@ -1,0 +1,14 @@
+.verify-form-container {
+  background: #333;
+  padding: 0px;
+  margin: 20px auto;
+}
+.verify-form {
+  background: #fff;
+}
+
+@media (min-width: 768px) {
+  .verify-form-container {
+    padding: 60px 10vw;
+  }
+}

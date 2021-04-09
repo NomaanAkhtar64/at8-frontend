@@ -32,7 +32,7 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
           {entries.map((entry, idx) => (
             <tr key={idx}>
               <td>{entry.tournament.name}</td>
-              <td>{entry.tournament.game}</td>
+              <td>{entry.tournament.game.name}</td>
               <td>{entry.team.name}</td>
               <td>
                 {entry.has_paid ? (
@@ -41,7 +41,7 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
                   <>
                     Not Paid
                     <Link
-                      to={`/payment/verify/${entry.entry_id}`}
+                      to={`/entry/verify/${entry.entry_id}`}
                       style={{ display: 'block' }}
                     >
                       Verify

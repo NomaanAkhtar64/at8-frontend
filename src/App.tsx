@@ -22,6 +22,7 @@ const ResetPassword = lazy(() => import('./screens/ResetPassword'))
 const ResetPasswordConfirm = lazy(
   () => import('./screens/ResetPasswordConfirm')
 )
+const VerifyEntry = lazy(() => import('./screens/VerifyEntry'))
 const EnterTournament = lazy(() => import('./screens/EnterTournament'))
 
 interface AppProps {
@@ -98,6 +99,11 @@ const App: React.FC<AppProps> = ({
         <Route exact path='/faq' component={FAQ} />
         <Route exact path='/faq/:slug' component={FAQArticle} />
         <Route exact path='/signup/confirm' component={Account} />
+        <Route
+          exact
+          path='/entry/verify/:id'
+          component={isAuthenticated ? VerifyEntry : Redirecter}
+        />
       </Suspense>
     </Layout>
   )

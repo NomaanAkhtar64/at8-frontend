@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import useSite from '../hooks/useSite'
 import PlayerFields from './PlayerFields'
 import parser from 'html-react-parser'
-import * as regex from '../regex'
 import imgToBase64 from '../utils/imgToBase64'
 import registerTeam from '../hooks/registerTeam'
 import useProfile from '../hooks/useProfile'
@@ -232,6 +231,7 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ toBack }) => {
                 className='form'
                 onSubmit={async (e) => {
                   e.preventDefault()
+                  setDisabled(true)
                   const validPlayers = players.filter((p, i) =>
                     i === 4 ? p.url.length > 0 && p.username.length > 0 : true
                   )
@@ -243,8 +243,9 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ toBack }) => {
                   )
                   if (hasError) {
                     setError(message)
+                    setDisabled(false)
                   } else {
-                    const team = await registerTeam(
+                    await registerTeam(
                       profile.profile.user,
                       name,
                       imgBase64,
@@ -256,6 +257,7 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ toBack }) => {
                       game,
                       validPlayers
                     )
+                    setDisabled(false)
                     toBack()
                   }
                 }}
