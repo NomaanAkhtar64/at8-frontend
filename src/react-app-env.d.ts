@@ -65,7 +65,7 @@ interface Tournament {
       username: string
     }
   }
-  fee: string
+  fee: number
   registration_date: string
   hasFee: boolean
   teams: Teams[]
