@@ -1,89 +1,89 @@
-import React, { useState } from "react";
-import useSite from "../hooks/useSite";
-import PlayerFields from "./PlayerFields";
-import parser from "html-react-parser";
-import imgToBase64 from "../utils/imgToBase64";
-import registerTeam from "../hooks/registerTeam";
-import useProfile from "../hooks/useProfile";
-import "../screens/EnterTournament.scss";
-import useGames from "../hooks/useGames";
-import Loading from "../components/Loading";
-import checkCreateTeam from "../errors/check/checkCreateTeam";
-import useTeams from "../hooks/useTeams";
+import React, { useState } from 'react'
+import useSite from '../hooks/useSite'
+import PlayerFields from './PlayerFields'
+import parser from 'html-react-parser'
+import imgToBase64 from '../utils/imgToBase64'
+import registerTeam from '../hooks/registerTeam'
+import useProfile from '../hooks/useProfile'
+import '../screens/EnterTournament.scss'
+import useGames from '../hooks/useGames'
+import Loading from '../components/Loading'
+import checkCreateTeam from '../errors/check/checkCreateTeam'
 
 interface CreateTeamProps {
-  toBack: () => void;
+  onCancel: () => void
+  onSuccess: (t: Teams) => void
 }
 
-type Active = "basic" | "captain" | "player";
-const CreateTeam: React.FC<CreateTeamProps> = ({ toBack }) => {
-  const [active, setActive] = useState<Active>("basic");
-  const [name, setName] = useState("");
-  const [logo, setLogo] = useState<File>(null);
-  const [captain, setCaptain] = useState("");
-  const [captainTag, setCaptainTag] = useState("");
-  const [captainProfile, setCaptainProfile] = useState("");
-  const [error, setError] = useState("");
-  const site = useSite();
-  const games = useGames();
-  const [game, setGame] = useState<number>(1);
+type Active = 'basic' | 'captain' | 'player'
+const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
+  const [active, setActive] = useState<Active>('basic')
+  const [name, setName] = useState('')
+  const [logo, setLogo] = useState<File>(null)
+  const [captain, setCaptain] = useState('')
+  const [captainTag, setCaptainTag] = useState('')
+  const [captainProfile, setCaptainProfile] = useState('')
+  const [error, setError] = useState('')
+  const site = useSite()
+  const games = useGames()
+  const [game, setGame] = useState<number>(1)
   const [players, setPlayers] = useState<(PI | Player)[]>([
     {
       index: 0,
-      username: "",
-      url: "",
+      username: '',
+      url: '',
     },
     {
       index: 1,
-      username: "",
-      url: "",
+      username: '',
+      url: '',
     },
     {
       index: 2,
-      username: "",
-      url: "",
+      username: '',
+      url: '',
     },
     {
       index: 3,
-      username: "",
-      url: "",
+      username: '',
+      url: '',
     },
     {
       index: 4,
-      username: "",
-      url: "",
+      username: '',
+      url: '',
     },
-  ]);
-  const [isDisabled, setDisabled] = useState(false);
-  const profile = useProfile();
+  ])
+  const [isDisabled, setDisabled] = useState(false)
+  const profile = useProfile()
   if (games.hasLoaded)
     return (
-      <div className="create-team-form" style={{ width: "100%" }}>
-        <div className="register">
-          {active === "basic" && (
-            <div className="register-form">
-              <div className="back-btn my-3">
+      <div className='create-team-form' style={{ width: '100%' }}>
+        <div className='register'>
+          {active === 'basic' && (
+            <div className='register-form'>
+              <div className='back-btn my-3'>
                 <button
-                  className="btn btn-warning"
+                  className='btn btn-warning'
                   style={{
-                    borderTopLeftRadius: "50px",
-                    borderBottomLeftRadius: "50px",
+                    borderTopLeftRadius: '50px',
+                    borderBottomLeftRadius: '50px',
                   }}
-                  onClick={() => toBack()}
+                  onClick={onCancel}
                 >
                   Back
                 </button>
               </div>
-              <form className="form">
+              <form className='form'>
                 <legend>Basic</legend>
 
-                <div className="form-group">
+                <div className='form-group'>
                   <label>Game</label>
                   <select
-                    className="form-control"
-                    value={game + ""}
+                    className='form-control'
+                    value={game + ''}
                     onChange={(e) => {
-                      setGame(parseInt(e.target.value));
+                      setGame(parseInt(e.target.value))
                     }}
                   >
                     {games.state.map((g) => (
@@ -93,122 +93,122 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ toBack }) => {
                     ))}
                   </select>
                 </div>
-                <div className="form-group">
+                <div className='form-group'>
                   <label>Team Name</label>
                   <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Name your team"
+                    type='text'
+                    className='form-control'
+                    placeholder='Name your team'
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
                   />
                 </div>
-                <div className="form-group">
+                <div className='form-group'>
                   <label>Upload team logo</label>
-                  <div className="input-group mb-3">
-                    <div className="custom-file">
+                  <div className='input-group mb-3'>
+                    <div className='custom-file'>
                       <input
-                        type="file"
-                        accept="image/*"
-                        className="custom-file-input"
-                        id="inputGroupFile02"
+                        type='file'
+                        accept='image/*'
+                        className='custom-file-input'
+                        id='inputGroupFile02'
                         required
                         onChange={(e) => {
-                          setLogo(e.target.files[0]);
+                          setLogo(e.target.files[0])
                         }}
                       />
-                      <label className="custom-file-label">
-                        {logo ? <p>{logo.name}</p> : "Choose file"}
+                      <label className='custom-file-label'>
+                        {logo ? <p>{logo.name}</p> : 'Choose file'}
                       </label>
                     </div>
                   </div>
                 </div>
 
                 <button
-                  type="button"
-                  className="btn btn-success"
-                  style={{ width: "100%" }}
+                  type='button'
+                  className='btn btn-success'
+                  style={{ width: '100%' }}
                   onClick={() => {
-                    if (name !== "" && logo["name"]) {
-                      setActive("captain");
+                    if (name !== '' && logo['name']) {
+                      setActive('captain')
                     }
                   }}
                 >
                   Enter
                 </button>
               </form>
-              <div className="hint">
+              <div className='hint'>
                 <h1>Help text</h1>
                 <div>{parser(site.help_team_basic)}</div>
               </div>
             </div>
           )}
-          {active === "captain" && (
-            <div className="register-form">
-              <div className="back-btn my-3">
+          {active === 'captain' && (
+            <div className='register-form'>
+              <div className='back-btn my-3'>
                 <button
-                  className="btn btn-warning"
+                  className='btn btn-warning'
                   style={{
-                    borderTopLeftRadius: "50px",
-                    borderBottomLeftRadius: "50px",
+                    borderTopLeftRadius: '50px',
+                    borderBottomLeftRadius: '50px',
                   }}
-                  onClick={() => setActive("basic")}
+                  onClick={() => setActive('basic')}
                 >
                   Back
                 </button>
               </div>
-              <form className="form">
+              <form className='form'>
                 <legend>Team Captain</legend>
-                <div className="form-group">
+                <div className='form-group'>
                   <label>Username</label>
                   <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Username"
+                    type='text'
+                    className='form-control'
+                    placeholder='Username'
                     value={captain}
                     onChange={(e) => setCaptain(e.target.value)}
                     required
                   />
                 </div>
-                <div className="form-group">
+                <div className='form-group'>
                   <label>Discord username + Tag</label>
                   <input
-                    type="text"
-                    className="form-control"
-                    placeholder="name#1234"
+                    type='text'
+                    className='form-control'
+                    placeholder='name#1234'
                     value={captainTag}
                     onChange={(e) => setCaptainTag(e.target.value)}
                     required
                   />
                 </div>
-                <div className="form-group">
+                <div className='form-group'>
                   <label>Steam Profile link</label>
                   <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Place URL"
+                    type='text'
+                    className='form-control'
+                    placeholder='Place URL'
                     value={captainProfile}
                     onChange={(e) => setCaptainProfile(e.target.value)}
                     required
                   />
                 </div>
-                <p style={{color: "red", textAlign: "center"}}>{error}</p>
+                <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
                 <button
-                  type="button"
-                  className="btn btn-success"
-                  style={{ width: "100%" }}
+                  type='button'
+                  className='btn btn-success'
+                  style={{ width: '100%' }}
                   onClick={() => {
                     const { hasError, message } = checkCreateTeam(
                       captain,
                       captainTag,
                       captainProfile
-                    );
+                    )
                     if (hasError) {
-                      setError(message);
-                      setDisabled(false);
+                      setError(message)
+                      setDisabled(false)
                     } else {
-                      setActive("player");
+                      setActive('player')
                     }
                   }}
                 >
@@ -216,46 +216,43 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ toBack }) => {
                 </button>
               </form>
 
-              <div className="hint">
+              <div className='hint'>
                 <h1>Help text</h1>
                 <div>{parser(site.help_team_captain)}</div>
               </div>
             </div>
           )}
 
-          {active === "player" && (
-            <div className="register-form">
-              <div className="back-btn my-3">
+          {active === 'player' && (
+            <div className='register-form'>
+              <div className='back-btn my-3'>
                 <button
-                  className="btn btn-warning"
+                  className='btn btn-warning'
                   style={{
-                    borderTopLeftRadius: "50px",
-                    borderBottomLeftRadius: "50px",
+                    borderTopLeftRadius: '50px',
+                    borderBottomLeftRadius: '50px',
                   }}
-                  onClick={() => setActive("captain")}
+                  onClick={() => setActive('captain')}
                 >
                   Back
                 </button>
               </div>
               <form
-                className="form"
+                className='form'
                 onSubmit={async (e) => {
-                  e.preventDefault();
-                  setDisabled(true);
-                  const validPlayers = players.filter((p, i) =>
-                    i === 4 ? p.url.length > 0 && p.username.length > 0 : true
-                  );
-                  const imgBase64 = await imgToBase64(logo);
+                  e.preventDefault()
+                  setDisabled(true)
+                  const imgBase64 = await imgToBase64(logo)
                   const { hasError, message } = checkCreateTeam(
                     captain,
                     captainTag,
                     captainProfile
-                  );
+                  )
                   if (hasError) {
-                    setError(message);
-                    setDisabled(false);
+                    setError(message)
+                    setDisabled(false)
                   } else {
-                    await registerTeam(
+                    const createdTeam = await registerTeam(
                       profile.profile.user,
                       name,
                       imgBase64,
@@ -265,16 +262,18 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ toBack }) => {
                       },
                       captainTag,
                       game,
-                      validPlayers
-                    );
-                    setDisabled(false);
-                    toBack();
+                      players
+                    )
+                    setDisabled(false)
+                    if (createdTeam) {
+                      onSuccess(createdTeam)
+                    }
                   }
                 }}
               >
                 <legend>Players</legend>
                 {players
-                  .sort((a, b) => a["index"] - b["index"])
+                  .sort((a, b) => a['index'] - b['index'])
                   .map((p, i) => (
                     <>
                       <PlayerFields
@@ -285,24 +284,25 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ toBack }) => {
                         updatePlayer={(pl) => {
                           setPlayers([
                             ...players.filter(
-                              (pl) => pl["index"] !== p["index"]
+                              (pl) => pl['index'] !== p['index']
                             ),
                             pl,
-                          ]);
+                          ])
                         }}
                         disabled={isDisabled}
                       />
                     </>
                   ))}
                 <button
-                  type="submit"
-                  className="btn btn-success"
-                  style={{ width: "100%" }}
+                  type='submit'
+                  disabled={isDisabled}
+                  className='btn btn-success'
+                  style={{ width: '100%' }}
                 >
-                  Submit
+                  Create
                 </button>
               </form>
-              <div className="hint">
+              <div className='hint'>
                 <h1>Help Text</h1>
                 <div>{parser(site.help_team_players)}</div>
               </div>
@@ -310,8 +310,8 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ toBack }) => {
           )}
         </div>
       </div>
-    );
-  return <Loading />;
-};
+    )
+  return <Loading />
+}
 
-export default CreateTeam;
+export default CreateTeam

@@ -4,7 +4,7 @@ interface PlayerFieldsProps {
   number: number
   isAlternate: boolean
   player: Player | PI
-  disabled: boolean
+  disabled?: boolean
   updatePlayer: (p: Player | PI) => void
 }
 
@@ -13,7 +13,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
   isAlternate,
   player,
   updatePlayer,
-  disabled,
+  disabled = false,
 }) => {
   return (
     <div className='form-group'>

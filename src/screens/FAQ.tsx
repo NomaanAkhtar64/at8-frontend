@@ -19,12 +19,7 @@ const FAQListBox: React.FC<FAQListBoxProps> = ({ faq }) => {
         </div>
         <div className='faq-body'>
           <div className='faq-image'>
-            <img
-              src={
-                images[0].image
-              }
-              alt=''
-            />
+            <img src={images[0].image} alt='' />
           </div>
           <div>
             <div className='faq-lb-description'>{description}</div>

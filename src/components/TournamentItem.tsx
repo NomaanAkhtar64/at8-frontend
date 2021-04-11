@@ -21,7 +21,6 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
   } = tournament
   const date = new Date(new Date().getTime())
   const today = Date.parse(date.toString())
-  // console.log(winner)
   return (
     <div className='tourna'>
       <div className='tourna-top'>
@@ -64,21 +63,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
                   <button type='button' className='btn btn-danger btn-lg'>
                     {slots - teams.length > 0 ? (
                       <Link
-                        to={{
-                          pathname: '/register',
-                          state: {
-                            game: {
-                              id: tournament.game.id,
-                              name: tournament.game.name,
-                            },
-                            tournament: {
-                              id: tournament.id,
-                              name: tournament.name,
-                              fee: tournament.fee,
-                              hasFee: tournament.hasFee,
-                            },
-                          },
-                        }}
+                        to={`/tournament/register/${tournament.slug}`}
                         style={{
                           textDecoration: 'none',
                           color: '#fff',

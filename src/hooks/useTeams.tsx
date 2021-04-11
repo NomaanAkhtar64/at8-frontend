@@ -1,9 +1,11 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { __API_URL__ } from '../const'
 
-export default function useTeams(user: number = null) {
-  const teamStorage = localStorage.getItem('team-list')
+export default function useTeams(user: number) {
+  const teamStorage = useMemo(() => user && localStorage.getItem('team-list'), [
+    user,
+  ])
   const [state, setState] = useState<Teams[]>(
     teamStorage ? JSON.parse(teamStorage) : []
   )

@@ -7,8 +7,7 @@ import './Tournament.scss'
 interface TournamentProps extends RouteComponentProps<{ slug }> {}
 
 const Tournament: React.FC<TournamentProps> = ({ match }) => {
-  const tournamentSlug = match.params.slug
-  const tournaments = useTournaments(tournamentSlug)
+  const tournaments = useTournaments(null, match.params.slug)
 
   if (tournaments.hasLoaded) {
     return (
@@ -18,7 +17,7 @@ const Tournament: React.FC<TournamentProps> = ({ match }) => {
             <div className='tourna-page'>
               <div className='tourna-heading'>Tournaments</div>
               {tournaments.state.length === 0 && (
-                <h3 className='tourna-error'>No Tournaments Found</h3>
+                <h3 className='tourna'>No Tournaments Found</h3>
               )}
               {tournaments.state.map((tourna, i) => (
                 <TournamentItem tournament={tourna} key={i} />

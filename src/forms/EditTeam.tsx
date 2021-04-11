@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Loading from '../components/Loading'
-import deleteTeam from '../hooks/deleteTeam'
 import editTeamRegister from '../hooks/editTeamRegister'
 import useTeam from '../hooks/useTeam'
 import imgToBase64 from '../utils/imgToBase64'
@@ -9,13 +8,18 @@ import PlayerFields from './PlayerFields'
 interface EditTeamProps {
   userId: number
   teamId: number
-  toBack: () => void
+  // toBack: () => void
+  onCancel: () => void
+  onSucess: (t: Teams) => void
+  onDelete: (id: number) => void
 }
 interface FormProps {
   team: Teams
-  getBack: () => void
+  onCancel: () => void
+  onSucess: (t: Teams) => void
+  onDelete: (id: number) => void
 }
-const Form: React.FC<FormProps> = ({ team, getBack }) => {
+const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
   const [name, setName] = useState<string>(team.name)
   const [logo, setLogo] = useState<File>(null)
   const [logoURL, setLogoURL] = useState(null)
@@ -32,16 +36,13 @@ const Form: React.FC<FormProps> = ({ team, getBack }) => {
       onSubmit={async (e) => {
         e.preventDefault()
         setDisabled(true)
-        const validPlayers = players.filter((p, i) =>
-          i === 4 ? p.url.length > 0 && p.username.length > 0 : true
-        )
         let imgBase64: string
         if (logo) {
           imgBase64 = await imgToBase64(logo)
         } else {
           imgBase64 = undefined
         }
-        await editTeamRegister({
+        const editedTeam = await editTeamRegister({
           id: team.id,
           name: name,
           logo: imgBase64,
@@ -50,10 +51,12 @@ const Form: React.FC<FormProps> = ({ team, getBack }) => {
             url: captainProfile,
           },
           team_captains_discord_tag: captainTag,
-          players: validPlayers,
+          players,
         })
         setDisabled(false)
-        getBack()
+        if (editedTeam) {
+          onSucess(editedTeam)
+        }
       }}
     >
       <div className='profile-data' style={{ flexDirection: 'column' }}>
@@ -65,7 +68,7 @@ const Form: React.FC<FormProps> = ({ team, getBack }) => {
               borderTopLeftRadius: '50px',
               borderBottomLeftRadius: '50px',
             }}
-            onClick={() => getBack()}
+            onClick={onCancel}
           >
             Back
           </button>
@@ -74,8 +77,7 @@ const Form: React.FC<FormProps> = ({ team, getBack }) => {
             className='btn btn-delete'
             style={{ marginLeft: 'auto' }}
             onClick={() => {
-              deleteTeam(team.id)
-              getBack()
+              onDelete(team.id)
             }}
           >
             DELETE
@@ -194,7 +196,12 @@ const Form: React.FC<FormProps> = ({ team, getBack }) => {
         <button disabled={isDisabled} type='submit' className='btn btn-success'>
           Save
         </button>
-        <button disabled={isDisabled} type='button' className='btn btn-danger'>
+        <button
+          disabled={isDisabled}
+          onClick={onCancel}
+          type='button'
+          className='btn btn-danger'
+        >
           Cancel
         </button>
       </div>
@@ -202,10 +209,23 @@ const Form: React.FC<FormProps> = ({ team, getBack }) => {
   )
 }
 
-const EditTeam: React.FC<EditTeamProps> = ({ userId, teamId, toBack }) => {
+const EditTeam: React.FC<EditTeamProps> = ({
+  userId,
+  teamId,
+  onCancel,
+  onSucess,
+  onDelete,
+}) => {
   const teams = useTeam(userId, teamId)
   if (teams.hasLoaded) {
-    return <Form getBack={() => toBack()} team={teams.state} />
+    return (
+      <Form
+        onSucess={onSucess}
+        onDelete={onDelete}
+        onCancel={onCancel}
+        team={teams.state}
+      />
+    )
   }
   return <Loading />
 }

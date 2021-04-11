@@ -1,0 +1,31 @@
+.error-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 10px 0px;
+  .form-error {
+    width: 240px;
+  }
+}
+.form-error {
+  padding: 0px 10px;
+  margin: 0px 10px;
+  color: #804034;
+  font-size: 15px;
+}
+@media (min-width: 768px) {
+  .error-group {
+    grid-template-columns: 1fr 1fr;
+  }
+  .form-error {
+    margin: 0px auto;
+  }
+}
+
+.sm-error-group {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0px;
+  .form-error {
+    width: 80%;
+  }
+}

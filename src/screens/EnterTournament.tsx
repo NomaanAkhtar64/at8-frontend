@@ -1,126 +1,130 @@
 import React, { useState } from 'react'
-import { Redirect, RouteComponentProps } from 'react-router'
+import { RouteComponentProps } from 'react-router'
 
 import './EnterTournament.scss'
 import Payment from '../forms/Payment'
 import Register from '../forms/Register'
 import Success from '../forms/Success'
 import useProfile from '../hooks/useProfile'
+import useTournaments from '../hooks/useTournaments'
+import Loading from '../components/Loading'
 
+type Active = 'register' | 'payment' | 'success'
 const EnterTournament: React.FC<
-  RouteComponentProps<{}, {}, TournamentRegister>
-> = ({ location }) => {
-  const [selectRegister, setSelectRegister] = useState(true)
-  const [selectPayment, setSelectPayment] = useState(false)
-  const [selectSuccess, setSelectSuccess] = useState(false)
+  RouteComponentProps<{ tournamentSlug: string }>
+> = ({ match }) => {
+  const [active, setActive] = useState<Active>('register')
   const [teamId, setTeamId] = useState<number>(null)
-  const { game, tournament } = location.state
 
   const profile = useProfile()
-  if (!game || !tournament) {
-    return <Redirect to='/'></Redirect>
-  }
-  return (
-    <>
-      <div className='register-page mt-5 container'>
-        <div className='register-tab' style={{ width: '100%' }}>
-          <nav>
-            <div
-              className='nav nav-tabs'
-              id='nav-tab'
-              role='tablist'
-              style={{ width: '100%' }}
-            >
-              <button
-                className={`nav-link text-white ${selectRegister && 'active'}`}
-                id='nav-home-tab'
-                data-bs-toggle='tab'
-                data-bs-target='#nav-home'
-                type='button'
-                role='tab'
-                aria-controls='nav-home'
-                aria-selected='true'
+  const tournament = useTournaments(match.params.tournamentSlug)
+  console.log(tournament)
+  if (tournament.hasLoaded) {
+    return (
+      <>
+        <div className='register-page mt-5 container'>
+          <div className='register-tab' style={{ width: '100%' }}>
+            <nav>
+              <div
+                className='nav nav-tabs'
+                id='nav-tab'
+                role='tablist'
+                style={{ width: '100%' }}
               >
-                Register
-              </button>
-              <button
-                className={`nav-link text-white ${selectPayment && 'active'}`}
-                id='nav-profile-tab'
-                data-bs-toggle='tab'
-                data-bs-target='#nav-profile'
-                type='button'
-                role='tab'
-                aria-controls='nav-profile'
-                aria-selected='false'
+                <button
+                  className={`nav-link text-white ${
+                    active === 'register' && 'active'
+                  }`}
+                  id='nav-home-tab'
+                  data-bs-toggle='tab'
+                  data-bs-target='#nav-home'
+                  type='button'
+                  role='tab'
+                  aria-controls='nav-home'
+                  aria-selected='true'
+                >
+                  Register
+                </button>
+                <button
+                  className={`nav-link text-white ${
+                    active === 'payment' && 'active'
+                  }`}
+                  id='nav-profile-tab'
+                  data-bs-toggle='tab'
+                  data-bs-target='#nav-profile'
+                  type='button'
+                  role='tab'
+                  aria-controls='nav-profile'
+                  aria-selected='false'
+                >
+                  Payment
+                </button>
+                <button
+                  className={`nav-link text-white ${
+                    active === 'success' && 'active'
+                  } `}
+                  id='nav-contact-tab'
+                  data-bs-toggle='tab'
+                  data-bs-target='#nav-contact'
+                  type='button'
+                  role='tab'
+                  aria-controls='nav-contact'
+                  aria-selected='false'
+                >
+                  Success
+                </button>
+              </div>
+            </nav>
+            {active === 'register' && (
+              <div
+                className='tab-pane fade show'
+                id='nav-home'
+                role='tabpanel'
+                aria-labelledby='nav-home-tab'
               >
-                Payment
-              </button>
-              <button
-                className={`nav-link text-white ${selectSuccess && 'active'} `}
-                id='nav-contact-tab'
-                data-bs-toggle='tab'
-                data-bs-target='#nav-contact'
-                type='button'
-                role='tab'
-                aria-controls='nav-contact'
-                aria-selected='false'
+                <Register
+                  profile={profile.profile}
+                  tournament={tournament.state[0]}
+                  toPayment={(id) => {
+                    setActive('payment')
+                    setTeamId(id)
+                  }}
+                />
+              </div>
+            )}
+            {active === 'payment' && (
+              <div
+                className='tab-pane fade show'
+                id='nav-profile'
+                role='tabpanel'
+                aria-labelledby='nav-profile-tab'
               >
-                Success
-              </button>
-            </div>
-          </nav>
-          {selectRegister && (
-            <div
-              className='tab-pane fade show'
-              id='nav-home'
-              role='tabpanel'
-              aria-labelledby='nav-home-tab'
-            >
-              <Register
-                profile={profile.profile}
-                user={profile.state}
-                game={game}
-                tournament={tournament}
-                toPayment={(id) => {
-                  setSelectPayment(true)
-                  setSelectRegister(false)
-                  setTeamId(id)
-                }}
-              />
-            </div>
-          )}
-          {selectPayment && (
-            <div
-              className='tab-pane fade show'
-              id='nav-profile'
-              role='tabpanel'
-              aria-labelledby='nav-profile-tab'
-            >
-              <Payment
-                teamId={teamId}
-                userId={profile.profile.user}
-                tournament={tournament}
-                toSuccess={() => {
-                  setSelectPayment(false)
-                  setSelectSuccess(true)
-                }}
-              />
-            </div>
-          )}
-          {selectSuccess && (
-            <div
-              className='tab-pane fade show'
-              id='nav-contact'
-              role='tabpanel'
-              aria-labelledby='nav-contact-tab'
-            >
-              <Success />
-            </div>
-          )}
+                <Payment
+                  teamId={teamId}
+                  userId={profile.profile.user}
+                  tournament={tournament.state[0]}
+                  toSuccess={() => {
+                    setActive('success')
+                  }}
+                />
+              </div>
+            )}
+            {active === 'success' && (
+              <div
+                className='tab-pane fade show'
+                id='nav-contact'
+                role='tabpanel'
+                aria-labelledby='nav-contact-tab'
+              >
+                <Success />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </>
-  )
+      </>
+    )
+  }
+  return <Loading />
 }
 
 export default EnterTournament

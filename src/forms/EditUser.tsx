@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import checkEditUserData from '../errors/check/checkEditUserData'
-import checkEditUserProfileData from '../errors/check/checkEditUserProfileData'
+import Field from '../components/Field'
+import Form from '../components/Form'
+import * as regex from '../regex'
+import { Values } from '../func/valueType'
 import editProfile from '../hooks/editProfile'
 import editUser from '../hooks/editUser'
 import useProfile from '../hooks/useProfile'
@@ -9,115 +11,64 @@ interface EditUserProps {
   user: User
   profile: UserProfile
 }
-
+interface FormInf extends Values {
+  username: string
+  firstName: string
+  lastName: string
+  steamURL: string
+  discordTag: string
+}
 const EditUser: React.FC<EditUserProps> = ({ user, profile }) => {
-  const [username, setUsername] = useState(user.username)
-  const [firstName, setFirstName] = useState(user.first_name)
-  const [lastName, setLastName] = useState(user.last_name)
-  const [steamUrl, setSteamUrl] = useState(profile.steam_profile)
-  const [discordTag, setDiscordTag] = useState(profile.discord_name_tag)
-  const [error, setError] = useState('')
+  const [isDisabled, setDisable] = useState(false)
   const profileUser = useProfile()
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        let { hasError, message } = checkEditUserData(
-          username,
-          firstName,
-          lastName
-        )
-        let { isValid, msg } = checkEditUserProfileData(discordTag)
-        if (hasError) {
-          setError(message)
-        } else {
-          editUser({
-            username,
-            first_name: firstName,
-            last_name: lastName,
-          })
-        }
-        if (isValid) {
-          setError(null)
-          editProfile({
-            user: profileUser.state.pk,
-            steam_profile: steamUrl,
-            discord_name_tag: discordTag,
-          })
-        } else {
-          setError(msg)
-        }
+    <Form
+      initialValues={{
+        username: user.username,
+        firstName: user.first_name,
+        email: user.email,
+        lastName: user.last_name,
+        steamURL: profile.steam_profile,
+        discordTag: profile.discord_name_tag,
       }}
+      validate={{
+        username: { required: true },
+        discordTag: { regex: regex.DISCORD_TAG },
+      }}
+      onSubmit={async (
+        { username, firstName, lastName, steamURL, discordTag }: FormInf,
+        e
+      ) => {
+        setDisable(true)
+        await editUser({
+          username,
+          first_name: firstName,
+          last_name: lastName,
+        })
+        await editProfile({
+          user: profileUser.state.pk,
+          steam_profile: steamURL,
+          discord_name_tag: discordTag,
+        })
+        setDisable(false)
+      }}
+      disable={isDisabled}
+      resetClass='btn btn-danger profile-btn'
+      submitClass='btn btn-success profile-btn'
+      submitText='Save'
+      buttonsClass='btns'
+      errorContainerClass='sm-error-group'
+      reset
     >
       <legend style={{ textAlign: 'center' }}>Profile</legend>
-      <div className='mb-3'>
-        <label>Username</label>
-        <input
-          type='text'
-          className='form-control'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div className='mb-3'>
-        <label>Email</label>
-        <input
-          type='email'
-          placeholder='email@example.com'
-          className='form-control'
-          value={user.email}
-          disabled
-        />
-      </div>
-      <div className='mb-3'>
-        <label>First name</label>
-        <input
-          type='text'
-          className='form-control'
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-      </div>
-      <div className='mb-3'>
-        <label>Last Name</label>
-        <input
-          type='text'
-          className='form-control'
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
-      </div>
-      <div className='mb-3'>
-        <label>Steam Profile Link</label>
-        <input
-          type='text'
-          className='form-control'
-          placeholder='URL'
-          value={steamUrl}
-          onChange={(e) => setSteamUrl(e.target.value)}
-        />
-      </div>
-      <div className='mb-3'>
-        <label>Discord name with tag</label>
-        <input
-          type='text'
-          className='form-control'
-          placeholder='name#tag'
-          value={discordTag}
-          onChange={(e) => setDiscordTag(e.target.value)}
-        />
-      </div>
-      {error !== '' && <div className='error'>{error}</div>}
-      <div className='btns'>
-        <button type='submit' className='btn btn-success profile-btn'>
-          Save
-        </button>
-        <button type='button' className='btn btn-danger profile-btn'>
-          Reset
-        </button>
-      </div>
-    </form>
+      <Field name='username' type='text' />
+      <Field name='email' type='email' readOnly />
+      <Field name='firstName' type='text' />
+      <Field name='lastName' type='text' />
+      <Field name='steamURL' label='Steam Profile Link' type='url' />
+      <Field name='discordTag' label='Discord name with tag' type='text' />
+    </Form>
   )
 }
 
