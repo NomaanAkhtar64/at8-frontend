@@ -49,7 +49,7 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
                   </>
                 )}
               </td>
-              <td>{entry.date}</td>
+              <td>{entry.date.split("T")[0]}</td>
             </tr>
           ))}
         </tbody>
