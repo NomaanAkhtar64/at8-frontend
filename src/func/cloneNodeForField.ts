@@ -26,7 +26,7 @@ const cloneNodeForField = (
           disable,
         }
 
-        if (!('readOnly' in c.props)) {
+        if (!c.props.hasOwnProperty('readOnly')) {
           if ('onChange' in c.props) {
             props.onChange = c.props['onChange']
           } else {
