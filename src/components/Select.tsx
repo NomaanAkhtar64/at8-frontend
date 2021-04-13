@@ -31,5 +31,5 @@ const Select: React.FC<SelectProps> = ({
     </div>
   )
 }
-
+Select.displayName = 'Select'
 export default Select

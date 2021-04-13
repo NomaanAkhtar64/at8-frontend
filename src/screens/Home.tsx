@@ -7,9 +7,9 @@ import useGames from '../hooks/useGames'
 import { useHistory } from 'react-router'
 import Loading from '../components/Loading'
 import useHome from '../hooks/useHome'
-interface HomeProps {}
 
-const Home: React.FC<HomeProps> = () => {
+let hasVideoPlayed = false
+const Home: React.FC = () => {
   const games = useGames()
   let makeBreakPoints = useCallback(() => {
     let obj = {} as typeof Swiper.defaultProps.breakpoints
@@ -36,7 +36,8 @@ const Home: React.FC<HomeProps> = () => {
     return (
       <>
         <div className='art-gif'>
-          {home.hasLoaded &&
+          {!hasVideoPlayed &&
+            home.hasLoaded &&
             home.state.map((video, i) => (
               <div key={i} className='video-container'>
                 <video
@@ -45,9 +46,12 @@ const Home: React.FC<HomeProps> = () => {
                   width='100%'
                   autoPlay
                   muted
-                  onEnded={() =>
-                    (document.getElementById('at8-gif').style.display = 'none')
-                  }
+                  onLoadStart={() => {
+                    hasVideoPlayed = true
+                  }}
+                  onEnded={() => {
+                    document.getElementById('at8-gif').style.display = 'none'
+                  }}
                 />
               </div>
             ))}

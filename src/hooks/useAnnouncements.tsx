@@ -10,7 +10,6 @@ export default function useAnnouncements(id = null) {
   const [state, setState] = useState<Announcement[]>(
     cachedAnnouncement ? JSON.parse(cachedAnnouncement) : []
   )
-  const [error, setError] = useState('')
   const [hasLoaded, setHasLoaded] = useState(cachedAnnouncement ? true : false)
 
   useEffect(() => {
@@ -32,7 +31,6 @@ export default function useAnnouncements(id = null) {
       .catch((err) => {
         if (!axios.isCancel(err)) {
           console.log(err)
-          setError(err)
         }
       })
 
@@ -40,5 +38,5 @@ export default function useAnnouncements(id = null) {
       cancelHandler.cancel()
     }
   }, [id])
-  return { state, error, hasLoaded }
+  return { state, hasLoaded }
 }

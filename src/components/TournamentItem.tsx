@@ -22,7 +22,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
   const date = new Date(new Date().getTime())
   const today = Date.parse(date.toString())
   return (
-    <div className='tourna'>
+    <div className='a1-body'>
       <div className='tourna-top'>
         <h3 className='tourna-name'>{name}</h3>
         <p className='tourna-body'>{parse(details)}</p>

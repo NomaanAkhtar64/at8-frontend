@@ -24,7 +24,7 @@ type FieldTypes =
   | 'url'
   | 'week'
 
-interface FieldProps {
+export interface FieldProps {
   label?: string
   type: FieldTypes
   value?: JSX.IntrinsicElements['input']['value']
@@ -68,7 +68,9 @@ const Field: React.FC<FieldProps> = ({
           if (inputRegex) {
             v = v.replace(inputRegex, '')
           }
-          if (onChange) onChange(v, e)
+          if (onChange) {
+            onChange(v, e)
+          }
         }}
         type={type}
         id={id}
@@ -81,5 +83,6 @@ const Field: React.FC<FieldProps> = ({
     </div>
   )
 }
+Field.displayName = 'Field'
 
 export default Field

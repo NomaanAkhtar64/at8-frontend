@@ -9,8 +9,7 @@ import LoadingBar from './components/LoadingBar'
 import Profile from './screens/Profile'
 import Redirecter from './screens/Redirecter'
 import { AxiosError } from 'axios'
-import EditTeam from './forms/EditTeam'
-
+import './style.scss'
 const Home = lazy(() => import('./screens/Home'))
 const Account = lazy(() => import('./screens/Account'))
 const Announcements = lazy(() => import('./screens/Announcements'))
@@ -22,6 +21,7 @@ const ResetPassword = lazy(() => import('./screens/ResetPassword'))
 const ResetPasswordConfirm = lazy(
   () => import('./screens/ResetPasswordConfirm')
 )
+const EditTeam = lazy(() => import('./forms/EditTeam'))
 const VerifyEntry = lazy(() => import('./screens/VerifyEntry'))
 const EnterTournament = lazy(() => import('./screens/EnterTournament'))
 

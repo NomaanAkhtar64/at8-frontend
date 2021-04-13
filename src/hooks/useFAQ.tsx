@@ -7,7 +7,6 @@ export default function useFAQ(slug: string | null = null) {
   const [state, setState] = useState<FAQ[]>(
     cachedFAQ ? JSON.parse(cachedFAQ) : []
   )
-  const [error, setError] = useState('')
   const [hasLoaded, setHasLoaded] = useState(cachedFAQ ? true : false)
 
   useEffect(() => {
@@ -24,13 +23,14 @@ export default function useFAQ(slug: string | null = null) {
         setHasLoaded(true)
       })
       .catch((err) => {
-        console.log(err)
-        setError(err)
+        if (!axios.isCancel(err)) {
+          console.log(err)
+        }
       })
     return () => {
       cancelHandler.cancel()
     }
   }, [slug])
 
-  return { state, error, hasLoaded }
+  return { state, hasLoaded }
 }

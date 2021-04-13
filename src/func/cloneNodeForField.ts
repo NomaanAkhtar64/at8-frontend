@@ -1,6 +1,6 @@
 import React from 'react'
 import { onValueUpdate, Values } from './valueType'
-
+import { FieldProps } from '../components/Field'
 const cloneNodeForField = (
   c: React.ReactNode,
   initialValues: Values,
@@ -10,7 +10,8 @@ const cloneNodeForField = (
 ) => {
   if (React.isValidElement(c)) {
     if (typeof c.type !== 'string') {
-      const name = c.type.name
+      // @ts-ignore
+      const name = c.type.displayName
       if (name === 'Field' || name === 'Select') {
         const onChange = (
           v: string | number,
@@ -18,16 +19,22 @@ const cloneNodeForField = (
         ) => {
           onUpdate(c.props['name'], v)
         }
-        return React.cloneElement(c, {
+
+        let props: Partial<FieldProps & { key: number }> = {
           value: initialValues[c.props['name']],
-          onChange:
-            !c.props['readOnly'] &&
-            (c.props['onChange']
-              ? (c.props['onChange'] as typeof onChange)
-              : onChange),
           key: i,
-          disabled: disable,
-        })
+          disable,
+        }
+
+        if (!('readOnly' in c.props)) {
+          if ('onChange' in c.props) {
+            props.onChange = c.props['onChange']
+          } else {
+            props.onChange = onChange
+          }
+        }
+
+        return React.cloneElement(c, props)
       }
     }
   }

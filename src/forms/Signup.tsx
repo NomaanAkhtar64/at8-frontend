@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
 import { useHistory } from 'react-router'
 import Error from '../components/Error'
-import Form from '../components/Form'
+import { default as SForm } from '../components/Form'
 import { Values } from '../func/valueType'
 import * as regex from '../regex'
 import Field from '../components/Field'
@@ -30,7 +30,7 @@ const Signup: React.FC<SignupProps> = ({ onSignUp }) => {
   const [serverError, setServerError] = useState<null | string>(null)
 
   return (
-    <Form
+    <SForm
       formClass='form'
       submitClass='btn btn-secondary signup-btn'
       initialValues={{
@@ -79,7 +79,7 @@ const Signup: React.FC<SignupProps> = ({ onSignUp }) => {
         </small>
       </Field>
       <Field name='confirmPassword' type='password' placeholder />
-    </Form>
+    </SForm>
   )
 }
 

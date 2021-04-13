@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
 import Error from '../components/Error'
 import { AxiosError } from 'axios'
-import Form from '../components/Form'
+import { default as SForm } from '../components/Form'
 import { Values } from '../func/valueType'
 import Field from '../components/Field'
 interface LoginProps extends UserState {
@@ -40,7 +40,7 @@ const Login: React.FC<LoginProps> = ({
   }
   return (
     <>
-      <Form
+      <SForm
         initialValues={{ email: '', password: '' }}
         validate={{
           email: { required: true },
@@ -58,9 +58,9 @@ const Login: React.FC<LoginProps> = ({
           <Error>You Need To Login First</Error>
         )}
         <legend className='mb-4'>Login</legend>
-        <Field name='email' type='email' />
-        <Field name='password' type='password' />
-      </Form>
+        <Field name='email' type='email' placeholder />
+        <Field name='password' type='password' placeholder />
+      </SForm>
       <div style={{ marginBottom: 20 }}>
         <p className='forgot-password'>
           <Link to='/reset-password'>Forgot Password?</Link>

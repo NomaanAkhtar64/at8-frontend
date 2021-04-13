@@ -24,8 +24,10 @@ export default function useGames(slug = null) {
         setHasLoaded(true)
       })
       .catch((err) => {
-        console.log(err)
-        setError(err)
+        if (!axios.isCancel(err)) {
+          console.log(err)
+          setError(err)
+        }
       })
     return () => {
       cancelHandler.cancel()

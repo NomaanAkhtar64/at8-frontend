@@ -11,9 +11,10 @@ const Announcements: React.FC<AnnouncementsProps> = () => {
 
   if (announcements.hasLoaded) {
     return (
-      <div className='announcement-grand-parent'>
+      <div className='a1-wrapper'>
+        <div className='a1-heading'>Announcements</div>
         {announcements.state.length === 0 && (
-          <h3 className='tourna'>No Announcement Found</h3>
+          <h3 className='a1-body'>No Announcement Found</h3>
         )}
         {announcements.state.map((announcement, i) => (
           <div className='announcement-parent' key={i}>
