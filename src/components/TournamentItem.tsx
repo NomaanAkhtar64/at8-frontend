@@ -10,8 +10,8 @@ interface TournamentItemProps {
 const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
   const {
     name,
-    slots,
-    teams,
+    occupied_slots,
+    total_slots,
     details,
     starting_time,
     ending_time,
@@ -29,7 +29,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
       </div>
       <div className='tourna-bottom'>
         <div className='tourna-left'>
-          {!winner && <h4>Slots Available: {slots - teams.length}</h4>}
+          {!winner && <h4>Slots Available: {total_slots - occupied_slots}</h4>}
 
           <div className='tourna-time'>
             <h6>
@@ -61,7 +61,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
               today < Date.parse(starting_time) ? (
                 <div className='register-btn'>
                   <button type='button' className='btn btn-danger btn-lg'>
-                    {slots - teams.length > 0 ? (
+                    {occupied_slots < total_slots ? (
                       <Link
                         to={`/tournament/register/${tournament.slug}`}
                         style={{

@@ -30,7 +30,7 @@ const Payment: React.FC<PaymentProps> = ({
         tournament: tournament.id,
         user: userId,
       }
-      let { isValid, message } = checkCreateEntryData(values)
+      let { isValid } = checkCreateEntryData(values)
       if (isValid) {
         createEntry(values).then((en) => {
           if (en) {

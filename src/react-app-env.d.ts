@@ -53,9 +53,11 @@ interface Tournament {
   details: string
   game: Games
   slug: string
-  slots: number
+  has_free_slot: boolean
   prize: String
   starting_time: string
+  total_slots: number
+  occupied_slots: number
   ending_time: string
   winner: {
     logo: string

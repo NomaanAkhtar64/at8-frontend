@@ -16,7 +16,6 @@ const Provider: React.FC<{ isAuthenticated: boolean }> = ({
 }) => {
   const [state, setState] = useState<User>(null)
   const [profile, setProfile] = useState<UserProfile>(null)
-  const [error, setError] = useState('')
   const [hasLoaded, setHasLoaded] = useState(false)
   const counter = useRef(0)
   useEffect(() => {
@@ -38,7 +37,6 @@ const Provider: React.FC<{ isAuthenticated: boolean }> = ({
         })
         .catch((err) => {
           console.log(err)
-          setError(err)
         })
       axios
         .get(`${__API_URL__}/api/userprofile/`, {
@@ -52,12 +50,11 @@ const Provider: React.FC<{ isAuthenticated: boolean }> = ({
             }
             counter.current++
           } else {
-            setError('USER PROFILE NOT FOUND')
+            console.log('USER PROFILE NOT FOUND')
           }
         })
         .catch((err) => {
           console.log(err)
-          setError(err)
         })
     }
     return () => {

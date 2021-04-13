@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 
 import backDrop from '../assets/header-backdrop.png'
-import logo from '../assets/AT8-Logo.png'
 import AT8 from '../assets/AT8 logo - Copy.png'
 import * as actions from '../store/actions/auth'
 import Dropdown from '../components/Dropdown'
