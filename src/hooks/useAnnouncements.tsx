@@ -21,7 +21,6 @@ export default function useAnnouncements(id = null) {
         cancelToken: cancelHandler.token,
       })
       .then((res) => {
-        console.log(res.data)
         if (id !== null) {
           setState([res.data])
         } else {
@@ -31,8 +30,10 @@ export default function useAnnouncements(id = null) {
         setHasLoaded(true)
       })
       .catch((err) => {
-        console.log(err)
-        setError(err)
+        if (!axios.isCancel(err)) {
+          console.log(err)
+          setError(err)
+        }
       })
 
     return () => {

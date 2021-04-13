@@ -3,7 +3,7 @@ import React from 'react'
 import './Announcement.scss'
 import useAnnouncements from '../hooks/useAnnouncements'
 import Loading from '../components/Loading'
-
+import parse from 'html-react-parser'
 interface AnnouncementsProps {}
 
 const Announcements: React.FC<AnnouncementsProps> = () => {
@@ -12,6 +12,9 @@ const Announcements: React.FC<AnnouncementsProps> = () => {
   if (announcements.hasLoaded) {
     return (
       <div className='announcement-grand-parent'>
+        {announcements.state.length === 0 && (
+          <h3 className='tourna'>No Announcement Found</h3>
+        )}
         {announcements.state.map((announcement, i) => (
           <div className='announcement-parent' key={i}>
             <div className='announcement-image'>
@@ -20,7 +23,7 @@ const Announcements: React.FC<AnnouncementsProps> = () => {
             <div className='announcement-child'>
               <h3 className='announcement-heading'>{announcement.subject}</h3>
               <div className='announcement-text'>
-                <p>{announcement.text}</p>
+                <div>{parse(announcement.text)}</div>
                 <a href={announcement.link} rel='noreferrer' target='_blank'>
                   {announcement.link}
                 </a>
