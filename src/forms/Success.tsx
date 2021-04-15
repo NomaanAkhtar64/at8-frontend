@@ -19,9 +19,9 @@ const Success: React.FC<SuccessProps> = () => {
             <path
               d='M26.3373 38.4325L14.4883 26'
               stroke='white'
-              stroke-width='4'
+              strokeWidth='4'
             />
-            <path d='M24 38L47 16' stroke='white' stroke-width='4' />
+            <path d='M24 38L47 16' stroke='white' strokeWidth='4' />
           </svg>
         </h3>
         <h5>

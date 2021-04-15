@@ -137,7 +137,7 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ t, user, profile }) => {
 }
 const MyTeam: React.FC<MyTeamProps> = ({ profile, user }) => {
   const teams = useTeams(profile.user)
-  if (teams.hasLoaded) {
+  if (teams.hasLoaded && teams.state) {
     return <TeamProfile t={teams.state} user={user} profile={profile} />
   }
   return <Loading />

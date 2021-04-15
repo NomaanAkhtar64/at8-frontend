@@ -18,7 +18,7 @@ const EnterTournament: React.FC<
 
   const profile = useProfile()
   const tournament = useTournaments(match.params.tournamentSlug)
-  console.log(tournament)
+
   if (tournament.hasLoaded) {
     return (
       <>

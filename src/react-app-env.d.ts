@@ -7,7 +7,7 @@ interface UserState {
   loading: boolean
 }
 interface Site {
-  payement_details: string
+  payment_details: string
   help_team_basic: string
   help_team_captain: string
   help_team_players: string

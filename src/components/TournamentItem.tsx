@@ -60,27 +60,26 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
               {today >= Date.parse(registration_date) &&
               today < Date.parse(starting_time) ? (
                 <div className='register-btn'>
-                  <button type='button' className='btn btn-danger btn-lg'>
-                    {occupied_slots < total_slots ? (
-                      <Link
-                        to={`/tournament/register/${tournament.slug}`}
-                        style={{
-                          textDecoration: 'none',
-                          color: '#fff',
-                        }}
-                      >
-                        Register
-                      </Link>
-                    ) : (
-                      <button
-                        type='button'
-                        className='btn btn-danger btn-lg'
-                        disabled
-                      >
-                        Slots Are Full
-                      </button>
-                    )}
-                  </button>
+                  {occupied_slots < total_slots ? (
+                    <Link
+                      className='btn btn-danger btn-lg'
+                      to={`/tournament/register/${tournament.slug}`}
+                      style={{
+                        textDecoration: 'none',
+                        color: '#fff',
+                      }}
+                    >
+                      Register
+                    </Link>
+                  ) : (
+                    <button
+                      type='button'
+                      className='btn btn-danger btn-lg'
+                      disabled
+                    >
+                      Slots Are Full
+                    </button>
+                  )}
                 </div>
               ) : (
                 <h6 className='tourna-registerdate'>

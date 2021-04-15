@@ -44,44 +44,6 @@ const Payment: React.FC<PaymentProps> = ({
 
   if (hasLoaded && team.hasLoaded)
     return (
-      // <>
-      // <div className='payment-page text-white'>
-      //     <div className='payment'>
-      //       <div className='details'>
-      //         <div className=''>
-      //           <h3>Details of Transaction</h3>
-      //           <div>{parse(site.payement_details)}</div>
-      //         </div>
-      //       </div>
-
-      //       <div className='verify'>
-      //         <div className='row'>
-      //           <h1>Entry No</h1>
-      //           <h2 className='ml-auto'>#{entry.entry_id}</h2>
-      //         </div>
-      //         {tournament.hasFee && (
-      //           <div className='row'>
-      //             <h1>Total Cost</h1>
-      //             <h2>{tournament.fee}</h2>
-      //           </div>
-      //         )}
-      //         <div className='row'>
-      //           <h1>Payment Status</h1>
-      //           <h2 className='ml-auto'>
-      //             {entry.has_paid ? 'Paid' : 'Unpaid'}
-      //           </h2>
-      //         </div>
-      //       </div>
-      //     </div>
-      //     <button
-      //       type='button'
-      //       className='btn btn-success'
-      //       onClick={() => toSuccess()}
-      //     >
-      //       Confirm
-      //     </button>
-      //   </div>
-      // </>
       <div className='payment-page text-white register'>
         <div className='register-form'>
           <div className='container bill pt-3'>
@@ -125,7 +87,7 @@ const Payment: React.FC<PaymentProps> = ({
           </div>
           <div className='hint'>
             <h1>Help Text</h1>
-            <div>{parse(site.payement_details)}</div>
+            <div>{parse(site.payment_details)}</div>
           </div>
         </div>
       </div>
