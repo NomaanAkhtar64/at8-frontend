@@ -1,4 +1,5 @@
 .a1-body {
+  font-size: 20px;
   color: #fff;
   background-color: #333;
   padding: 20px 4vw;
@@ -23,11 +24,6 @@
   font-size: 20px;
   color: #fff;
 }
-@media (min-width: 992px) {
-  .a1-heading {
-    font-size: 30px;
-  }
-}
 
 .a1-wrapper {
   max-width: 1140px;
@@ -38,4 +34,13 @@
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+}
+
+@media (min-width: 992px) {
+  .a1-heading {
+    font-size: 30px;
+  }
+  .a1-body {
+    font-size: 30px;
+  }
 }
