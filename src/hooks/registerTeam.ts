@@ -30,9 +30,6 @@ export default function registerTeam(
         headers,
       }
     )
-    .then((res) => {
-      console.log(res.data)
-      return res.data
-    })
+    .then((res) => res.data)
     .catch((err) => console.log(err))
 }
