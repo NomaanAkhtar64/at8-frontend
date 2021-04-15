@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 
@@ -10,6 +10,13 @@ import { Values } from '../func/valueType'
 import * as regex from '../regex'
 import Field from '../components/Field'
 
+const arrToStr = (a: string[] | string) => {
+  if (Array.isArray(a)) {
+    return a.join('&nbsp;')
+  }
+  return a
+}
+
 interface SignupProps extends UserState {
   onSignUp: (
     username: string,
@@ -17,17 +24,38 @@ interface SignupProps extends UserState {
     password1: string,
     password2: string
   ) => void
+  hasSignedIn: boolean
 }
 interface FormInf extends Values {
   username: string
   email: string
   password: string
-  passwordRe: string
+  confirmPassword: string
 }
-const Signup: React.FC<SignupProps> = ({ onSignUp }) => {
+const Signup: React.FC<SignupProps> = ({
+  onSignUp,
+  hasSignedIn,
+  error,
+  loading,
+}) => {
   const history = useHistory()
-  const [isDisabled, setDisable] = useState(false)
   const [serverError, setServerError] = useState<null | string>(null)
+  useEffect(() => {
+    if (error) {
+      if (axios.isAxiosError(error)) {
+        let data = error.response.data
+        if ('non_field_error' in data) {
+          setServerError(arrToStr(error.response.data.non_field_error))
+        }
+      }
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (hasSignedIn) {
+      history.push('/login')
+    }
+  }, [hasSignedIn, history])
 
   return (
     <SForm
@@ -39,7 +67,7 @@ const Signup: React.FC<SignupProps> = ({ onSignUp }) => {
         password: '',
         confirmPassword: '',
       }}
-      disable={isDisabled}
+      disable={loading}
       validate={{
         username: { required: true },
         email: { required: true, regex: regex.EMAIL },
@@ -48,22 +76,24 @@ const Signup: React.FC<SignupProps> = ({ onSignUp }) => {
       }}
       onSubmit={(v: FormInf, e) => {
         setServerError(null)
-        setDisable(true)
         axios
           .post('https://at8-backend.herokuapp.com/check-user/', {
             username: v.username,
             email: v.email,
           })
           .then((res) => {
-            onSignUp(v.username, v.email, v.password, v.passwordRe)
-            history.push('/login')
-            setDisable(true)
+            onSignUp(v.username, v.email, v.password, v.confirmPassword)
           })
           .catch((err) => {
-            if (err.response) {
-              setServerError(err.response.data)
+            if (axios.isAxiosError(err)) {
+              let data = err.response.data
+              if ('email' in data) {
+                setServerError(arrToStr(error.response.data.email))
+              }
+              if ('username' in data) {
+                setServerError(arrToStr(error.response.data.username))
+              }
             }
-            setDisable(false)
           })
       }}
     >
@@ -83,10 +113,13 @@ const Signup: React.FC<SignupProps> = ({ onSignUp }) => {
   )
 }
 
-function mapStateToProps(state: UserState): Partial<UserState> {
+function mapStateToProps(
+  state: UserState
+): Partial<UserState> & { hasSignedIn: boolean; serverError: Error } {
   return {
     loading: state.loading,
-    error: state.error,
+    serverError: state.error,
+    hasSignedIn: state.token !== null,
   }
 }
 

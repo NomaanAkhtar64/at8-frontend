@@ -66,11 +66,12 @@ export const authSignup = (username, email, password1, password2) => {
       password2: password2,
     })
       .then((res) => {
-        // const token = res.data.key
-        // localStorage.setItem('token', token)
-        // dispatchEvent(authSuccess(token));
+        const token = res.data.key
+        localStorage.setItem('token', token)
+        dispatchEvent(authSuccess(token))
       })
       .catch((err) => {
+        console.log(err)
         dispatchEvent(authFail(err))
       })
   }

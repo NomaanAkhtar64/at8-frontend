@@ -74,7 +74,7 @@ const Field: React.FC<FieldProps> = ({
         }}
         type={type}
         id={id}
-        value={value}
+        value={value !== null ? value : ''}
         disabled={disable}
         placeholder={placeholder ? (label ? label : camelToWords(name)) : ''}
         readOnly={readOnly}

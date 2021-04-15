@@ -3,7 +3,7 @@
 
 interface UserState {
   token: null | string
-  error: null | Error
+  error: null | Error | AxiosError
   loading: boolean
 }
 interface Site {
