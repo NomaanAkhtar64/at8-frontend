@@ -53,7 +53,7 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
       await editEntry(entry.state.id, values)
       setDisable(false)
 
-      history.push('/profile/entries/')
+      history.push('/profile/entries')
     } else {
       setError(message)
       setDisable(false)
@@ -100,7 +100,10 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
                     type='time'
                     className='form-control'
                     value={time}
-                    onChange={(e) => setTime(e.target.value)}
+                    onChange={(e) => {
+                      setTime(e.target.value)
+                      console.log(e.target.value)
+                    }}
                     disabled={isDisabled}
                     required
                   />
