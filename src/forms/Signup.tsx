@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
 import { useHistory } from 'react-router'
 import Error from '../components/Error'
-import { default as SForm } from '../components/Form'
+import Form from '../components/Form'
 import { Values } from '../func/valueType'
 import * as regex from '../regex'
 import Field from '../components/Field'
@@ -58,7 +58,7 @@ const Signup: React.FC<SignupProps> = ({
   }, [hasSignedIn, history])
 
   return (
-    <SForm
+    <Form
       formClass='form'
       submitClass='btn btn-secondary signup-btn'
       initialValues={{
@@ -109,7 +109,7 @@ const Signup: React.FC<SignupProps> = ({
         </small>
       </Field>
       <Field name='confirmPassword' type='password' placeholder />
-    </SForm>
+    </Form>
   )
 }
 
