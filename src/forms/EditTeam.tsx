@@ -28,7 +28,9 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
     team.team_captains_discord_tag
   )
   const [captainProfile, setCaptainProfile] = useState<string>(team.captain.url)
-  const [players, setPlayers] = useState<Player[]>(team.players)
+  const [players, setPlayers] = useState<PI[]>(
+    team.players.map((t, i) => ({ ...t, index: i }))
+  )
   const [isDisabled, setDisabled] = useState(false)
   return (
     <form
@@ -176,18 +178,23 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
           </div>
           <div className='edit-team-section'>
             <legend>Players</legend>
-            {players.map((pl, i) => (
-              <PlayerFields
-                key={i}
-                number={i + 1}
-                isAlternate={i === 4}
-                player={pl}
-                disabled={isDisabled}
-                updatePlayer={(p) => {
-                  setPlayers([...players.filter((pl, indx) => indx !== i), p])
-                }}
-              />
-            ))}
+            {players
+              .sort((a, b) => a.index - b.index)
+              .map((pl) => (
+                <PlayerFields
+                  key={pl.index}
+                  number={pl.index + 1}
+                  isAlternate={pl.index === 4}
+                  player={pl}
+                  disabled={isDisabled}
+                  updatePlayer={(p) => {
+                    setPlayers([
+                      ...players.filter((p) => p.index !== pl.index),
+                      p,
+                    ])
+                  }}
+                />
+              ))}
           </div>
         </div>
       </div>

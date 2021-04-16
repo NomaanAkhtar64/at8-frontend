@@ -27,7 +27,7 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
   const site = useSite()
   const games = useGames()
   const [game, setGame] = useState<number>(1)
-  const [players, setPlayers] = useState<(PI | Player)[]>([
+  const [players, setPlayers] = useState<PI[]>([
     {
       index: 0,
       username: '',
@@ -273,7 +273,7 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
               >
                 <legend>Players</legend>
                 {players
-                  .sort((a, b) => a['index'] - b['index'])
+                  .sort((a, b) => a.index - b.index)
                   .map((p, i) => (
                     <>
                       <PlayerFields

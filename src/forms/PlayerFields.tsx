@@ -3,9 +3,9 @@ import React from 'react'
 interface PlayerFieldsProps {
   number: number
   isAlternate: boolean
-  player: Player | PI
+  player: PI
   disabled?: boolean
-  updatePlayer: (p: Player | PI) => void
+  updatePlayer: (p: PI) => void
 }
 
 const PlayerFields: React.FC<PlayerFieldsProps> = ({

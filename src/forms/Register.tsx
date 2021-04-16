@@ -28,7 +28,7 @@ const Register: React.FC<RegisterProps> = ({
   const [captainProfile, setCaptainProfile] = useState('')
   const [teamSelect, setTeamSelect] = useState<number>(null)
   const site = useSite()
-  const [players, setPlayers] = useState<(PI | Player)[]>([
+  const [players, setPlayers] = useState<PI[]>([
     {
       index: 0,
       username: '',
