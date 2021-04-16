@@ -101,14 +101,14 @@ interface Teams {
   players: Player[]
 }
 
-interface Payment {
-  tournament: number
-  user: number
-  team: number
-  has_paid: boolean
-  text_proof: string
-  image_proof: string | any
-}
+// interface Payment {
+//   tournament: number
+//   user: number
+//   team: number
+//   has_paid: boolean
+//   text_proof: string
+//   image_proof: string | any
+// }
 
 interface FAQImage {
   caption: string
@@ -128,6 +128,7 @@ interface Entry {
   tournament: number
   team: number
   user: number
+  transaction_id?: string
   date_transaction?: string
   time_transaction?: string
   image_proof?: string

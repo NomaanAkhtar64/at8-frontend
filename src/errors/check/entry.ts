@@ -11,7 +11,7 @@ export const checkEntryVerify = (data: Partial<Entry>, selected: string) => {
       setError('Please Enter the date and time')
     }
   }
-  if (selected === 'image') {
+  else if (selected === 'image') {
     if (!data.image_proof) {
       setError('Please Upload An Image')
     }

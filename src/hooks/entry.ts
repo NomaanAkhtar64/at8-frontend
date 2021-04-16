@@ -28,6 +28,7 @@ export const useEntry = (entry_id: string) => {
 
 export const editEntry = (id: number, data: Partial<Entry>) => {
   const headers = getHeaders()
+  console.log(data)
   return axios
     .patch<Entry>(`${__API_URL__}/api/entry/${id}/`, data, { headers })
     .then((res) => res.data)

@@ -1,95 +1,106 @@
-import React, { FormEvent, useEffect, useState } from 'react'
-import { RouteComponentProps } from 'react-router'
-import Loading from '../components/Loading'
-import { checkEntryVerify } from '../errors/check/entry'
-import { useEntry, editEntry } from '../hooks/entry'
-import imgToBase64 from '../utils/imgToBase64'
-import './VerifyEntry.scss'
+import React, { FormEvent, useEffect, useState } from "react";
+import { RouteComponentProps } from "react-router";
+import Loading from "../components/Loading";
+import { checkEntryVerify } from "../errors/check/entry";
+import { useEntry, editEntry } from "../hooks/entry";
+import djTimeToRT from "../utils/djTimeToRT";
+import imgToBase64 from "../utils/imgToBase64";
+import "./VerifyEntry.scss";
 
 const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
   match,
   history,
 }) => {
-  const [error, setError] = useState('')
-  const [selectValue, setSelectValue] = useState('')
+  const [error, setError] = useState("");
+  const [selectValue, setSelectValue] = useState("");
 
-  const [isDisabled, setDisable] = useState(false)
-  const entry = useEntry(match.params.id)
-  const [date, setDate] = useState(null)
-  const [time, setTime] = useState(null)
-  const [image, setImage] = useState<File>(null)
-  const [imageB64, setimageB64] = useState<string>(null)
+  const [isDisabled, setDisable] = useState(false);
+  const entry = useEntry(match.params.id);
+  const [tranId, setTranId] = useState(null);
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
+  const [image, setImage] = useState<File>(null);
+  const [imageB64, setimageB64] = useState<string>(null);
 
   useEffect(() => {
     if (entry.hasLoaded) {
       if (entry.state) {
-        if (entry.state.date_transaction) setDate(entry.state.date_transaction)
-        if (entry.state.time_transaction) setTime(entry.state.date_transaction)
-        if (entry.state.image_proof) setimageB64(entry.state.image_proof)
+        if (entry.state.date_transaction) setDate(entry.state.date_transaction);
+        if (entry.state.time_transaction)
+          setTime(djTimeToRT(entry.state.time_transaction));
+        if (entry.state.image_proof) setimageB64(entry.state.image_proof);
       }
     }
-  }, [entry])
+  }, [entry]);
 
   const onSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    setDisable(true)
+    e.preventDefault();
+    setDisable(true);
 
-    let imgBase64: string
+    let imgBase64: string;
     if (image) {
-      imgBase64 = await imgToBase64(image)
+      imgBase64 = await imgToBase64(image);
     } else {
-      imgBase64 = null
+      imgBase64 = undefined;
     }
 
     let values: Partial<Entry> = {
       image_proof: imgBase64,
+      transaction_id: tranId,
       date_transaction: date,
       time_transaction: time,
-    }
-
-    let { isValid, message } = checkEntryVerify(values, selectValue)
+    };
+    
+    let { isValid, message } = checkEntryVerify(values, selectValue);
 
     if (isValid) {
-      await editEntry(entry.state.id, values)
-      setDisable(false)
+      await editEntry(entry.state.id, values);
+      setDisable(false);
 
-      history.push('/profile/entries')
+      history.push("/profile/entries");
     } else {
-      setError(message)
-      setDisable(false)
+      setError(message);
+      setDisable(false);
     }
-  }
+  };
 
   if (entry.hasLoaded) {
     if (entry.state) {
       return (
-        <div className='verify-form-container container'>
-          <form className='verify-form' onSubmit={onSubmit}>
+        <div className="verify-form-container container">
+          <form className="verify-form" onSubmit={onSubmit}>
             <legend>Upload any proof to verify your Verification.</legend>
             <select
-              className='form-select form-select-lg mb-3 payment-select'
-              aria-label='.form-select-lg example'
-              style={{ width: '100%' }}
+              className="form-select form-select-lg mb-3 payment-select"
+              aria-label=".form-select-lg example"
+              style={{ width: "100%" }}
               onChange={(e) => {
-                setSelectValue(e.target.value)
+                setSelectValue(e.target.value);
               }}
               disabled={isDisabled}
             >
               <option selected>Open this select menu</option>
-              <option value='text'>Date and Time of transaction</option>
-              <option value='image'>Image proof of transaction</option>
+              <option value="text">Date and Time of transaction</option>
+              <option value="image">Image proof of transaction</option>
             </select>
 
-            {selectValue === 'text' && (
-              <div className='form-group'>
-                <div className='form-group'>
+            {selectValue === "text" && (
+              <div className="form-group">
+                <div className="form-group">
                   <h4>
                     Select the date and time when you transacted the payment.
                   </h4>
+                  <label>Transaction Id</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={tranId}
+                    onChange={(e) => setTranId(e.target.value)}
+                  />
                   <label>Date</label>
                   <input
-                    type='date'
-                    className='form-control'
+                    type="date"
+                    className="form-control"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     required
@@ -97,67 +108,66 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
                   />
                   <label>Time</label>
                   <input
-                    type='time'
-                    className='form-control'
+                    type="time"
+                    className="form-control"
                     value={time}
                     onChange={(e) => {
-                      setTime(e.target.value)
-                      console.log(e.target.value)
+                      setTime(e.target.value);
                     }}
                     disabled={isDisabled}
                     required
                   />
                 </div>
-                <p style={{ color: 'red' }}>{error}</p>
-                <button type='submit' className='btn btn-success'>
+                <p style={{ color: "red" }}>{error}</p>
+                <button type="submit" className="btn btn-success">
                   Enter
                 </button>
               </div>
             )}
-            {selectValue === 'image' && (
-              <div className='form-group'>
-                <div className='form-group'>
+            {selectValue === "image" && (
+              <div className="form-group">
+                <div className="form-group">
                   <label>Upload image file</label>
-                  <div className='custom-file'>
+                  <div className="custom-file">
                     <input
-                      type='file'
-                      accept='image/*'
-                      className='custom-file-input'
-                      id='inputGroupFile02'
+                      type="file"
+                      accept="image/*"
+                      className="custom-file-input"
+                      id="inputGroupFile02"
                       required
                       onChange={(e) => {
-                        setImage(e.target.files[0])
+                        setImage(e.target.files[0]);
                       }}
                       disabled={isDisabled}
                     />
-                    <label className='custom-file-label'>
+                    <label className="custom-file-label">
                       {image ? (
-                        <p>{image['name']}</p>
+                        <p>{image["name"]}</p>
                       ) : imageB64 ? (
                         imageB64
                       ) : (
-                        'Choose file'
+                        "Choose file"
                       )}
                     </label>
                   </div>
                 </div>
-                <p style={{ color: 'red' }}>{error}</p>
-                <button type='submit' className='btn btn-success'>
+                <p style={{ color: "red" }}>{error}</p>
+                <button type="submit" className="btn btn-success">
                   Enter
                 </button>
               </div>
             )}
           </form>
         </div>
-      )
+      );
     }
     return (
-      <div className='entry-verify-error'>
+      <div className="entry-verify-error">
         <span>No Entry Found</span>
       </div>
-    )
+    );
   }
-  return <Loading />
-}
+  return <Loading />;
+};
 
-export default VerifyEntry
+export default VerifyEntry;

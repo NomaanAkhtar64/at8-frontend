@@ -39,7 +39,7 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
                   'Paid'
                 ) : (
                   <>
-                    Not Paid
+                    Pending
                     <Link
                       to={`/entry/verify/${entry.entry_id}`}
                       style={{ display: 'block' }}

@@ -1,21 +1,19 @@
-import axios from 'axios'
-import { __API_URL__ } from '../const'
+import axios from "axios";
+import { __API_URL__ } from "../const";
 
 export default function supportForm(
-  user: number,
+  email: string,
   first_name: string,
   last_name: string,
   issue: string
 ) {
   axios
     .post(`${__API_URL__}/api/faq-support/`, {
-      user: user,
+      email: email,
       first_name: first_name,
       last_name: last_name,
       issue: issue,
     })
-    .then((res) => {
-      console.log(res.data)
-    })
-    .catch((err) => console.log(err))
+    .then((res) => res.data)
+    .catch((err) => err);
 }
