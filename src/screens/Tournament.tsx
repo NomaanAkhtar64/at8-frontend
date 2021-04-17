@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { RouteComponentProps } from 'react-router'
 import Loading from '../components/Loading'
 import TournamentItem from '../components/TournamentItem'
@@ -8,7 +8,9 @@ interface TournamentProps extends RouteComponentProps<{ slug }> {}
 
 const Tournament: React.FC<TournamentProps> = ({ match }) => {
   const tournaments = useTournaments(null, match.params.slug)
-
+  useEffect(() => {
+    document.title = "Tournaments - AT8"
+  }, [])
   if (tournaments.hasLoaded) {
     return (
       <div className='a1-wrapper'>

@@ -1,10 +1,10 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import parse from 'html-react-parser'
-import './TournamentItem.scss'
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import parse from "html-react-parser";
+import "./TournamentItem.scss";
 
 interface TournamentItemProps {
-  tournament: Tournament
+  tournament: Tournament;
 }
 
 const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
@@ -18,63 +18,70 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
     winner,
     prize,
     registration_date,
-  } = tournament
-  const date = new Date(new Date().getTime())
-  const today = Date.parse(date.toString())
+  } = tournament;
+  const date = new Date(new Date().getTime());
+  const today = Date.parse(date.toString());
+
+  useEffect(() => {
+    document.title = `${tournament.game.name} - AT8`;
+  }, [tournament.game.name]);
+  
   return (
-    <div className='a1-body'>
-      <div className='tourna-top'>
-        <h3 className='tourna-name'>{name}</h3>
-        <p className='tourna-body'>{parse(details)}</p>
+    <div className="a1-body">
+      <div className="tourna-top">
+        <h3 className="tourna-name">
+          {name} - {tournament.game.name}
+        </h3>
+        <p className="tourna-body">{parse(details)}</p>
       </div>
-      <div className='tourna-bottom'>
-        <div className='tourna-left'>
+      <div className="tourna-bottom">
+        <div className="tourna-left">
           {!winner && <h4>Slots Available: {total_slots - occupied_slots}</h4>}
 
-          <div className='tourna-time'>
+          <div className="tourna-time">
             <h6>
               From:
-              <span className='grey'> {starting_time}</span>
+              <span className="grey"> {starting_time}</span>
             </h6>
             <h6>
               To:
-              <span className='grey'> {ending_time}</span>
+              <span className="grey"> {ending_time}</span>
             </h6>
           </div>
         </div>
-        <div className='tourna-right'>
+        <div className="tourna-right">
           {winner ? (
-            <div className='winner'>
-              <img src={winner.logo} alt='' />
-              <div className='winner-body'>
+            <div className="winner">
+              <img src={winner.logo} alt="" />
+              <div className="winner-body">
                 <h4>Winner</h4>
-                <h4 className='grey'>{winner.name}</h4>
+                <h4 className="grey">{winner.name}</h4>
               </div>
             </div>
           ) : (
             <>
-              <h4 className='tourna-prize'>
+              <h4 className="tourna-prize">
                 Prize Pool: <span>{prize}</span>
               </h4>
 
               {today >= Date.parse(registration_date) &&
               today < Date.parse(starting_time) ? (
-                <div className='register-btn'>
+                <div className="register-btn">
                   {occupied_slots < total_slots ? (
                     <Link
-                      className='btn btn-danger btn-lg'
+                      className="btn btn-danger btn-lg"
                       to={`/tournament/register/${tournament.slug}`}
                       style={{
-                        textDecoration: 'none',
-                        color: '#fff',
+                        textDecoration: "none",
+                        color: "#fff",
                       }}
                     >
                       Register
                     </Link>
                   ) : (
                     <button
-                      type='button'
-                      className='btn btn-danger btn-lg'
+                      type="button"
+                      className="btn btn-danger btn-lg"
                       disabled
                     >
                       Slots Are Full
@@ -82,9 +89,9 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
                   )}
                 </div>
               ) : (
-                <h6 className='tourna-registerdate'>
+                <h6 className="tourna-registerdate">
                   Registration Open:
-                  <span className='grey'> {registration_date}</span>
+                  <span className="grey"> {registration_date}</span>
                 </h6>
               )}
             </>
@@ -92,7 +99,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TournamentItem
+export default TournamentItem;
