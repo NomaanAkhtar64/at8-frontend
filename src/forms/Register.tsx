@@ -157,7 +157,6 @@ const Register: React.FC<RegisterProps> = ({
                           id='inputGroupFile02'
                           required
                           onChange={(e) => {
-                            console.log(e.target.files[0])
                             setLogo(e.target.files[0])
                           }}
                         />

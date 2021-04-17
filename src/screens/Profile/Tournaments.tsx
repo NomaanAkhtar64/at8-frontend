@@ -1,18 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { deleteEntry } from "../../hooks/entry";
 
 interface TournamentsProps {
   entries: EntryDetail[];
 }
 
 const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
+  const [entriesState, setEntries] = useState(entries);
+
   useEffect(() => {
     document.title = "Tournament Entries - AT8";
   }, []);
 
   return (
     <div className="tournament-data">
-      {entries.length !== 0 ? (
+      {entriesState.length !== 0 ? (
         <table className="table table-hover table-dark text-center my-4">
           <thead>
             <tr>
@@ -36,7 +39,7 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
             </tr>
           </thead>
           <tbody>
-            {entries.map((entry, idx) => (
+            {entriesState.map((entry, idx) => (
               <tr key={idx}>
                 <td>{entry.entry_id}</td>
                 <td>{entry.tournament.name}</td>
@@ -58,6 +61,7 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
                   )}
                 </td>
                 <td>{entry.date.split("T")[0]}</td>
+                {/* {console.log(entry.tournament.ending_time)} */}
                 {parseInt(entry.tournament.ending_time.split("-")[2]) <=
                   parseInt(entry.date.split("-")[2].split("T")[0]) && (
                   <td>
@@ -68,6 +72,12 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
                       fill="red"
                       className="bi bi-trash"
                       viewBox="0 0 16 16"
+                      onClick={async () => {
+                        await deleteEntry(entry.id);
+                        setEntries(
+                          entriesState.filter((e) => e.id !== entry.id)
+                        );
+                      }}
                     >
                       <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                       <path

@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
 interface PlayerFieldsProps {
-  number: number
-  isAlternate: boolean
-  player: PI
-  disabled?: boolean
-  updatePlayer: (p: PI) => void
+  number: number;
+  isAlternate: boolean;
+  player: PI;
+  disabled?: boolean;
+  updatePlayer: (p: PI) => void;
 }
 
 const PlayerFields: React.FC<PlayerFieldsProps> = ({
@@ -16,32 +16,38 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
   disabled = false,
 }) => {
   return (
-    <div className='form-group'>
+    <div className="form-group">
       <label>
         <strong>
-          {isAlternate ? 'Alternate Player' : `Player ${number + 1}`}
+          {isAlternate ? "Alternate Player" : `Player ${number + 1}`}
         </strong>
       </label>
-      <div className='form-group'>
+      <div className="form-group">
         <label>Username</label>
         <input
-          type='text'
-          className='form-control'
-          placeholder='Username'
+          type="text"
+          className="form-control"
+          placeholder="Username"
           required={number !== 5}
           value={player.username}
-          onChange={(e) =>
-            updatePlayer({ ...player, username: e.target.value })
-          }
+          onChange={(e) => {
+            updatePlayer({
+              ...player,
+              username:
+                e.target.value.length > 18
+                  ? e.target.value.substr(0, 18)
+                  : e.target.value,
+            });
+          }}
           disabled={disabled}
         />
       </div>
-      <div className='form-group'>
+      <div className="form-group">
         <label>Steam Profile Link</label>
         <input
-          type='text'
-          className='form-control'
-          placeholder='Steam Profile Url'
+          type="text"
+          className="form-control"
+          placeholder="Steam Profile Url"
           required={number !== 5}
           value={player.url}
           onChange={(e) => updatePlayer({ ...player, url: e.target.value })}
@@ -49,7 +55,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PlayerFields
+export default PlayerFields;

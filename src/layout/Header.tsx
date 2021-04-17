@@ -75,7 +75,6 @@ const Header: React.FC<HeaderProps> = ({
                     }}
                     style={{
                       marginRight: 10,
-                      borderRadius: '25%',
                     }}
                     alt=''
                   />
