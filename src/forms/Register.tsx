@@ -59,6 +59,7 @@ const Register: React.FC<RegisterProps> = ({
   const teams = useTeams(profile.user)
 
   useEffect(() => {
+    document.title = "Register Team - AT8"
     if (teams.state.length > 0) {
       if (teams.state[0].id) {
         setTeamSelect(teams.state[0].id)
@@ -106,7 +107,7 @@ const Register: React.FC<RegisterProps> = ({
                       borderBottomLeftRadius: '50px',
                     }}
                     onClick={() => {
-                      setActive('captain')
+                      setActive('selector')
                     }}
                   >
                     Back

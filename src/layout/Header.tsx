@@ -50,7 +50,6 @@ const Header: React.FC<HeaderProps> = ({
       <div className='header-wrapper'>
         <div className='site-name'>
           <Link to='/'>
-            {/* {name} */}
             <img
               src={AT8}
               alt='AT8'

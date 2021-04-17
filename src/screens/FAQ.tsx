@@ -1,46 +1,50 @@
-import React from 'react'
-import { RouteComponentProps } from 'react-router'
-import { Link } from 'react-router-dom'
-import useFAQ from '../hooks/useFAQ'
-import parse from 'html-react-parser'
-import './FAQ.scss'
+import React, { useEffect } from "react";
+import { RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
+import useFAQ from "../hooks/useFAQ";
+import parse from "html-react-parser";
+import "./FAQ.scss";
 
 interface FAQListBoxProps {
-  faq: FAQ
+  faq: FAQ;
 }
 const FAQListBox: React.FC<FAQListBoxProps> = ({ faq }) => {
-  const { images, name, description, slug } = faq
+  const { images, name, description, slug } = faq;
   return (
-    <div className='faq-list-box'>
-      <div className='faq-lb-content'>
+    <div className="faq-list-box">
+      <div className="faq-lb-content">
         <div>
-          <Link to={'/faq/' + slug} className='faq-lb-title'>
+          <Link to={"/faq/" + slug} className="faq-lb-title">
             {name}
           </Link>
         </div>
-        <div className='faq-body'>
-          <div className='faq-image'>
-            <img src={images.length > 0 ? images[0].image : ''} alt='' />
+        <div className="faq-body">
+          <div className="faq-image">
+            <img src={images.length > 0 ? images[0].image : ""} alt="" />
           </div>
           <div>
-            <div className='faq-lb-description'>{parse(description)}</div>
+            <div className="faq-lb-description">{parse(description)}</div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 interface FAQProps extends RouteComponentProps {}
 const FAQ: React.FC<FAQProps> = () => {
-  const FAQs = useFAQ()
+  const FAQs = useFAQ();
+  useEffect(() => {
+    document.title = "FAQ - AT8";
+  }, []);
+
   return (
-    <div className='faq-list-container'>
+    <div className="faq-list-container">
       {FAQs.state.map((fq, i) => (
         <FAQListBox key={i} faq={fq} />
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default FAQ
+export default FAQ;

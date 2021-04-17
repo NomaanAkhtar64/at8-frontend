@@ -23,6 +23,7 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
   const [imageB64, setimageB64] = useState<string>(null);
 
   useEffect(() => {
+    document.title = "Verifiy Payment - AT8";
     if (entry.hasLoaded) {
       if (entry.state) {
         if (entry.state.date_transaction) setDate(entry.state.date_transaction);
@@ -50,7 +51,7 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
       date_transaction: date,
       time_transaction: time,
     };
-    
+
     let { isValid, message } = checkEntryVerify(values, selectValue);
 
     if (isValid) {
@@ -69,7 +70,7 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
       return (
         <div className="verify-form-container container">
           <form className="verify-form" onSubmit={onSubmit}>
-            <legend>Upload any proof to verify your Verification.</legend>
+            <legend>Verify your payment transaction.</legend>
             <select
               className="form-select form-select-lg mb-3 payment-select"
               aria-label=".form-select-lg example"
@@ -80,16 +81,14 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
               disabled={isDisabled}
             >
               <option selected>Open this select menu</option>
-              <option value="text">Date and Time of transaction</option>
-              <option value="image">Image proof of transaction</option>
+              <option value="text">Write transaction details</option>
+              <option value="image">Upload image proof of transaction</option>
             </select>
 
             {selectValue === "text" && (
               <div className="form-group">
                 <div className="form-group">
-                  <h4>
-                    Select the date and time when you transacted the payment.
-                  </h4>
+                  <h4>Write the transaction details of your payment.</h4>
                   <label>Transaction Id</label>
                   <input
                     type="text"

@@ -57,6 +57,10 @@ const Signup: React.FC<SignupProps> = ({
     }
   }, [hasSignedIn, history])
 
+  useEffect(() => {
+    document.title = "Signup - AT8"
+  }, [])
+
   return (
     <Form
       formClass='form'
