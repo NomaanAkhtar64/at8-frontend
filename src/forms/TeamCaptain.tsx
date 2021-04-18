@@ -3,6 +3,7 @@ import parser from 'html-react-parser'
 import FormError from '../components/FormError'
 import * as regex from '../regex'
 import PlayerFields from './PlayerFields'
+import camelToWords from '../utils/camelToWords'
 
 interface TeamCaptainProps {
   onBack: () => void
@@ -22,6 +23,7 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
   const [captain, setCaptain] = useState<Player>({
     url: '',
     username: '',
+    is_alternate: false,
   })
   return (
     <div className='register-form'>
@@ -54,7 +56,7 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
           game={game}
           player={captain}
           updatePlayer={(p) => setCaptain(p)}
-          isAlternate={false}
+          isAlternate={captain.is_alternate}
           number={0}
         />
         <FormError errors={errors} />
@@ -64,33 +66,32 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
           style={{ width: '100%' }}
           onClick={() => {
             let isValid = true
-            let errors = []
+            let errs = []
+            const fieldName = game.type.type === 'url' ? 'url' : 'username'
 
-            if (game.type === 'steam-game') {
-              if (captain.url === '') {
+            if (game.type.validation_regex) {
+              const validationRegex = new RegExp(
+                game.type.validation_regex,
+                'g'
+              )
+              if (captain[fieldName].match(validationRegex) === null) {
                 isValid = false
-                errors.push('Steam Profile Url Is Required')
-              }
-              if (captain.url.match(regex.STEAM_PROFILE) == null) {
-                isValid = false
-                errors.push('Steam Profile Url Is Invalid')
-              }
-            } else if (game.type === 'pubg') {
-              if (captain.username === '') {
-                isValid = false
-                errors.push('PUBG Username is required')
-              }
-            } else if (game.type === 'valorant') {
-              if (captain.username === '') {
-                isValid = false
-                errors.push('Valorant Username+tag is required')
+                errs.push(`${camelToWords(game.type.name)} Is Invalid`)
               }
             }
+
+            if (game.type.required && captain[fieldName] === '') {
+              isValid = false
+              errs.push(`${camelToWords(game.type.name)} Is Required`)
+            }
+
             if (captainTag.match(regex.DISCORD_TAG) === null) {
               isValid = false
-              errors.push('Discord Username is invalid')
+              errs.push('Discord Username Is Invalid')
             }
-            setErrors(errors)
+
+            setErrors(errs)
+
             if (isValid) {
               onSuccess({ captain, captainTag })
             }

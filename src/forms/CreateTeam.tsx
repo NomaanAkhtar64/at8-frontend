@@ -9,305 +9,141 @@ import '../screens/EnterTournament.scss'
 import useGames from '../hooks/useGames'
 import Loading from '../components/Loading'
 import checkCreateTeam from '../errors/check/checkCreateTeam'
+import TeamCaptain from './TeamCaptain'
+import TeamBasic from './TeamBasic'
+import TeamPlayers from './TeamPlayers'
+import FormError from '../components/FormError'
 
 interface CreateTeamProps {
   onCancel: () => void
   onSuccess: (t: Team) => void
 }
 
-type Active = 'basic' | 'captain' | 'player'
+type Active = 'selector' | 'basic' | 'captain' | 'player'
 const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
-  const [active, setActive] = useState<Active>('basic')
-  const [name, setName] = useState('')
-  const [logo, setLogo] = useState<File>(null)
-  const [captain, setCaptain] = useState('')
-  const [captainTag, setCaptainTag] = useState('')
-  const [captainProfile, setCaptainProfile] = useState('')
-  const [error, setError] = useState('')
+  const [active, setActive] = useState<Active>('selector')
   const site = useSite()
   const games = useGames()
   const [game, setGame] = useState<number>(1)
-  const [players, setPlayers] = useState<PI[]>([
-    {
-      index: 0,
-      username: '',
-      url: '',
-    },
-    {
-      index: 1,
-      username: '',
-      url: '',
-    },
-    {
-      index: 2,
-      username: '',
-      url: '',
-    },
-    {
-      index: 3,
-      username: '',
-      url: '',
-    },
-    {
-      index: 4,
-      username: '',
-      url: '',
-    },
-  ])
-  const [isDisabled, setDisabled] = useState(false)
   const profile = useProfile()
-  if (games.hasLoaded)
+  const [isDisabled, setDisabled] = useState(false)
+  const [team, setTeam] = useState<Team>({
+    captain: { url: '', username: '', is_alternate: false },
+    logo: '',
+    name: '',
+    players: [],
+    team_captains_discord_tag: '',
+    user: profile.profile.user,
+  })
+  const [gameId, setGameId] = useState(0)
+  const [selectorError, setSelectorError] = useState<string[]>([])
+  if (games.hasLoaded) {
     return (
       <div className='create-team-form' style={{ width: '100%' }}>
         <div className='register'>
-          {active === 'basic' && (
+          {active === 'selector' && (
             <div className='register-form'>
-              <div className='back-btn my-3'>
-                <button
-                  className='btn btn-warning'
-                  style={{
-                    borderTopLeftRadius: '50px',
-                    borderBottomLeftRadius: '50px',
-                  }}
-                  onClick={onCancel}
-                >
-                  Back
-                </button>
-              </div>
-              <form className='form'>
-                <legend>Basic</legend>
+              <form
+                className='form'
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  let isValid = true
+                  let errs = []
 
-                <div className='form-group'>
-                  <label>Game</label>
+                  if (gameId === 0 || gameId === null) {
+                    isValid = false
+                    errs.push('Please select A Game')
+                  }
+
+                  setSelectorError(errs)
+                  if (isValid) {
+                    setActive('basic')
+                  }
+                }}
+              >
+                <legend>Select Game</legend>
+                <div className='form-group p-2'>
+                  <label className='d-block'>Game</label>
                   <select
-                    className='form-control'
-                    value={game + ''}
-                    onChange={(e) => {
-                      setGame(parseInt(e.target.value))
-                    }}
+                    className='form-select w-100 p-2'
+                    value={gameId}
+                    onChange={(e) => setGameId(parseInt(e.target.value))}
                   >
-                    {games.state.map((g) => (
-                      <option key={g.id} value={g.id}>
+                    <option value='0'>-----</option>
+                    {games.state.map((g, idx) => (
+                      <option key={idx} value={g.id + ''}>
                         {g.name}
                       </option>
                     ))}
                   </select>
                 </div>
-                <div className='form-group'>
-                  <label>Team Name</label>
-                  <input
-                    type='text'
-                    className='form-control'
-                    placeholder='Name your team'
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className='form-group'>
-                  <label>Upload team logo</label>
-                  <div className='input-group mb-3'>
-                    <div className='custom-file'>
-                      <input
-                        type='file'
-                        accept='image/*'
-                        className='custom-file-input'
-                        id='inputGroupFile02'
-                        required
-                        onChange={(e) => {
-                          setLogo(e.target.files[0])
-                        }}
-                      />
-                      <label className='custom-file-label'>
-                        {logo ? <p>{logo.name}</p> : 'Choose file'}
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
+                <FormError errors={selectorError} />
                 <button
-                  type='button'
+                  type='submit'
                   className='btn btn-success'
                   style={{ width: '100%' }}
-                  onClick={() => {
-                    if (name !== '' && logo['name']) {
-                      setActive('captain')
-                    }
-                  }}
                 >
-                  Enter
+                  Select
                 </button>
               </form>
               <div className='hint'>
                 <h1>Help text</h1>
-                <div>{parser(site.help_team_basic)}</div>
+                <div>
+                  <ol>
+                    <li>Choose A Game</li>
+                  </ol>
+                </div>
               </div>
             </div>
           )}
+          {active === 'basic' && (
+            <TeamBasic
+              game={games.state.find((g) => g.id === gameId)}
+              site={site}
+              onBack={() => {
+                setActive('selector')
+              }}
+              onSuccess={({ logo, name }) => {
+                setTeam({ ...team, logo, name })
+                setActive('captain')
+              }}
+            />
+          )}
           {active === 'captain' && (
-            <div className='register-form'>
-              <div className='back-btn my-3'>
-                <button
-                  className='btn btn-warning'
-                  style={{
-                    borderTopLeftRadius: '50px',
-                    borderBottomLeftRadius: '50px',
-                  }}
-                  onClick={() => setActive('basic')}
-                >
-                  Back
-                </button>
-              </div>
-              <form className='form'>
-                <legend>Team Captain</legend>
-                <div className='form-group'>
-                  <label>Username</label>
-                  <input
-                    type='text'
-                    className='form-control'
-                    placeholder='Username'
-                    value={captain}
-                    onChange={(e) => setCaptain(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className='form-group'>
-                  <label>Discord username + Tag</label>
-                  <input
-                    type='text'
-                    className='form-control'
-                    placeholder='name#1234'
-                    value={captainTag}
-                    onChange={(e) => setCaptainTag(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className='form-group'>
-                  <label>Steam Profile link</label>
-                  <input
-                    type='text'
-                    className='form-control'
-                    placeholder='Place URL'
-                    value={captainProfile}
-                    onChange={(e) => setCaptainProfile(e.target.value)}
-                    required
-                  />
-                </div>
-                <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
-                <button
-                  type='button'
-                  className='btn btn-success'
-                  style={{ width: '100%' }}
-                  onClick={() => {
-                    const { hasError, message } = checkCreateTeam(
-                      captain,
-                      captainTag,
-                      captainProfile
-                    )
-                    if (hasError) {
-                      setError(message)
-                      setDisabled(false)
-                    } else {
-                      setActive('player')
-                    }
-                  }}
-                >
-                  Enter
-                </button>
-              </form>
-
-              <div className='hint'>
-                <h1>Help text</h1>
-                <div>{parser(site.help_team_captain)}</div>
-              </div>
-            </div>
+            <TeamCaptain
+              site={site}
+              game={games.state.find((g) => g.id === gameId)}
+              onBack={() => setActive('basic')}
+              onSuccess={({ captain, captainTag }) => {
+                setTeam({
+                  ...team,
+                  captain,
+                  team_captains_discord_tag: captainTag,
+                })
+                setActive('player')
+              }}
+            />
           )}
 
           {active === 'player' && (
-            <div className='register-form'>
-              <div className='back-btn my-3'>
-                <button
-                  className='btn btn-warning'
-                  style={{
-                    borderTopLeftRadius: '50px',
-                    borderBottomLeftRadius: '50px',
-                  }}
-                  onClick={() => setActive('captain')}
-                >
-                  Back
-                </button>
-              </div>
-              <form
-                className='form'
-                onSubmit={async (e) => {
-                  e.preventDefault()
-                  setDisabled(true)
-                  const imgBase64 = await imgToBase64(logo)
-                  const { hasError, message } = checkCreateTeam(
-                    captain,
-                    captainTag,
-                    captainProfile
-                  )
-                  if (hasError) {
-                    setError(message)
-                    setDisabled(false)
-                  } else {
-                    const createdTeam = await registerTeam(
-                      profile.profile.user,
-                      name,
-                      imgBase64,
-                      {
-                        username: captain,
-                        url: captainProfile,
-                      },
-                      captainTag,
-                      game,
-                      players
-                    )
-                    setDisabled(false)
-                    if (createdTeam) {
-                      onSuccess(createdTeam)
-                    }
-                  }
-                }}
-              >
-                <legend>Players</legend>
-                {players
-                  .sort((a, b) => a.index - b.index)
-                  .map((p, i) => (
-                    <PlayerFields
-                      key={i}
-                      number={i + 1}
-                      isAlternate={i === 4}
-                      game={games.state[game]}
-                      player={p}
-                      updatePlayer={(pl) => {
-                        setPlayers([
-                          ...players.filter((pl) => pl['index'] !== p['index']),
-                          pl,
-                        ])
-                      }}
-                      disabled={isDisabled}
-                    />
-                  ))}
-                <button
-                  type='submit'
-                  disabled={isDisabled}
-                  className='btn btn-success'
-                  style={{ width: '100%' }}
-                >
-                  Create
-                </button>
-              </form>
-              <div className='hint'>
-                <h1>Help Text</h1>
-                <div>{parser(site.help_team_players)}</div>
-              </div>
-            </div>
+            <TeamPlayers
+              game={games.state.find((g) => g.id === gameId)}
+              site={site}
+              onBack={() => setActive('captain')}
+              onSuccess={async (p: Player[]) => {
+                setDisabled(false)
+                const createdTeam = await registerTeam(team)
+                setDisabled(false)
+                if (createdTeam) {
+                  onSuccess(createdTeam)
+                }
+              }}
+            />
           )}
         </div>
       </div>
     )
+  }
   return <Loading />
 }
 

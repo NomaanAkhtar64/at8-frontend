@@ -13,12 +13,45 @@ interface Site {
   help_team_players: string
   help_team_existing: string
 }
+type FieldTypes =
+  | 'button'
+  | 'checkbox'
+  | 'color'
+  | 'date'
+  | 'datetime-local'
+  | 'email'
+  | 'file'
+  | 'hidden'
+  | 'image'
+  | 'month'
+  | 'number'
+  | 'password'
+  | 'radio'
+  | 'range'
+  | 'search'
+  | 'reset'
+  | 'submit'
+  | 'tel'
+  | 'text'
+  | 'url'
+  | 'week'
+
+interface GameType {
+  name: string
+  required: boolean
+  validation_regex?: string
+  type: FieldTypes
+  placeholder?: string
+}
+
 interface Game {
   id: number
   name: string
   picture: string
   slug: string
-  type: 'steam-game' | 'valorant' | 'pubg'
+  type: GameType
+  players_in_a_team: number
+  alternate_players: number
 }
 
 interface WindowSize {
@@ -87,6 +120,7 @@ interface Player {
   profile?: string
   url: string
   username: string
+  is_alternate: boolean
 }
 
 interface Team {

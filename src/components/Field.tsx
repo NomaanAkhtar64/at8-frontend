@@ -1,28 +1,6 @@
 import React, { useMemo } from 'react'
 import camelToWords from '../utils/camelToWords'
 let fieldCount = 0
-type FieldTypes =
-  | 'button'
-  | 'checkbox'
-  | 'color'
-  | 'date'
-  | 'datetime-local'
-  | 'email'
-  | 'file'
-  | 'hidden'
-  | 'image'
-  | 'month'
-  | 'number'
-  | 'password'
-  | 'radio'
-  | 'range'
-  | 'search'
-  | 'reset'
-  | 'submit'
-  | 'tel'
-  | 'text'
-  | 'url'
-  | 'week'
 
 export interface FieldProps {
   label?: string

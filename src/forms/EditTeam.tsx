@@ -53,6 +53,7 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
           captain: {
             username: captain,
             url: captainProfile,
+            is_alternate: false,
           },
           team_captains_discord_tag: captainTag,
           players,

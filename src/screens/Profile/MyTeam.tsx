@@ -14,8 +14,8 @@ interface MyTeamProps {
 type Active = 'teams' | 'edit' | 'create'
 interface TeamProfileProps {
   t: Team[]
-  profile: UserProfile
   user: User
+  profile: UserProfile
 }
 const TeamProfile: React.FC<TeamProfileProps> = ({ t, user, profile }) => {
   const [teams, setTeams] = useState(t)
@@ -26,7 +26,6 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ t, user, profile }) => {
     localStorage.setItem('team-list', JSON.stringify(teams))
     document.title = 'My Teams - AT8'
   }, [teams])
-
   switch (active) {
     case 'teams':
       return (

@@ -18,6 +18,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
   game,
   disabled = false,
 }) => {
+  const fieldName = game.type.type === 'url' ? 'url' : 'username'
   return (
     <div>
       {number !== 0 && (
@@ -27,48 +28,16 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
           </strong>
         </label>
       )}
-
-      {game.type === 'steam-game' && (
-        <Field
-          type='url'
-          name='steamProfileLink'
-          placeholderText='https://steamcommunity.com/id/example-account/'
-          value={player.url}
-          onChange={(v: string, e) => {
-            updatePlayer({ ...player, url: v })
-          }}
-          disable={disabled}
-        />
-      )}
-      {game.type === 'valorant' && (
-        <Field
-          type='text'
-          name='valorantUsername'
-          value={player.username}
-          placeholderText='example#6752'
-          onChange={(v: string, e) => {
-            updatePlayer({
-              ...player,
-              username: v.length > 18 ? v.substr(0, 18) : v,
-            })
-          }}
-          disable={disabled}
-        />
-      )}
-      {game.type === 'pubg' && (
-        <Field
-          type='text'
-          name='pubgUsername'
-          value={player.username}
-          onChange={(v: string, e) => {
-            updatePlayer({
-              ...player,
-              username: v.length > 18 ? v.substr(0, 18) : v,
-            })
-          }}
-          disable={disabled}
-        />
-      )}
+      <Field
+        type={game.type.type}
+        name={game.type.name}
+        placeholderText={game.type.placeholder ? game.type.placeholder : ''}
+        value={player[fieldName]}
+        onChange={(v: string, e) => {
+          updatePlayer({ ...player, [fieldName]: v })
+        }}
+        disable={disabled}
+      />
     </div>
   )
 }
