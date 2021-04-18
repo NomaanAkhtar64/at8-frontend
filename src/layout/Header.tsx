@@ -50,12 +50,7 @@ const Header: React.FC<HeaderProps> = ({
       <div className='header-wrapper'>
         <div className='site-name'>
           <Link to='/'>
-            <img
-              src={AT8}
-              alt='AT8'
-              // width='100px'
-              style={{ marginTop: '-2px' }}
-            />
+            <img src={AT8} alt='AT8' style={{ marginTop: '-2px' }} />
           </Link>
         </div>
         <div className='site-nav'>{children}</div>
@@ -68,7 +63,11 @@ const Header: React.FC<HeaderProps> = ({
               <Dropdown
                 name={
                   <img
-                    src={profile ? profile.profile.pic : defaultProfilePic}
+                    src={
+                      profile.profile.pic
+                        ? profile.profile.pic
+                        : defaultProfilePic
+                    }
                     className='profile-pic'
                     onDoubleClick={() => {
                       history.push('/profile/settings')

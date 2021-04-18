@@ -15,7 +15,7 @@ export default function registerTeam(
     Authorization: token,
   }
   return axios
-    .post<Teams>(
+    .post<Team>(
       `${__API_URL__}/api/teams/`,
       {
         user,

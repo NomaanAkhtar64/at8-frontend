@@ -6,7 +6,7 @@ export default function useTeams(user: number) {
   const teamStorage = useMemo(() => user && localStorage.getItem('team-list'), [
     user,
   ])
-  const [state, setState] = useState<Teams[]>(
+  const [state, setState] = useState<Team[]>(
     teamStorage ? JSON.parse(teamStorage) : []
   )
   const [error, setError] = useState('')

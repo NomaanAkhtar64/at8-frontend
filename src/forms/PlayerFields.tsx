@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react'
+import Field from '../components/Field'
 
 interface PlayerFieldsProps {
-  number: number;
-  isAlternate: boolean;
-  player: PI;
-  disabled?: boolean;
-  updatePlayer: (p: PI) => void;
+  number: number
+  isAlternate: boolean
+  player: PI
+  disabled?: boolean
+  game: Game
+  updatePlayer: (p: PI) => void
 }
 
 const PlayerFields: React.FC<PlayerFieldsProps> = ({
@@ -13,49 +15,62 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
   isAlternate,
   player,
   updatePlayer,
+  game,
   disabled = false,
 }) => {
   return (
-    <div className="form-group">
-      <label>
-        <strong>
-          {isAlternate ? "Alternate Player" : `Player ${number + 1}`}
-        </strong>
-      </label>
-      <div className="form-group">
-        <label>Username</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Username"
-          required={number !== 5}
+    <div>
+      {number !== 0 && (
+        <label>
+          <strong>
+            {isAlternate ? 'Alternate Player' : `Player ${number + 1}`}
+          </strong>
+        </label>
+      )}
+
+      {game.type === 'steam-game' && (
+        <Field
+          type='url'
+          name='steamProfileLink'
+          placeholderText='https://steamcommunity.com/id/example-account/'
+          value={player.url}
+          onChange={(v: string, e) => {
+            updatePlayer({ ...player, url: v })
+          }}
+          disable={disabled}
+        />
+      )}
+      {game.type === 'valorant' && (
+        <Field
+          type='text'
+          name='valorantUsername'
           value={player.username}
-          onChange={(e) => {
+          placeholderText='example#6752'
+          onChange={(v: string, e) => {
             updatePlayer({
               ...player,
-              username:
-                e.target.value.length > 18
-                  ? e.target.value.substr(0, 18)
-                  : e.target.value,
-            });
+              username: v.length > 18 ? v.substr(0, 18) : v,
+            })
           }}
-          disabled={disabled}
+          disable={disabled}
         />
-      </div>
-      <div className="form-group">
-        <label>Steam Profile Link</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Steam Profile Url"
-          required={number !== 5}
-          value={player.url}
-          onChange={(e) => updatePlayer({ ...player, url: e.target.value })}
-          disabled={disabled}
+      )}
+      {game.type === 'pubg' && (
+        <Field
+          type='text'
+          name='pubgUsername'
+          value={player.username}
+          onChange={(v: string, e) => {
+            updatePlayer({
+              ...player,
+              username: v.length > 18 ? v.substr(0, 18) : v,
+            })
+          }}
+          disable={disabled}
         />
-      </div>
+      )}
     </div>
-  );
-};
+  )
+}
 
-export default PlayerFields;
+export default PlayerFields

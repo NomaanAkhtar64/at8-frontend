@@ -5,7 +5,7 @@ import { __API_URL__ } from '../const'
 export default function useGames(slug = null) {
   const cachedGames = useMemo(() => localStorage.getItem('games'), [])
 
-  const [state, setState] = useState<Games[]>(
+  const [state, setState] = useState<Game[]>(
     cachedGames ? JSON.parse(cachedGames) : []
   )
   const [error, setError] = useState('')

@@ -13,11 +13,12 @@ interface Site {
   help_team_players: string
   help_team_existing: string
 }
-interface Games {
+interface Game {
   id: number
   name: string
   picture: string
   slug: string
+  type: 'steam-game' | 'valorant' | 'pubg'
 }
 
 interface WindowSize {
@@ -51,7 +52,7 @@ interface Tournament {
   id: number
   name: string
   details: string
-  game: Games
+  game: Game
   slug: string
   has_free_slot: boolean
   prize: String
@@ -88,7 +89,7 @@ interface Player {
   username: string
 }
 
-interface Teams {
+interface Team {
   id?: number
   user: number
   name: string
@@ -150,5 +151,5 @@ interface Home {
   video: string
 }
 interface PI extends Player {
-  index: number
+  index?: number
 }

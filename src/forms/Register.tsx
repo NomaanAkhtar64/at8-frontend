@@ -3,11 +3,13 @@ import registerTeam from '../hooks/registerTeam'
 import useSite from '../hooks/useSite'
 import parser from 'html-react-parser'
 import PlayerFields from './PlayerFields'
-import * as regex from '../regex'
 import imgToBase64 from '../utils/imgToBase64'
 import useTeams from '../hooks/useTeams'
 import Loading from '../components/Loading'
 import Field from '../components/Field'
+import useGames from '../hooks/useGames'
+import TeamCaptain from './TeamCaptain'
+
 interface RegisterProps {
   toPayment: (i: number) => void
   tournament: Tournament
@@ -23,11 +25,14 @@ const Register: React.FC<RegisterProps> = ({
   const [active, setActive] = useState<Active>('selector')
   const [name, setName] = useState('')
   const [logo, setLogo] = useState<File>(null)
-  const [captain, setCaptain] = useState('')
+  const [captain, setCaptain] = useState<Player>({
+    url: '',
+    username: '',
+  })
   const [captainTag, setCaptainTag] = useState('')
-  const [captainProfile, setCaptainProfile] = useState('')
   const [teamSelect, setTeamSelect] = useState<number>(null)
   const site = useSite()
+  const games = useGames()
   const [players, setPlayers] = useState<PI[]>([
     {
       index: 0,
@@ -59,14 +64,15 @@ const Register: React.FC<RegisterProps> = ({
   const teams = useTeams(profile.user)
 
   useEffect(() => {
-    document.title = "Register Team - AT8"
+    document.title = 'Register Team - AT8'
     if (teams.state.length > 0) {
       if (teams.state[0].id) {
         setTeamSelect(teams.state[0].id)
       }
     }
   }, [teams])
-  if (teams.hasLoaded)
+  const game = tournament.game
+  if (teams.hasLoaded && games.hasLoaded) {
     return (
       <>
         <div>
@@ -187,80 +193,99 @@ const Register: React.FC<RegisterProps> = ({
               </div>
             )}
             {active === 'captain' && (
-              <div className='register-form'>
-                <div className='back-btn ml-3'>
-                  <button
-                    className='btn btn-warning'
-                    style={{
-                      borderTopLeftRadius: '50px',
-                      borderBottomLeftRadius: '50px',
-                    }}
-                    onClick={() => {
-                      setActive('basic')
-                    }}
-                  >
-                    Back
-                  </button>
-                </div>
-                <form className='form'>
-                  <legend>Team Captain</legend>
-                  <div className='form-group'>
-                    <label>Username</label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      placeholder='Username'
-                      value={captain}
-                      onChange={(e) => setCaptain(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className='form-group'>
-                    <label>Discord username + Tag</label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      placeholder='name#1234'
-                      value={captainTag}
-                      onChange={(e) => setCaptainTag(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className='form-group'>
-                    <label>Steam Profile link</label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      placeholder='Place URL'
-                      value={captainProfile}
-                      onChange={(e) => setCaptainProfile(e.target.value)}
-                      required
-                    />
-                  </div>
+              <TeamCaptain
+                site={site}
+                game={game}
+                onBack={() => setActive('basic')}
+                onSuccess={({ captain, captainTag }) => {
+                  setActive('player')
+                  setCaptain(captain)
+                  setCaptainTag(captainTag)
+                }}
+              />
+              // <div className='register-form'>
+              //   <div className='back-btn ml-3'>
+              //     <button
+              //       className='btn btn-warning'
+              //       style={{
+              //         borderTopLeftRadius: '50px',
+              //         borderBottomLeftRadius: '50px',
+              //       }}
+              //       onClick={() => {
+              //         setActive('basic')
+              //       }}
+              //     >
+              //       Back
+              //     </button>
+              //   </div>
+              //   <form className='form'>
+              //     <legend>Team Captain</legend>
+              //     <div className='form-group'>
+              //       <label>Discord username + Tag</label>
+              //       <input
+              //         type='text'
+              //         className='form-control'
+              //         placeholder='name#1234'
+              //         value={captainTag}
+              //         onChange={(e) => setCaptainTag(e.target.value)}
+              //         required
+              //       />
+              //     </div>
+              //     <PlayerFields
+              //       game={game}
+              //       player={captain}
+              //       updatePlayer={(p) => setCaptain(p)}
+              //       isAlternate={false}
+              //       number={1}
+              //     />
+              //     <FormError errors={captainError} />
+              //     <button
+              //       type='button'
+              //       className='btn btn-success'
+              //       style={{ width: '100%' }}
+              //       onClick={() => {
+              //         let isValid = true
+              //         let errors = []
 
-                  <button
-                    type='button'
-                    className='btn btn-success'
-                    style={{ width: '100%' }}
-                    onClick={() => {
-                      if (
-                        captain !== '' &&
-                        captainTag.match(regex.DISCORD_TAG) !== null &&
-                        captainProfile.match(regex.STEAM_PROFILE) !== null
-                      ) {
-                        setActive('player')
-                      }
-                    }}
-                  >
-                    Enter
-                  </button>
-                </form>
+              //         if (game.type === 'steam-url') {
+              //           if (captain.url === '') {
+              //             isValid = false
+              //             errors.push('Steam Profile Url Is Required')
+              //           }
+              //           if (captain.url.match(regex.STEAM_PROFILE) == null) {
+              //             isValid = false
+              //             errors.push('Steam Profile Url Is Invalid')
+              //           }
+              //         } else if (game.type === 'pubg') {
+              //           if (captain.username === '') {
+              //             isValid = false
+              //             errors.push('PUBG Username is required')
+              //           }
+              //         } else if (game.type === 'valorant') {
+              //           if (captain.username === '') {
+              //             isValid = false
+              //             errors.push('Valorant Username+tag is required')
+              //           }
+              //         }
+              //         if (captainTag.match(regex.DISCORD_TAG) === null) {
+              //           isValid = false
+              //           errors.push('Discord Username is invalid')
+              //         }
+              //         setCaptainError(errors)
+              //         if (isValid) {
+              //           setActive('player')
+              //         }
+              //       }}
+              //     >
+              //       Enter
+              //     </button>
+              //   </form>
 
-                <div className='hint'>
-                  <h1>Help text</h1>
-                  <div>{parser(site.help_team_captain)}</div>
-                </div>
-              </div>
+              //   <div className='hint'>
+              //     <h1>Help text</h1>
+              //     <div>{parser(site.help_team_captain)}</div>
+              //   </div>
+              // </div>
             )}
 
             {active === 'player' && (
@@ -288,10 +313,7 @@ const Register: React.FC<RegisterProps> = ({
                       profile.user,
                       name,
                       imgBase64,
-                      {
-                        username: captain,
-                        url: captainProfile,
-                      },
+                      captain,
                       captainTag,
                       tournament.game.id,
                       players
@@ -311,6 +333,7 @@ const Register: React.FC<RegisterProps> = ({
                           number={i + 1}
                           isAlternate={i === 4}
                           player={p}
+                          game={game}
                           updatePlayer={(pl) => {
                             setPlayers([
                               ...players.filter(
@@ -406,6 +429,7 @@ const Register: React.FC<RegisterProps> = ({
         </div>
       </>
     )
+  }
   return <Loading />
 }
 

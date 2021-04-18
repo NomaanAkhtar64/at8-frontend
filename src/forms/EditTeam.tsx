@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Loading from '../components/Loading'
 import editTeamRegister from '../hooks/editTeamRegister'
+import useGames from '../hooks/useGames'
 import useTeam from '../hooks/useTeam'
 import imgToBase64 from '../utils/imgToBase64'
 import PlayerFields from './PlayerFields'
@@ -10,13 +11,13 @@ interface EditTeamProps {
   teamId: number
   // toBack: () => void
   onCancel: () => void
-  onSucess: (t: Teams) => void
+  onSucess: (t: Team) => void
   onDelete: (id: number) => void
 }
 interface FormProps {
-  team: Teams
+  team: Team
   onCancel: () => void
-  onSucess: (t: Teams) => void
+  onSucess: (t: Team) => void
   onDelete: (id: number) => void
 }
 const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
@@ -31,6 +32,7 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
   const [players, setPlayers] = useState<PI[]>(
     team.players.map((t, i) => ({ ...t, index: i }))
   )
+  const games = useGames()
   const [isDisabled, setDisabled] = useState(false)
   return (
     <form
@@ -187,6 +189,7 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
                   isAlternate={pl.index === 4}
                   player={pl}
                   disabled={isDisabled}
+                  game={games.state[team.game]}
                   updatePlayer={(p) => {
                     setPlayers([
                       ...players.filter((p) => p.index !== pl.index),

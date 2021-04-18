@@ -37,6 +37,7 @@ export interface FieldProps {
     e: React.ChangeEvent<HTMLInputElement>
   ) => void
   placeholder?: boolean
+  placeholderText?: string
   disable?: boolean
   readOnly?: boolean
 }
@@ -47,6 +48,7 @@ const Field: React.FC<FieldProps> = ({
   value = '',
   containerClass = 'form-group',
   fieldClass = 'form-control',
+  placeholderText = '',
   onChange,
   name,
   children,
@@ -76,7 +78,9 @@ const Field: React.FC<FieldProps> = ({
         id={id}
         value={value !== null ? value : ''}
         disabled={disable}
-        placeholder={placeholder ? (label ? label : camelToWords(name)) : ''}
+        placeholder={
+          placeholder ? (label ? label : camelToWords(name)) : placeholderText
+        }
         readOnly={readOnly}
       />
       {children && children}

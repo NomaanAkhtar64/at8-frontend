@@ -3,6 +3,7 @@ import getFieldChild from '../func/getFieldChild'
 import validateData from '../func/validateData'
 
 import { Values } from '../func/valueType'
+import FormError from './FormError'
 
 interface ValidatorData {
   required: boolean
@@ -67,15 +68,11 @@ const Form: React.FC<FormProps> = ({
       {getFieldChild(children, state, disable, (n, v) => {
         setState({ ...state, [n]: v })
       })}
-      {errors.length > 0 && (
-        <div className={errorContainerClass}>
-          {errors.map((er, i) => (
-            <div className={errorClass} key={i}>
-              {er}
-            </div>
-          ))}
-        </div>
-      )}
+      <FormError
+        errors={errors}
+        errorContainerClass={errorContainerClass}
+        errorClass={errorClass}
+      />
       <div className={buttonsClass}>
         <button disabled={disable} type='submit' className={submitClass}>
           {submitText}

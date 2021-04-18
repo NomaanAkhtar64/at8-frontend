@@ -12,7 +12,7 @@ import checkCreateTeam from '../errors/check/checkCreateTeam'
 
 interface CreateTeamProps {
   onCancel: () => void
-  onSuccess: (t: Teams) => void
+  onSuccess: (t: Team) => void
 }
 
 type Active = 'basic' | 'captain' | 'player'
@@ -275,23 +275,20 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
                 {players
                   .sort((a, b) => a.index - b.index)
                   .map((p, i) => (
-                    <>
-                      <PlayerFields
-                        key={i}
-                        number={i + 1}
-                        isAlternate={i === 4}
-                        player={p}
-                        updatePlayer={(pl) => {
-                          setPlayers([
-                            ...players.filter(
-                              (pl) => pl['index'] !== p['index']
-                            ),
-                            pl,
-                          ])
-                        }}
-                        disabled={isDisabled}
-                      />
-                    </>
+                    <PlayerFields
+                      key={i}
+                      number={i + 1}
+                      isAlternate={i === 4}
+                      game={games.state[game]}
+                      player={p}
+                      updatePlayer={(pl) => {
+                        setPlayers([
+                          ...players.filter((pl) => pl['index'] !== p['index']),
+                          pl,
+                        ])
+                      }}
+                      disabled={isDisabled}
+                    />
                   ))}
                 <button
                   type='submit'
