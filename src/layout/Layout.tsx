@@ -7,9 +7,10 @@ import Dropdown from '../components/Dropdown'
 import './Layout.scss'
 import Sidebar from './SideBar'
 import DropDownItem from '../components/DropDownItem'
-import useGames from '../hooks/useGames'
 import { SiteProvider } from '../hooks/useSite'
 import { TeamsProvider } from '../hooks/teams'
+import useGames, { GamesProvider } from '../hooks/games'
+import { TournamentProvider } from '../hooks/tournaments'
 
 interface LayoutProps {}
 
@@ -18,7 +19,7 @@ const Nav: React.FC<{}> = () => {
   return (
     <>
       <Dropdown name='Tournaments'>
-        {games.state.map((game, i) => (
+        {games.map((game, i) => (
           <DropDownItem
             key={i}
             to={`/tournament/${game.slug}`}
@@ -51,7 +52,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     )
 
   return (
-    <TeamsProvider>
+    <GamesProvider>
       <Header
         isSidebarOpen={isSidebarOpen}
         openSidebar={() => {
@@ -61,10 +62,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <Nav />
       </Header>
       <main>
-        <SiteProvider>{children}</SiteProvider>
+        <TournamentProvider>
+          <TeamsProvider>
+            <SiteProvider>{children}</SiteProvider>
+          </TeamsProvider>
+        </TournamentProvider>
       </main>
       <Footer></Footer>
-    </TeamsProvider>
+    </GamesProvider>
   )
 }
 

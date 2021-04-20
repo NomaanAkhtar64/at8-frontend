@@ -17,88 +17,92 @@ interface TeamProfileProps {
 const TeamProfile: React.FC<TeamProfileProps> = ({ user, profile }) => {
   const [active, setActive] = useState<Active>('teams')
   const [teamToEdit, setTeamToEdit] = useState<number>(null)
-  const { action: teamActions } = useTeams()
   const teams = useTeams()
-
   useEffect(() => {
-    // document.title = 'My Teams - AT8'
+    document.title = 'My Teams - AT8'
   }, [])
 
   switch (active) {
     case 'teams':
       return (
         <div className='team'>
-          {teams.state.map((team, i) => (
-            <div key={i} className={i > 0 ? 'team-data mt-5' : 'team-data'}>
-              <div className='team-name'>
-                <h4>{team.name}</h4>
-                <img src={team.logo} width='100%' alt='Team-Logo' />
-                <p color='white'>{team.registration_date}</p>
-              </div>
-              <div className='team-players'>
-                <a href={team.captain.url} target='_blank' rel='noreferrer'>
-                  <div className='player'>
-                    <h4>{team.captain.username.replace(/#\d/, '')}</h4>
-                    <img
-                      src={
-                        team.captain.steam_profile
-                          ? team.captain.steam_profile
-                          : SteamDefault
-                      }
-                      className='captain-image'
-                      alt='Default'
-                    />
-                    <p color='white'>Captain</p>
-                  </div>
-                </a>
+          {teams.state
+            .sort((a, b) => a.id - b.id)
+            .map((team, i) => (
+              <div key={i} className={i > 0 ? 'team-data mt-5' : 'team-data'}>
+                <div className='team-name'>
+                  <h4>{team.name}</h4>
+                  <img src={team.logo} width='100%' alt='Team-Logo' />
+                  <p color='white'>{team.registration_date}</p>
+                </div>
+                <div className='team-players'>
+                  <a href={team.captain.url} target='_blank' rel='noreferrer'>
+                    <div className='player'>
+                      <h4>
+                        {team.captain.steam_username
+                          ? team.captain.steam_username
+                          : team.captain.username.replace(/#\d/, '')}
+                      </h4>
+                      <img
+                        src={
+                          team.captain.steam_profile
+                            ? team.captain.steam_profile
+                            : SteamDefault
+                        }
+                        className='captain-image'
+                        alt='Default'
+                      />
+                      <p color='white'>Captain</p>
+                    </div>
+                  </a>
 
-                {team.players.map(
-                  (player, i) =>
-                    (player.username || player.url) && (
-                      <a
-                        key={i}
-                        href={player.url}
-                        target='_blank'
-                        rel='noreferrer'
-                      >
-                        <div className='player'>
-                          <h4>
-                            {player.steam_username
-                              ? player.steam_username
-                              : player.username.replace(/#\d/, '')}
-                          </h4>
-                          <img
-                            src={
-                              player.steam_profile
-                                ? player.steam_profile
-                                : SteamDefault
-                            }
-                            alt='Default'
-                            className={
-                              player.username === user.username ? 'me' : ''
-                            }
-                          />
-                          <p color='white'>
-                            {player.is_alternate ? 'Alternate' : 'Player'}
-                          </p>
-                        </div>
-                      </a>
-                    )
-                )}
-                <div className='edit-team-btn'>
-                  <div
-                    className='team-action-text'
-                    onClick={() => {
-                      setTeamToEdit(team.id)
-                      setActive('edit')
-                    }}
-                  >
-                    Edit
+                  {team.players.map(
+                    (player, i) =>
+                      (player.username || player.url) && (
+                        <a
+                          key={i}
+                          href={player.url}
+                          target='_blank'
+                          rel='noreferrer'
+                        >
+                          <div className='player'>
+                            <h4>
+                              {player.steam_username
+                                ? player.steam_username
+                                : player.username.replace(/#\d/, '')}
+                            </h4>
+                            <img
+                              src={
+                                player.steam_profile
+                                  ? player.steam_profile
+                                  : SteamDefault
+                              }
+                              alt='Default'
+                              className={
+                                player.username === user.username ? 'me' : ''
+                              }
+                            />
+                            <p color='white'>
+                              {player.is_alternate ? 'Alternate' : 'Player'}
+                            </p>
+                          </div>
+                        </a>
+                      )
+                  )}
+                  <div className='edit-team-btn'>
+                    <div
+                      className='team-action-text'
+                      onClick={() => {
+                        setTeamToEdit(team.id)
+                        setActive('edit')
+                      }}
+                    >
+                      Edit
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
           {(teams.state.length === 0 || !teams) && (
             <div className='no-team'>No Teams Found</div>
           )}
@@ -129,10 +133,6 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ user, profile }) => {
             setActive('teams')
           }}
           onCancel={() => setActive('teams')}
-          onDelete={async (id) => {
-            await teamActions.delete(id)
-            setActive('teams')
-          }}
           userId={profile.user}
           teamId={teamToEdit}
         />

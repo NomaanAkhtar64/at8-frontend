@@ -1,38 +1,40 @@
 import React, { useState } from 'react'
 import Loading from '../components/Loading'
 import editTeamRegister from '../hooks/editTeamRegister'
-import useGames from '../hooks/useGames'
-import useTeam from '../hooks/useTeam'
+import useGames from '../hooks/games'
+import useTeams from '../hooks/teams'
 import imgToBase64 from '../utils/imgToBase64'
 import PlayerFields from './PlayerFields'
 
 interface EditTeamProps {
   userId: number
   teamId: number
-  // toBack: () => void
   onCancel: () => void
   onSucess: () => void
-  onDelete: (id: number) => void
 }
 interface FormProps {
   team: Team
   onCancel: () => void
   onSucess: () => void
-  onDelete: (id: number) => void
 }
-const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
+const Form: React.FC<FormProps> = ({ team, onCancel, onSucess }) => {
   const [name, setName] = useState<string>(team.name)
   const [logo, setLogo] = useState<File>(null)
   const [logoURL, setLogoURL] = useState(null)
-  const [captain, setCaptain] = useState<string>(team.captain.username)
+  const games = useGames()
+  const game = games.find((g) => g.id === team.game)
   const [captainTag, setCaptainTag] = useState<string>(
     team.team_captains_discord_tag
   )
-  const [captainProfile, setCaptainProfile] = useState<string>(team.captain.url)
+  const [captain, setCaptain] = useState<Player>({
+    url: game.type.type === 'url' ? team.captain.url : '',
+    username: game.type.type !== 'url' ? team.captain.username : '',
+    is_alternate: false,
+  })
   const [players, setPlayers] = useState<PI[]>(
     team.players.map((t, i) => ({ ...t, index: i }))
   )
-  const games = useGames()
+  const { action: teamActions } = useTeams()
   const [isDisabled, setDisabled] = useState(false)
   return (
     <form
@@ -50,11 +52,7 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
           id: team.id,
           name: name,
           logo: imgBase64,
-          captain: {
-            username: captain,
-            url: captainProfile,
-            is_alternate: false,
-          },
+          captain,
           team_captains_discord_tag: captainTag,
           players,
         })
@@ -81,8 +79,11 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
             type='button'
             className='btn btn-delete'
             style={{ marginLeft: 'auto' }}
-            onClick={() => {
-              onDelete(team.id)
+            onClick={async () => {
+              setDisabled(true)
+              await teamActions.delete(team.id)
+              setDisabled(false)
+              onCancel()
             }}
           >
             DELETE
@@ -143,18 +144,6 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
           <div className='edit-team-section'>
             <legend>Team Captain</legend>
             <div className='form-group'>
-              <label>Username</label>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Username'
-                value={captain}
-                disabled={isDisabled}
-                onChange={(e) => setCaptain(e.target.value)}
-                required
-              />
-            </div>
-            <div className='form-group'>
               <label>Discord username + Tag</label>
               <input
                 type='text'
@@ -166,18 +155,14 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
                 required
               />
             </div>
-            <div className='form-group'>
-              <label>Steam Profile link</label>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Place URL'
-                value={captainProfile}
-                onChange={(e) => setCaptainProfile(e.target.value)}
-                disabled={isDisabled}
-                required
-              />
-            </div>
+            <PlayerFields
+              game={games.find((g) => g.id === team.game)}
+              player={captain}
+              updatePlayer={(p) => setCaptain(p)}
+              isAlternate={captain.is_alternate}
+              number={0}
+              disabled={isDisabled}
+            />
           </div>
           <div className='edit-team-section'>
             <legend>Players</legend>
@@ -187,10 +172,10 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
                 <PlayerFields
                   key={pl.index}
                   number={pl.index + 1}
-                  isAlternate={pl.index === 4}
+                  isAlternate={pl.is_alternate}
                   player={pl}
                   disabled={isDisabled}
-                  game={games.state[team.game]}
+                  game={games.find((g) => g.id === team.game)}
                   updatePlayer={(p) => {
                     setPlayers([
                       ...players.filter((p) => p.index !== pl.index),
@@ -220,24 +205,11 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
   )
 }
 
-const EditTeam: React.FC<EditTeamProps> = ({
-  userId,
-  teamId,
-  onCancel,
-  onSucess,
-  onDelete,
-}) => {
-  const teams = useTeam(userId, teamId)
-  if (teams.hasLoaded) {
-    return (
-      <Form
-        onSucess={onSucess}
-        onDelete={onDelete}
-        onCancel={onCancel}
-        team={teams.state}
-      />
-    )
-  }
+const EditTeam: React.FC<EditTeamProps> = ({ teamId, onCancel, onSucess }) => {
+  const teams = useTeams()
+  const team = teams.state.find((t) => t.id === teamId)
+
+  if (team) return <Form onSucess={onSucess} onCancel={onCancel} team={team} />
   return <Loading />
 }
 

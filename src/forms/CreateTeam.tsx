@@ -5,10 +5,9 @@ import TeamCaptain from './TeamCaptain'
 import TeamBasic from './TeamBasic'
 import TeamPlayers from './TeamPlayers'
 import TeamGame from './TeamGame'
-import useGames from '../hooks/useGames'
-import Loading from '../components/Loading'
 import useTeams from '../hooks/teams'
 import useUser from '../hooks/user'
+import useGames from '../hooks/games'
 
 interface CreateTeamProps {
   onCancel: () => void
@@ -32,71 +31,69 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
   })
   const games = useGames()
   const teams = useTeams()
-  if (games.hasLoaded)
-    return (
-      <div className='create-team-form' style={{ width: '100%' }}>
-        <div className='register'>
-          {active === 'selector' && (
-            <TeamGame
-              games={games.state}
-              onSuccess={({ gameId }) => {
-                setTeam({ ...team, game: gameId })
-                setActive('basic')
-              }}
-            />
-          )}
-          {active === 'basic' && (
-            <TeamBasic
-              game={games.state.find((g) => g.id === team.game)}
-              site={site}
-              onBack={() => {
-                setActive('selector')
-              }}
-              onSuccess={({ logo, name }) => {
-                setTeam({ ...team, logo, name })
-                setActive('captain')
-              }}
-            />
-          )}
-          {active === 'captain' && (
-            <TeamCaptain
-              site={site}
-              game={games.state.find((g) => g.id === team.game)}
-              onBack={() => setActive('basic')}
-              onSuccess={({ captain, captainTag }) => {
-                setTeam({
-                  ...team,
-                  captain,
-                  team_captains_discord_tag: captainTag,
-                })
-                setActive('player')
-              }}
-            />
-          )}
+  return (
+    <div className='create-team-form' style={{ width: '100%' }}>
+      <div className='register'>
+        {active === 'selector' && (
+          <TeamGame
+            games={games}
+            onSuccess={({ gameId }) => {
+              setTeam({ ...team, game: gameId })
+              setActive('basic')
+            }}
+          />
+        )}
+        {active === 'basic' && (
+          <TeamBasic
+            game={games.find((g) => g.id === team.game)}
+            site={site}
+            onBack={() => {
+              setActive('selector')
+            }}
+            onSuccess={({ logo, name }) => {
+              setTeam({ ...team, logo, name })
+              setActive('captain')
+            }}
+          />
+        )}
+        {active === 'captain' && (
+          <TeamCaptain
+            site={site}
+            game={games.find((g) => g.id === team.game)}
+            onBack={() => setActive('basic')}
+            onSuccess={({ captain, captainTag }) => {
+              setTeam({
+                ...team,
+                captain,
+                team_captains_discord_tag: captainTag,
+              })
+              setActive('player')
+            }}
+          />
+        )}
 
-          {active === 'player' && (
-            <TeamPlayers
-              game={games.state.find((g) => g.id === team.game)}
-              site={site}
-              disabled={isDisabled}
-              onBack={() => setActive('captain')}
-              onSuccess={async (p: Player[]) => {
-                setDisabled(false)
-                const createdTeam = await teams.action.create({
-                  ...team,
-                  players: p,
-                })
-                setDisabled(false)
-                if (createdTeam) {
-                  onSuccess()
-                }
-              }}
-            />
-          )}
-        </div>
+        {active === 'player' && (
+          <TeamPlayers
+            game={games.find((g) => g.id === team.game)}
+            site={site}
+            disabled={isDisabled}
+            onBack={() => setActive('captain')}
+            onSuccess={async (p: Player[]) => {
+              setDisabled(true)
+              const createdTeam = await teams.action.create({
+                ...team,
+                players: p,
+              })
+              setDisabled(false)
+              if (createdTeam) {
+                onSuccess()
+              }
+            }}
+          />
+        )}
       </div>
-    )
-  return <Loading />
+    </div>
+  )
 }
 
 export default CreateTeam

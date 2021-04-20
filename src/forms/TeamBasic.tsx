@@ -6,7 +6,7 @@ import imgToBase64 from '../utils/imgToBase64'
 interface TeamBasicProps {
   game: Game
   site: Site
-  onBack: () => void
+  onBack?: () => void
   onSuccess: (p: { name: string; logo: string }) => void
   tournament?: Tournament
 }
@@ -14,7 +14,7 @@ interface TeamBasicProps {
 const TeamBasic: React.FC<TeamBasicProps> = ({
   game,
   tournament,
-  onBack,
+  onBack = null,
   onSuccess,
   site,
 }) => {
@@ -24,18 +24,20 @@ const TeamBasic: React.FC<TeamBasicProps> = ({
 
   return (
     <div className='register-form'>
-      <div className='back-btn ml-3'>
-        <button
-          className='btn btn-warning'
-          style={{
-            borderTopLeftRadius: '50px',
-            borderBottomLeftRadius: '50px',
-          }}
-          onClick={onBack}
-        >
-          Back
-        </button>
-      </div>
+      {onBack !== null && (
+        <div className='back-btn ml-3'>
+          <button
+            className='btn btn-warning'
+            style={{
+              borderTopLeftRadius: '50px',
+              borderBottomLeftRadius: '50px',
+            }}
+            onClick={onBack}
+          >
+            Back
+          </button>
+        </div>
+      )}
       <form className='form'>
         <legend>Basic</legend>
 

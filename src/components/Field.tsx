@@ -18,6 +18,7 @@ export interface FieldProps {
   placeholderText?: string
   disable?: boolean
   readOnly?: boolean
+  required?: boolean
 }
 
 const Field: React.FC<FieldProps> = ({
@@ -34,6 +35,7 @@ const Field: React.FC<FieldProps> = ({
   placeholder = false,
   disable = false,
   readOnly = false,
+  required = false,
 }) => {
   const id = useMemo(() => `${name.toLowerCase()}-${fieldCount++}`, [name])
   return (
@@ -60,6 +62,7 @@ const Field: React.FC<FieldProps> = ({
           placeholder ? (label ? label : camelToWords(name)) : placeholderText
         }
         readOnly={readOnly}
+        required={required}
       />
       {children && children}
     </div>

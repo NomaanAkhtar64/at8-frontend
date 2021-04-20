@@ -19,7 +19,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
   disabled = false,
 }) => {
   const fieldName = game.type.type === 'url' ? 'url' : 'username'
-  console.log(fieldName)
+
   return (
     <div>
       {number !== 0 && (
@@ -37,6 +37,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
         onChange={(v: string, e) => {
           updatePlayer({ ...player, [fieldName]: v })
         }}
+        required={!isAlternate}
         disable={disabled}
       />
     </div>

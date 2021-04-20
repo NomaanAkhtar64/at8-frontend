@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { __API_URL__ } from '../const'
-import getHeaders from './getHeaders'
+import getHeaders from './useHeaders'
 
 export default function changePassword(password: string, passwordRe: string) {
   const headers = getHeaders()

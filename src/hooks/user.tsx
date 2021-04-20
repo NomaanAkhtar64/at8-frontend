@@ -3,11 +3,12 @@ import React, {
   createContext,
   useCallback,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useState,
 } from 'react'
 import Loading from '../components/Loading'
 import { __API_URL__ } from '../const'
+import StrippedLayout from '../layout/StrippedLayout'
 
 interface Context {
   isLogin: boolean
@@ -31,7 +32,10 @@ type AllResponses = [AxiosResponse<User>, AxiosResponse<UserProfile[]>]
 interface UserProviderProps {}
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [isLogin, setIsLogin] = useState(false)
+  const tokenSaved = localStorage['token']
+  const [isLogin, setIsLogin] = useState(
+    tokenSaved === undefined ? false : true
+  )
   const [token, setToken] = useState<string>(
     localStorage.getItem('token') === undefined
       ? null
@@ -40,6 +44,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>(null)
   const [profile, setProfile] = useState<UserProfile>(null)
   const [loading, setLoading] = useState(false)
+
+  const logout = useCallback(() => {
+    setToken(null)
+    setIsLogin(false)
+    setUser(null)
+    setProfile(null)
+    setLoading(false)
+    localStorage.removeItem('token')
+  }, [])
 
   const fetchUser = useCallback(
     (options) => {
@@ -65,11 +78,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           )
           .catch((err) => {
             console.log(err)
+            if (axios.isAxiosError(err)) {
+              logout()
+              resolve(123)
+            }
             reject(err)
           })
       })
     },
-    [setUser, setProfile, setIsLogin, setLoading]
+    [logout]
   )
 
   const login = useCallback(
@@ -93,16 +110,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           throw err
         })
     },
-    [fetchUser, setLoading]
+    [fetchUser]
   )
-
-  const logout = useCallback(() => {
-    setToken(null)
-    setIsLogin(false)
-    setUser(null)
-    setProfile(null)
-    localStorage.removeItem('token')
-  }, [])
 
   const signup = useCallback(
     (sd: SignUpFields) => {
@@ -164,7 +173,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     [token, user]
   )
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (
       localStorage['token'] !== undefined &&
       user === null &&
@@ -201,8 +210,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         },
       }}
     >
-      {token === null || user === null || profile === null ? (
-        <Loading />
+      {isLogin ? (
+        token === null || user === null || profile === null ? (
+          <StrippedLayout>
+            <Loading />
+          </StrippedLayout>
+        ) : (
+          children
+        )
       ) : (
         children
       )}

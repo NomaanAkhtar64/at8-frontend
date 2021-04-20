@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 
 const Title: React.FC<{ children: string }> = ({ children }) => {
-  document.title = children
+  useLayoutEffect(() => {
+    document.title = children
+  }, [children])
   return null
 }
 

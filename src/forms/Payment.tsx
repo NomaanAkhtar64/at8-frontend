@@ -1,10 +1,11 @@
 import parse from 'html-react-parser'
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 import Loading from '../components/Loading'
 import checkCreateEntryData from '../errors/check/checkCreateEntryData'
 import createEntry from '../hooks/createEntry'
+import useTeams from '../hooks/teams'
 import useSite from '../hooks/useSite'
-import useTeam from '../hooks/useTeam'
 
 interface PaymentProps {
   toSuccess: () => void
@@ -22,7 +23,9 @@ const Payment: React.FC<PaymentProps> = ({
   const [entry, setEntry] = useState<Entry>(null)
   const [hasLoaded, setHasLoaded] = useState(false)
   const site = useSite()
-  const team = useTeam(userId, teamId)
+  const teams = useTeams()
+  const team = teams.state.find((t) => t.id === teamId)
+  const history = useHistory()
   useEffect(() => {
     if (!entry) {
       let values: Entry = {
@@ -42,7 +45,7 @@ const Payment: React.FC<PaymentProps> = ({
     }
   }, [teamId, tournament, userId, entry])
 
-  if (hasLoaded && team.hasLoaded)
+  if (hasLoaded)
     return (
       <div className='payment-page text-white register'>
         <div className='register-form'>
@@ -61,7 +64,7 @@ const Payment: React.FC<PaymentProps> = ({
                     </div>
                     <div className='row'>
                       <div className='col-6'>Team:</div>
-                      <div className='col-6'>{team.state.name}</div>
+                      <div className='col-6'>{team.name}</div>
                     </div>
                     <div className='row'>
                       <div className='col-6'>Tournament: </div>
@@ -80,7 +83,10 @@ const Payment: React.FC<PaymentProps> = ({
               type='button'
               style={{ width: '100%', margin: '20px 0px' }}
               className='display-block btn btn-success'
-              onClick={() => toSuccess()}
+              onClick={() => {
+                // toSuccess()
+                history.push(`/entry/verify/${entry.entry_id}`)
+              }}
             >
               Confirm
             </button>

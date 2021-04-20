@@ -74,7 +74,10 @@ const Header: React.FC<HeaderProps> = ({
                 <DropDownItem text='My Teams' to='/profile/teams' />
                 <DropDownItem
                   text='Logout'
-                  onClick={() => user.actions.logout()}
+                  onClick={() => {
+                    user.actions.logout()
+                    history.push('/')
+                  }}
                 />
               </Dropdown>
             </>

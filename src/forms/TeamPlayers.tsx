@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import FormError from '../components/FormError'
 import PlayerFields from './PlayerFields'
 import parser from 'html-react-parser'
+import camelToWords from '../utils/camelToWords'
 
 interface TeamPlayersProps {
   onBack: () => void
@@ -56,9 +57,28 @@ const TeamPlayers: React.FC<TeamPlayersProps> = ({
           let errs = []
           let isValid = true
 
+          players.forEach((player) => {
+            if (!player.is_alternate) {
+              if (!(player.url !== '' || player.username !== '')) {
+                let msg = `${camelToWords(
+                  game.type.name
+                )} is required for non alternate players`
+                if (!(msg in errs)) {
+                  errs.push(msg)
+                  isValid = false
+                }
+              }
+            }
+          })
           setErrors(errs)
           if (isValid) {
-            onSuccess(players.map((p) => ({ ...p, index: undefined })))
+            onSuccess(
+              players
+                .filter((p) =>
+                  p.is_alternate ? p.url !== '' || p.username !== '' : true
+                )
+                .map((p) => ({ ...p, index: undefined }))
+            )
           }
         }}
       >
