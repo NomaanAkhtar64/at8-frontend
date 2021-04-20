@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
-import Footer from "./Footer";
-import Header from "./Header";
-import Dropdown from "../components/Dropdown";
-import "./Layout.scss";
-import Sidebar from "./SideBar";
-import DropDownItem from "../components/DropDownItem";
-import useGames from "../hooks/useGames";
-import { SiteProvider } from "../hooks/useSite";
-import { ProfileProvider } from "../hooks/useProfile";
+import Footer from './Footer'
+import Header from './Header'
+import Dropdown from '../components/Dropdown'
+import './Layout.scss'
+import Sidebar from './SideBar'
+import DropDownItem from '../components/DropDownItem'
+import useGames from '../hooks/useGames'
+import { SiteProvider } from '../hooks/useSite'
+import { TeamsProvider } from '../hooks/teams'
 
 interface LayoutProps {}
 
 const Nav: React.FC<{}> = () => {
-  const games = useGames();
+  const games = useGames()
   return (
     <>
-      <Dropdown name="Tournaments">
+      <Dropdown name='Tournaments'>
         {games.state.map((game, i) => (
           <DropDownItem
             key={i}
@@ -26,48 +26,46 @@ const Nav: React.FC<{}> = () => {
           />
         ))}
       </Dropdown>
-      <div className="black-link">
-        <Link to="/faq">FAQ</Link>
+      <div className='black-link'>
+        <Link to='/faq'>FAQ</Link>
       </div>
-      <div className="black-link">
-        <Link to="/announcements">Announcements</Link>
+      <div className='black-link'>
+        <Link to='/announcements'>Announcements</Link>
       </div>
     </>
-  );
-};
+  )
+}
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const [isSidebarOpen, setSidebar] = useState(false);
+  const [isSidebarOpen, setSidebar] = useState(false)
+
+  if (isSidebarOpen)
+    return (
+      <Sidebar
+        closeSidebar={() => {
+          setSidebar(false)
+        }}
+      >
+        <Nav />
+      </Sidebar>
+    )
 
   return (
-    <>
-      {isSidebarOpen ? (
-        <Sidebar
-          closeSidebar={() => {
-            setSidebar(false);
-          }}
-        >
-          <Nav />
-        </Sidebar>
-      ) : (
-        <ProfileProvider>
-          <Header
-            name="AT8"
-            isSidebarOpen={isSidebarOpen}
-            openSidebar={() => {
-              setSidebar(true);
-            }}
-          >
-            <Nav />
-          </Header>
-          <main>
-            <SiteProvider>{children}</SiteProvider>
-          </main>
-          <Footer></Footer>
-        </ProfileProvider>
-      )}
-    </>
-  );
-};
+    <TeamsProvider>
+      <Header
+        isSidebarOpen={isSidebarOpen}
+        openSidebar={() => {
+          setSidebar(true)
+        }}
+      >
+        <Nav />
+      </Header>
+      <main>
+        <SiteProvider>{children}</SiteProvider>
+      </main>
+      <Footer></Footer>
+    </TeamsProvider>
+  )
+}
 
-export default Layout;
+export default Layout

@@ -1,24 +1,14 @@
 import ReactDOM from 'react-dom'
-import thunk from 'redux-thunk'
-import { Provider } from 'react-redux'
-import { createStore, compose, applyMiddleware } from 'redux'
-
 import App from './App'
-import reducer from './store/reducers/auth'
 import { BrowserRouter } from 'react-router-dom'
-
-// const composeEnhancers = window[
-//     "__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"
-// ] as typeof compose;
-
-const store = createStore(reducer, compose(applyMiddleware(thunk)))
+import { UserProvider } from './hooks/user'
 
 const app = (
-  <Provider store={store}>
-    <BrowserRouter>
+  <BrowserRouter>
+    <UserProvider>
       <App />
-    </BrowserRouter>
-  </Provider>
+    </UserProvider>
+  </BrowserRouter>
 )
 
 ReactDOM.render(app, document.getElementById('root'))

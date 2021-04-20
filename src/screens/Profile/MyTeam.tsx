@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import useTeams from '../../hooks/useTeams'
+import useTeams from '../../hooks/teams'
 
 import SteamDefault from '../../assets/SteamDefault.png'
-import Loading from '../../components/Loading'
 import EditTeam from '../../forms/EditTeam'
 import CreateTeam from '../../forms/CreateTeam'
-import deleteTeam from '../../hooks/deleteTeam'
 
 interface MyTeamProps {
   profile: UserProfile
@@ -13,24 +11,24 @@ interface MyTeamProps {
 }
 type Active = 'teams' | 'edit' | 'create'
 interface TeamProfileProps {
-  t: Team[]
   user: User
   profile: UserProfile
 }
-const TeamProfile: React.FC<TeamProfileProps> = ({ t, user, profile }) => {
-  const [teams, setTeams] = useState(t)
+const TeamProfile: React.FC<TeamProfileProps> = ({ user, profile }) => {
   const [active, setActive] = useState<Active>('teams')
   const [teamToEdit, setTeamToEdit] = useState<number>(null)
+  const { action: teamActions } = useTeams()
+  const teams = useTeams()
 
   useEffect(() => {
-    localStorage.setItem('team-list', JSON.stringify(teams))
-    document.title = 'My Teams - AT8'
-  }, [teams])
+    // document.title = 'My Teams - AT8'
+  }, [])
+
   switch (active) {
     case 'teams':
       return (
         <div className='team'>
-          {teams.map((team, i) => (
+          {teams.state.map((team, i) => (
             <div key={i} className={i > 0 ? 'team-data mt-5' : 'team-data'}>
               <div className='team-name'>
                 <h4>{team.name}</h4>
@@ -40,11 +38,11 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ t, user, profile }) => {
               <div className='team-players'>
                 <a href={team.captain.url} target='_blank' rel='noreferrer'>
                   <div className='player'>
-                    <h4>{team.captain.username}</h4>
+                    <h4>{team.captain.username.replace(/#\d/, '')}</h4>
                     <img
                       src={
-                        team.captain.profile
-                          ? team.captain.profile
+                        team.captain.steam_profile
+                          ? team.captain.steam_profile
                           : SteamDefault
                       }
                       className='captain-image'
@@ -56,8 +54,7 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ t, user, profile }) => {
 
                 {team.players.map(
                   (player, i) =>
-                    player.username &&
-                    player.url && (
+                    (player.username || player.url) && (
                       <a
                         key={i}
                         href={player.url}
@@ -65,15 +62,25 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ t, user, profile }) => {
                         rel='noreferrer'
                       >
                         <div className='player'>
-                          <h4>{player.username}</h4>
+                          <h4>
+                            {player.steam_username
+                              ? player.steam_username
+                              : player.username.replace(/#\d/, '')}
+                          </h4>
                           <img
-                            src={player.profile ? player.profile : SteamDefault}
+                            src={
+                              player.steam_profile
+                                ? player.steam_profile
+                                : SteamDefault
+                            }
                             alt='Default'
                             className={
                               player.username === user.username ? 'me' : ''
                             }
                           />
-                          <p color='white'>Player</p>
+                          <p color='white'>
+                            {player.is_alternate ? 'Alternate' : 'Player'}
+                          </p>
                         </div>
                       </a>
                     )
@@ -92,7 +99,7 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ t, user, profile }) => {
               </div>
             </div>
           ))}
-          {(teams.length === 0 || !teams) && (
+          {(teams.state.length === 0 || !teams) && (
             <div className='no-team'>No Teams Found</div>
           )}
           <div className='create-team-btn text-center my-3'>
@@ -110,23 +117,20 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ t, user, profile }) => {
       return (
         <CreateTeam
           onCancel={() => setActive('teams')}
-          onSuccess={(t) => {
+          onSuccess={() => {
             setActive('teams')
-            setTeams([...teams, t])
           }}
         />
       )
     case 'edit':
       return (
         <EditTeam
-          onSucess={(t) => {
-            setTeams([...teams.filter((tm) => tm.id !== t.id), { ...t }])
+          onSucess={() => {
             setActive('teams')
           }}
           onCancel={() => setActive('teams')}
           onDelete={async (id) => {
-            await deleteTeam(id)
-            setTeams([...teams.filter((t) => t.id !== id)])
+            await teamActions.delete(id)
             setActive('teams')
           }}
           userId={profile.user}
@@ -136,11 +140,7 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ t, user, profile }) => {
   }
 }
 const MyTeam: React.FC<MyTeamProps> = ({ profile, user }) => {
-  const teams = useTeams(profile.user)
-  if (teams.hasLoaded && teams.state) {
-    return <TeamProfile t={teams.state} user={user} profile={profile} />
-  }
-  return <Loading />
+  return <TeamProfile user={user} profile={profile} />
 }
 
 export default MyTeam

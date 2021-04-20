@@ -3,9 +3,7 @@ import Field from '../components/Field'
 import Form from '../components/Form'
 import * as regex from '../regex'
 import { Values } from '../func/valueType'
-import editProfile from '../hooks/editProfile'
-import editUser from '../hooks/editUser'
-import useProfile from '../hooks/useProfile'
+import useUser from '../hooks/user'
 
 interface EditUserProps {
   user: User
@@ -20,8 +18,9 @@ interface FormInf extends Values {
 }
 const EditUser: React.FC<EditUserProps> = ({ user, profile }) => {
   const [isDisabled, setDisable] = useState(false)
-  const profileUser = useProfile()
-
+  const {
+    actions: { editProfile, editUser },
+  } = useUser()
   return (
     <Form
       initialValues={{
@@ -47,7 +46,7 @@ const EditUser: React.FC<EditUserProps> = ({ user, profile }) => {
           last_name: lastName,
         })
         await editProfile({
-          user: profileUser.state.pk,
+          user: profile.id,
           steam_profile: steamURL,
           discord_name_tag: discordTag,
         })

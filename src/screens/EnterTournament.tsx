@@ -5,9 +5,9 @@ import './EnterTournament.scss'
 import Payment from '../forms/Payment'
 import Register from '../forms/Register'
 import Success from '../forms/Success'
-import useProfile from '../hooks/useProfile'
 import useTournaments from '../hooks/useTournaments'
 import Loading from '../components/Loading'
+import useUser from '../hooks/user'
 
 type Active = 'register' | 'payment' | 'success'
 const EnterTournament: React.FC<
@@ -16,7 +16,9 @@ const EnterTournament: React.FC<
   const [active, setActive] = useState<Active>('register')
   const [teamId, setTeamId] = useState<number>(null)
 
-  const profile = useProfile()
+  const {
+    state: { profile },
+  } = useUser()
   const tournament = useTournaments(match.params.tournamentSlug)
 
   if (tournament.hasLoaded) {
@@ -83,7 +85,7 @@ const EnterTournament: React.FC<
                 aria-labelledby='nav-home-tab'
               >
                 <Register
-                  profile={profile.profile}
+                  profile={profile}
                   tournament={tournament.state[0]}
                   toPayment={(id) => {
                     setActive('payment')
@@ -101,7 +103,7 @@ const EnterTournament: React.FC<
               >
                 <Payment
                   teamId={teamId}
-                  userId={profile.profile.user}
+                  userId={profile.user}
                   tournament={tournament.state[0]}
                   toSuccess={() => {
                     setActive('success')

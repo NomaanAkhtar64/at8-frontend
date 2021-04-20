@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import registerTeam from '../hooks/registerTeam'
 import useSite from '../hooks/useSite'
 import parser from 'html-react-parser'
-import PlayerFields from './PlayerFields'
-import imgToBase64 from '../utils/imgToBase64'
-import useTeams from '../hooks/useTeams'
+import useTeams from '../hooks/teams'
 import Loading from '../components/Loading'
 import Field from '../components/Field'
 import useGames from '../hooks/useGames'
@@ -32,12 +29,14 @@ const Register: React.FC<RegisterProps> = ({
     players: [],
     team_captains_discord_tag: '',
     user: profile.user,
+    game: tournament.game.id,
   })
   const [teamSelect, setTeamSelect] = useState<number>(null)
   const site = useSite()
   const games = useGames()
+  const [isDisabled, setDisabled] = useState(false)
 
-  const teams = useTeams(profile.user)
+  const teams = useTeams()
 
   useEffect(() => {
     document.title = 'Register Team - AT8'
@@ -48,7 +47,7 @@ const Register: React.FC<RegisterProps> = ({
     }
   }, [teams])
   const game = tournament.game
-  if (teams.hasLoaded && games.hasLoaded) {
+  if (games.hasLoaded) {
     return (
       <div>
         <div className='register'>
@@ -107,11 +106,14 @@ const Register: React.FC<RegisterProps> = ({
           )}
           {active === 'player' && (
             <TeamPlayers
+              disabled={isDisabled}
               game={game}
               site={site}
               onBack={() => setActive('captain')}
               onSuccess={async (p: Player[]) => {
-                const t = await registerTeam(team)
+                setDisabled(true)
+                const t = await teams.action.create(team)
+                setDisabled(false)
                 if (t) {
                   toPayment(t.id)
                 }

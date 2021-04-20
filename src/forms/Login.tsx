@@ -1,93 +1,69 @@
-import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 
-import * as actions from "../store/actions/auth";
-import Error from "../components/Error";
-import { AxiosError } from "axios";
-import Form from "../components/Form";
-import { Values } from "../func/valueType";
-import Field from "../components/Field";
-interface LoginProps extends UserState {
-  onAuth: (email: string, password: string) => void;
-  serverError: AxiosError<{ non_field_errors: string[] }> | null;
-  isReqLoading: boolean;
-  clearServerError: () => void;
-}
+import Error from '../components/Error'
+import Form from '../components/Form'
+import { Values } from '../func/valueType'
+import Field from '../components/Field'
+import useUser from '../hooks/user'
+import axios from 'axios'
+import Title from '../components/Title'
 
-const Login: React.FC<LoginProps> = ({
-  onAuth,
-  serverError,
-  isReqLoading,
-  clearServerError,
-}) => {
-  const history = useHistory();
-  const { search } = history.location;
-  const [isDisabled, setDisable] = useState(false);
-
-  useEffect(() => {
-    if (!isReqLoading && isDisabled && !serverError) {
-      history.push("/");
-      setDisable(false);
-    }
-    if (serverError) {
-      setDisable(false);
-    }
-  }, [isReqLoading, isDisabled, serverError, history]);
-
-  useEffect(() => {
-    document.title = "Login - AT8";
-  }, []);
+const Login: React.FC = () => {
+  const history = useHistory()
+  const { search } = history.location
+  const [isDisabled, setDisable] = useState(false)
+  const [error, setError] = useState('')
+  const user = useUser()
 
   interface FormInf extends Values {
-    email: string;
-    password: string;
+    email: string
+    password: string
   }
+
   return (
     <>
+      <Title>Login - AT8</Title>
       <Form
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ email: '', password: '' }}
         validate={{
           email: { required: true },
           password: { required: true },
         }}
-        formClass="form"
-        onSubmit={({ email, password }: FormInf, e) => {
-          setDisable(true);
-          clearServerError();
-          onAuth(email, password);
+        formClass='form'
+        disable={isDisabled}
+        onSubmit={async (sd: FormInf, e) => {
+          setDisable(true)
+          try {
+            await user.actions.login(sd)
+          } catch (err) {
+            if (axios.isAxiosError(err)) {
+              let data = err.response.data
+              if ('non_field_errors' in data) {
+                setError(data['non_field_errors'][0])
+              }
+            }
+          }
+          history.push('/')
+          setDisable(false)
         }}
-        submitClass="btn btn-secondary signup-btn"
+        submitClass='btn btn-secondary signup-btn'
       >
-        {search.includes("redirect=true") && (
+        {search.includes('redirect=true') && (
           <Error>You Need To Login First</Error>
         )}
-        <legend className="mb-4">Login</legend>
-        <Field name="email" type="email" placeholder />
-        <Field name="password" type="password" placeholder />
+        {error && <Error>{error}</Error>}
+        <legend className='mb-4'>Login</legend>
+        <Field name='email' type='email' placeholder />
+        <Field name='password' type='password' placeholder />
       </Form>
       <div style={{ marginBottom: 20 }}>
-        <p className="forgot-password">
-          <Link to="/reset-password">Forgot Password?</Link>
+        <p className='forgot-password'>
+          <Link to='/reset-password'>Forgot Password?</Link>
         </p>
       </div>
     </>
-  );
-};
+  )
+}
 
-const mapStateToProps = (state: UserState) => {
-  return {
-    isReqLoading: state.loading,
-    serverError: state.error,
-  };
-};
-
-const mapsDispatchToProps = (dispatchEvent) => {
-  return {
-    onAuth: (email: string, password: string) =>
-      dispatchEvent(actions.authLogin(email, password)),
-    clearServerError: () => dispatchEvent(actions.authClearError()),
-  };
-};
-
-export default connect(mapStateToProps, mapsDispatchToProps)(Login);
+export default Login

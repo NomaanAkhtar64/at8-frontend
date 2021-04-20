@@ -36,14 +36,13 @@ function validateData(value: Values, validate?: Validation) {
           setError(`${camelToWords(c)} is too small`)
         }
       }
-
-      if (validatorData.regex && typeof fieldValue === 'string') {
-        if (!validatorData.regex.test(fieldValue)) {
-          setError(`${camelToWords(c)} format invalid`)
-        }
-      }
-
       if (validatorData.required && typeof fieldValue === 'string') {
+        if (validatorData.regex && typeof fieldValue === 'string') {
+          if (!validatorData.regex.test(fieldValue)) {
+            setError(`${camelToWords(c)} format invalid`)
+          }
+        }
+
         if (fieldValue === '') {
           setError(`${camelToWords(c)} is required!`)
         }

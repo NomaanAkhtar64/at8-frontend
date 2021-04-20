@@ -13,6 +13,11 @@ interface Site {
   help_team_players: string
   help_team_existing: string
 }
+
+interface Cntx<S, A> {
+  state: S
+  action: A
+}
 type FieldTypes =
   | 'button'
   | 'checkbox'
@@ -60,6 +65,7 @@ interface WindowSize {
 }
 
 interface User {
+  pk: number
   email: string
   username: string
   first_name: picstring
@@ -68,6 +74,7 @@ interface User {
 }
 
 interface UserProfile {
+  id: number
   user: number
   pic: string
   discord_name_tag: string
@@ -117,10 +124,11 @@ interface Announcement {
 }
 
 interface Player {
-  profile?: string
   url: string
   username: string
   is_alternate: boolean
+  steam_username?: string
+  steam_profile?: string
 }
 
 interface Team {
@@ -186,4 +194,14 @@ interface Home {
 }
 interface PI extends Player {
   index?: number
+}
+interface LoginFields {
+  email: string
+  password: string
+}
+interface SignUpFields {
+  username: string
+  email: string
+  password1: string
+  password2: string
 }

@@ -8,6 +8,7 @@ interface TeamPlayersProps {
   onSuccess: (p: Player[]) => void
   site: Site
   game: Game
+  disabled: boolean
 }
 
 const TeamPlayers: React.FC<TeamPlayersProps> = ({
@@ -15,6 +16,7 @@ const TeamPlayers: React.FC<TeamPlayersProps> = ({
   onSuccess,
   site,
   game,
+  disabled,
 }) => {
   const [players, setPlayers] = useState<PI[]>([
     ...Array.from(Array(game.players_in_a_team - 1).keys()).map((number) => ({
@@ -67,6 +69,7 @@ const TeamPlayers: React.FC<TeamPlayersProps> = ({
             <PlayerFields
               key={i}
               number={i + 1}
+              disabled={disabled}
               isAlternate={p.is_alternate}
               player={p}
               game={game}
@@ -78,9 +81,11 @@ const TeamPlayers: React.FC<TeamPlayersProps> = ({
               }}
             />
           ))}
+
         <FormError errors={errors} />
 
         <button
+          disabled={disabled}
           type='submit'
           className='btn btn-success'
           style={{ width: '100%' }}

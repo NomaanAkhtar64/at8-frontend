@@ -6,14 +6,14 @@ import Tournaments from './Profile/Tournaments'
 import Loading from '../components/Loading'
 
 import './Profile.scss'
-import useProfile from '../hooks/useProfile'
 import useEntries from '../hooks/useEntries'
 import { RouteComponentProps } from 'react-router'
 import { Link } from 'react-router-dom'
+import useUser from '../hooks/user'
 
 const Profile: React.FC<RouteComponentProps> = ({ location }) => {
   const entries = useEntries()
-  const profile = useProfile()
+  const user = useUser()
   const { pathname } = location
   if (entries.hasLoaded) {
     return (
@@ -59,7 +59,7 @@ const Profile: React.FC<RouteComponentProps> = ({ location }) => {
             </ul>
           </div>
           {pathname === '/profile/teams' && (
-            <MyTeam profile={profile.profile} user={profile.state} />
+            <MyTeam profile={user.state.profile} user={user.state.user} />
           )}
           {pathname === '/profile/entries' && (
             <Tournaments entries={entries.state} />

@@ -1,33 +1,26 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 
 import backDrop from '../assets/header-backdrop.png'
 import AT8 from '../assets/AT8 logo - Copy.png'
-import * as actions from '../store/actions/auth'
 import Dropdown from '../components/Dropdown'
 import DropDownItem from '../components/DropDownItem'
 import defaultProfilePic from '../assets/default-profile-picture.png'
-import useProfile from '../hooks/useProfile'
+import useUser from '../hooks/user'
 
 interface HeaderProps {
-  name: string | React.ReactElement
   isSidebarOpen: boolean
   openSidebar: () => void
-  isAuthenticated: boolean
-  onLogout: () => void
 }
 
 const Header: React.FC<HeaderProps> = ({
-  name,
   children,
   isSidebarOpen,
   openSidebar,
-  isAuthenticated,
-  onLogout,
 }) => {
   const history = useHistory()
-  const profile = useProfile()
+  const user = useUser()
+  const profile = user.state.profile
   return (
     <header className='main-header'>
       {!isSidebarOpen && (
@@ -58,16 +51,12 @@ const Header: React.FC<HeaderProps> = ({
           <img className='header-shadow' src={backDrop} alt='' />
         </div>
         <div className='account'>
-          {isAuthenticated ? (
+          {user.isLogin ? (
             <>
               <Dropdown
                 name={
                   <img
-                    src={
-                      profile.profile.pic
-                        ? profile.profile.pic
-                        : defaultProfilePic
-                    }
+                    src={profile.pic ? profile.pic : defaultProfilePic}
                     className='profile-pic'
                     onDoubleClick={() => {
                       history.push('/profile/settings')
@@ -83,7 +72,10 @@ const Header: React.FC<HeaderProps> = ({
                 <DropDownItem text='Settings' to='/profile/settings' />
                 <DropDownItem text='My Entries' to='/profile/entries' />
                 <DropDownItem text='My Teams' to='/profile/teams' />
-                <DropDownItem text='Logout' onClick={() => onLogout()} />
+                <DropDownItem
+                  text='Logout'
+                  onClick={() => user.actions.logout()}
+                />
               </Dropdown>
             </>
           ) : (
@@ -101,15 +93,4 @@ const Header: React.FC<HeaderProps> = ({
   )
 }
 
-const mapStateToProps = (state: UserState) => {
-  return {
-    isAuthenticated: state.token !== null,
-  }
-}
-const mapDispatchToProps = (dispatchEvent) => {
-  return {
-    onLogout: () => dispatchEvent(actions.logout()),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default Header

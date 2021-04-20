@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import editProfile from '../hooks/editProfile'
-import useProfile from '../hooks/useProfile'
 import imgToBase64 from '../utils/imgToBase64'
 import checkEditProfilePic from '../errors/check/checkEditProfiePic'
+import useUser from '../hooks/user'
 interface EditProfilePicProps {
   profile: UserProfile
 }
@@ -10,9 +9,9 @@ const EditProfilePic: React.FC<EditProfilePicProps> = ({ profile }) => {
   const [pic, setPic] = useState<File>(null)
   const [picUrl, setPicUrl] = useState(null)
   const [error, setError] = useState<string>(null)
-
-  const profileUser = useProfile()
-
+  const {
+    actions: { editProfile },
+  } = useUser()
   return (
     <form
       onSubmit={async (e) => {
@@ -21,7 +20,7 @@ const EditProfilePic: React.FC<EditProfilePicProps> = ({ profile }) => {
         if (isValid) {
           setError(null)
           const pic64 = await imgToBase64(pic)
-          editProfile({ user: profileUser.state.pk, pic: pic64 })
+          editProfile({ user: profile.id, pic: pic64 })
         } else {
           setError(message)
         }

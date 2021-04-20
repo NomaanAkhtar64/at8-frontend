@@ -11,13 +11,13 @@ interface EditTeamProps {
   teamId: number
   // toBack: () => void
   onCancel: () => void
-  onSucess: (t: Team) => void
+  onSucess: () => void
   onDelete: (id: number) => void
 }
 interface FormProps {
   team: Team
   onCancel: () => void
-  onSucess: (t: Team) => void
+  onSucess: () => void
   onDelete: (id: number) => void
 }
 const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
@@ -60,7 +60,7 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess, onDelete }) => {
         })
         setDisabled(false)
         if (editedTeam) {
-          onSucess(editedTeam)
+          onSucess()
         }
       }}
     >

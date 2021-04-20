@@ -1,31 +1,25 @@
 import React, { useState } from 'react'
 import useSite from '../hooks/useSite'
-import PlayerFields from './PlayerFields'
-import parser from 'html-react-parser'
-import imgToBase64 from '../utils/imgToBase64'
-import registerTeam from '../hooks/registerTeam'
-import useProfile from '../hooks/useProfile'
 import '../screens/EnterTournament.scss'
-import useGames from '../hooks/useGames'
-import Loading from '../components/Loading'
-import checkCreateTeam from '../errors/check/checkCreateTeam'
 import TeamCaptain from './TeamCaptain'
 import TeamBasic from './TeamBasic'
 import TeamPlayers from './TeamPlayers'
-import FormError from '../components/FormError'
+import TeamGame from './TeamGame'
+import useGames from '../hooks/useGames'
+import Loading from '../components/Loading'
+import useTeams from '../hooks/teams'
+import useUser from '../hooks/user'
 
 interface CreateTeamProps {
   onCancel: () => void
-  onSuccess: (t: Team) => void
+  onSuccess: () => void
 }
 
 type Active = 'selector' | 'basic' | 'captain' | 'player'
 const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
   const [active, setActive] = useState<Active>('selector')
   const site = useSite()
-  const games = useGames()
-  const [game, setGame] = useState<number>(1)
-  const profile = useProfile()
+  const user = useUser()
   const [isDisabled, setDisabled] = useState(false)
   const [team, setTeam] = useState<Team>({
     captain: { url: '', username: '', is_alternate: false },
@@ -33,72 +27,27 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
     name: '',
     players: [],
     team_captains_discord_tag: '',
-    user: profile.profile.user,
+    user: user.state.profile.user,
+    game: 0,
   })
-  const [gameId, setGameId] = useState(0)
-  const [selectorError, setSelectorError] = useState<string[]>([])
-  if (games.hasLoaded) {
+  const games = useGames()
+  const teams = useTeams()
+  if (games.hasLoaded)
     return (
       <div className='create-team-form' style={{ width: '100%' }}>
         <div className='register'>
           {active === 'selector' && (
-            <div className='register-form'>
-              <form
-                className='form'
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  let isValid = true
-                  let errs = []
-
-                  if (gameId === 0 || gameId === null) {
-                    isValid = false
-                    errs.push('Please select A Game')
-                  }
-
-                  setSelectorError(errs)
-                  if (isValid) {
-                    setActive('basic')
-                  }
-                }}
-              >
-                <legend>Select Game</legend>
-                <div className='form-group p-2'>
-                  <label className='d-block'>Game</label>
-                  <select
-                    className='form-select w-100 p-2'
-                    value={gameId}
-                    onChange={(e) => setGameId(parseInt(e.target.value))}
-                  >
-                    <option value='0'>-----</option>
-                    {games.state.map((g, idx) => (
-                      <option key={idx} value={g.id + ''}>
-                        {g.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <FormError errors={selectorError} />
-                <button
-                  type='submit'
-                  className='btn btn-success'
-                  style={{ width: '100%' }}
-                >
-                  Select
-                </button>
-              </form>
-              <div className='hint'>
-                <h1>Help text</h1>
-                <div>
-                  <ol>
-                    <li>Choose A Game</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
+            <TeamGame
+              games={games.state}
+              onSuccess={({ gameId }) => {
+                setTeam({ ...team, game: gameId })
+                setActive('basic')
+              }}
+            />
           )}
           {active === 'basic' && (
             <TeamBasic
-              game={games.state.find((g) => g.id === gameId)}
+              game={games.state.find((g) => g.id === team.game)}
               site={site}
               onBack={() => {
                 setActive('selector')
@@ -112,7 +61,7 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
           {active === 'captain' && (
             <TeamCaptain
               site={site}
-              game={games.state.find((g) => g.id === gameId)}
+              game={games.state.find((g) => g.id === team.game)}
               onBack={() => setActive('basic')}
               onSuccess={({ captain, captainTag }) => {
                 setTeam({
@@ -127,15 +76,19 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
 
           {active === 'player' && (
             <TeamPlayers
-              game={games.state.find((g) => g.id === gameId)}
+              game={games.state.find((g) => g.id === team.game)}
               site={site}
+              disabled={isDisabled}
               onBack={() => setActive('captain')}
               onSuccess={async (p: Player[]) => {
                 setDisabled(false)
-                const createdTeam = await registerTeam(team)
+                const createdTeam = await teams.action.create({
+                  ...team,
+                  players: p,
+                })
                 setDisabled(false)
                 if (createdTeam) {
-                  onSuccess(createdTeam)
+                  onSuccess()
                 }
               }}
             />
@@ -143,7 +96,6 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
         </div>
       </div>
     )
-  }
   return <Loading />
 }
 
