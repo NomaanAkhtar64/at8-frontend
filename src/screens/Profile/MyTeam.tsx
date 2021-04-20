@@ -1,47 +1,54 @@
-import React, { useEffect, useState } from 'react'
-import useTeams from '../../hooks/teams'
+import React, { useEffect, useState } from "react";
+import useTeams from "../../hooks/teams";
 
-import SteamDefault from '../../assets/SteamDefault.png'
-import EditTeam from '../../forms/EditTeam'
-import CreateTeam from '../../forms/CreateTeam'
+import SteamDefault from "../../assets/SteamDefault.png";
+import EditTeam from "../../forms/EditTeam";
+import CreateTeam from "../../forms/CreateTeam";
+import useGames from "../../hooks/games";
 
 interface MyTeamProps {
-  profile: UserProfile
-  user: User
+  profile: UserProfile;
+  user: User;
 }
-type Active = 'teams' | 'edit' | 'create'
+type Active = "teams" | "edit" | "create";
 interface TeamProfileProps {
-  user: User
-  profile: UserProfile
+  user: User;
+  profile: UserProfile;
 }
 const TeamProfile: React.FC<TeamProfileProps> = ({ user, profile }) => {
-  const [active, setActive] = useState<Active>('teams')
-  const [teamToEdit, setTeamToEdit] = useState<number>(null)
-  const teams = useTeams()
+  const [active, setActive] = useState<Active>("teams");
+  const [teamToEdit, setTeamToEdit] = useState<number>(null);
+  const teams = useTeams();
+  const games = useGames();
+  console.log(teams);
   useEffect(() => {
-    document.title = 'My Teams - AT8'
-  }, [])
+    document.title = "My Teams - AT8";
+  }, []);
 
   switch (active) {
-    case 'teams':
+    case "teams":
       return (
-        <div className='team'>
+        <div className="team">
           {teams.state
             .sort((a, b) => a.id - b.id)
             .map((team, i) => (
-              <div key={i} className={i > 0 ? 'team-data mt-5' : 'team-data'}>
-                <div className='team-name'>
+              <div key={i} className={i > 0 ? "team-data mt-5" : "team-data"}>
+                <div className="team-name">
                   <h4>{team.name}</h4>
-                  <img src={team.logo} width='100%' alt='Team-Logo' />
-                  <p color='white'>{team.registration_date}</p>
+                  <img src={team.logo} width="100%" alt="Team-Logo" />
+                  <p color="white">{team.registration_date}</p>
                 </div>
-                <div className='team-players'>
-                  <a href={team.captain.url} target='_blank' rel='noreferrer'>
-                    <div className='player'>
+                <div className="team-players">
+                  <a
+                    href={team.captain.url === "" ? "#" : team.captain.url}
+                    target={team.captain.url !== "" && "_blank"}
+                    rel="noreferrer"
+                  >
+                    <div className="player">
                       <h4>
                         {team.captain.steam_username
                           ? team.captain.steam_username
-                          : team.captain.username.replace(/#\d/, '')}
+                          : team.captain.username.replace(/#\d+/, "")}
                       </h4>
                       <img
                         src={
@@ -49,10 +56,10 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ user, profile }) => {
                             ? team.captain.steam_profile
                             : SteamDefault
                         }
-                        className='captain-image'
-                        alt='Default'
+                        className="captain-image"
+                        alt="Default"
                       />
-                      <p color='white'>Captain</p>
+                      <p color="white">Captain</p>
                     </div>
                   </a>
 
@@ -61,15 +68,15 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ user, profile }) => {
                       (player.username || player.url) && (
                         <a
                           key={i}
-                          href={player.url}
-                          target='_blank'
-                          rel='noreferrer'
+                          href={player.url === "" ? "#" : player.url}
+                          target={player.url !== "" && "_blank"}
+                          rel="noreferrer"
                         >
-                          <div className='player'>
+                          <div className="player">
                             <h4>
                               {player.steam_username
                                 ? player.steam_username
-                                : player.username.replace(/#\d/, '')}
+                                : player.username.replace(/#\d+/, "")}
                             </h4>
                             <img
                               src={
@@ -77,24 +84,24 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ user, profile }) => {
                                   ? player.steam_profile
                                   : SteamDefault
                               }
-                              alt='Default'
+                              alt="Default"
                               className={
-                                player.username === user.username ? 'me' : ''
+                                player.username === user.username ? "me" : ""
                               }
                             />
-                            <p color='white'>
-                              {player.is_alternate ? 'Alternate' : 'Player'}
+                            <p color="white">
+                              {player.is_alternate ? "Alternate" : "Player"}
                             </p>
                           </div>
                         </a>
                       )
                   )}
-                  <div className='edit-team-btn'>
+                  <div className="edit-team-btn">
                     <div
-                      className='team-action-text'
+                      className="team-action-text"
                       onClick={() => {
-                        setTeamToEdit(team.id)
-                        setActive('edit')
+                        setTeamToEdit(team.id);
+                        setActive("edit");
                       }}
                     >
                       Edit
@@ -104,43 +111,43 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ user, profile }) => {
               </div>
             ))}
           {(teams.state.length === 0 || !teams) && (
-            <div className='no-team'>No Teams Found</div>
+            <div className="no-team">No Teams Found</div>
           )}
-          <div className='create-team-btn text-center my-3'>
+          <div className="create-team-btn text-center my-3">
             <button
-              type='button'
-              className='btn btn-success btn-lg'
-              onClick={() => setActive('create')}
+              type="button"
+              className="btn btn-success btn-lg"
+              onClick={() => setActive("create")}
             >
               Create your Team
             </button>
           </div>
         </div>
-      )
-    case 'create':
+      );
+    case "create":
       return (
         <CreateTeam
-          onCancel={() => setActive('teams')}
+          onCancel={() => setActive("teams")}
           onSuccess={() => {
-            setActive('teams')
+            setActive("teams");
           }}
         />
-      )
-    case 'edit':
+      );
+    case "edit":
       return (
         <EditTeam
           onSucess={() => {
-            setActive('teams')
+            setActive("teams");
           }}
-          onCancel={() => setActive('teams')}
+          onCancel={() => setActive("teams")}
           userId={profile.user}
           teamId={teamToEdit}
         />
-      )
+      );
   }
-}
+};
 const MyTeam: React.FC<MyTeamProps> = ({ profile, user }) => {
-  return <TeamProfile user={user} profile={profile} />
-}
+  return <TeamProfile user={user} profile={profile} />;
+};
 
-export default MyTeam
+export default MyTeam;
