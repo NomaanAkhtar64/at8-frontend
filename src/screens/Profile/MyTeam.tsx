@@ -20,7 +20,6 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ user, profile }) => {
   const [teamToEdit, setTeamToEdit] = useState<number>(null);
   const teams = useTeams();
   const games = useGames();
-  console.log(teams);
   useEffect(() => {
     document.title = "My Teams - AT8";
   }, []);

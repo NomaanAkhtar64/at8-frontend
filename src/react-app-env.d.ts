@@ -184,6 +184,9 @@ interface EntryDetail {
   tournament: Tournament
   team: Teams
   text_proof?: string
+  transaction_id?: string
+  date_transaction?: string
+  time_transaction?: string
   image_proof?: string
   has_paid: boolean
   date: string

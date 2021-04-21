@@ -88,7 +88,7 @@ const Payment: React.FC<PaymentProps> = ({
                 history.push(`/entry/verify/${entry.entry_id}`)
               }}
             >
-              Confirm
+              Verify
             </button>
           </div>
           <div className='hint'>

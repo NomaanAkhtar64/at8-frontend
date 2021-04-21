@@ -118,7 +118,12 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
                   />
                 </div>
                 <p style={{ color: "red" }}>{error}</p>
-                <button type="submit" className="btn btn-success">
+                <button
+                  type="submit"
+                  className="btn btn-success"
+                  data-toggle="modal"
+                  data-target="#exampleModalCenter"
+                >
                   Enter
                 </button>
               </div>
@@ -151,7 +156,12 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
                   </div>
                 </div>
                 <p style={{ color: "red" }}>{error}</p>
-                <button type="submit" className="btn btn-success">
+                <button
+                  type="submit"
+                  className="btn btn-success"
+                  data-toggle="modal"
+                  data-target="#exampleModalCenter"
+                >
                   Enter
                 </button>
               </div>

@@ -8,6 +8,7 @@ interface TournamentsProps {
 
 const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
   const [entriesState, setEntries] = useState(entries);
+  console.log(entries);
 
   useEffect(() => {
     document.title = "Tournament Entries - AT8";
@@ -51,17 +52,21 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
                   ) : (
                     <>
                       Pending
-                      <Link
-                        to={`/entry/verify/${entry.entry_id}`}
-                        style={{ display: "block" }}
-                      >
-                        Verify
-                      </Link>
+                      {((!entry.date_transaction && !entry.time_transaction) ||
+                        !entry.image_proof ||
+                        !entry.transaction_id) && (
+                        <Link
+                          to={`/entry/verify/${entry.entry_id}`}
+                          style={{ display: "block" }}
+                        >
+                          Verify
+                        </Link>
+                      )}
                     </>
                   )}
                 </td>
                 <td>{entry.date.split("T")[0]}</td>
-                {/* {console.log(entry.tournament.ending_time)} */}
+
                 {parseInt(entry.tournament.ending_time.split("-")[2]) <=
                   parseInt(entry.date.split("-")[2].split("T")[0]) && (
                   <td>
