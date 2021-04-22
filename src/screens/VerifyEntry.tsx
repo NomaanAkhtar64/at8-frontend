@@ -1,6 +1,7 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import Loading from "../components/Loading";
+import Title from "../components/Title";
 import { checkEntryVerify } from "../errors/check/entry";
 import { useEntry, editEntry } from "../hooks/entry";
 import djTimeToRT from "../utils/djTimeToRT";
@@ -23,7 +24,6 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
   const [imageB64, setimageB64] = useState<string>(null);
 
   useEffect(() => {
-    document.title = "Verifiy Payment - AT8";
     if (entry.hasLoaded) {
       if (entry.state) {
         if (entry.state.date_transaction) setDate(entry.state.date_transaction);
@@ -69,6 +69,7 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
     if (entry.state) {
       return (
         <div className="verify-form-container container">
+          <Title>Verifiy Payment - AT8</Title>
           <form className="verify-form" onSubmit={onSubmit}>
             <legend>Verify your payment transaction.</legend>
             <select

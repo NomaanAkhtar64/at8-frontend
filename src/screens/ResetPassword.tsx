@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import Loading from "../components/Loading";
+import Title from "../components/Title";
 import { __API_URL__ } from "../const";
 import "./ResetPassword.scss";
 
@@ -14,6 +15,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
     return (
         <>
             <div className="reset-password-page mt-5">
+                <Title>Reset Password - AT8</Title>
                 <div className="container">
                     <form
                         onSubmit={(e) => {

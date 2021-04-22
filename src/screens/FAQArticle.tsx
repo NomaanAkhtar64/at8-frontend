@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { RouteComponentProps } from "react-router";
 
 import Loading from "../components/Loading";
+import Title from "../components/Title";
 import supportForm from "../hooks/supportForm";
 import useFAQ from "../hooks/useFAQ";
 import "./FAQArticle.scss";
@@ -23,6 +24,7 @@ const FAQArticle: React.FC<FAQArticleProps> = ({ match }) => {
     return (
       <>
         <div className="main-faq">
+          <Title>{FAQ.name}</Title>
           <div className="faq-page">
             <div className="faq">
               <h2 className="faq-name">{FAQ.name}</h2>

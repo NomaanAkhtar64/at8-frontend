@@ -5,6 +5,7 @@ import SteamDefault from "../../assets/SteamDefault.png";
 import EditTeam from "../../forms/EditTeam";
 import CreateTeam from "../../forms/CreateTeam";
 import useGames from "../../hooks/games";
+import Title from "../../components/Title";
 
 interface MyTeamProps {
   profile: UserProfile;
@@ -20,14 +21,12 @@ const TeamProfile: React.FC<TeamProfileProps> = ({ user, profile }) => {
   const [teamToEdit, setTeamToEdit] = useState<number>(null);
   const teams = useTeams();
   const games = useGames();
-  useEffect(() => {
-    document.title = "My Teams - AT8";
-  }, []);
-
+  
   switch (active) {
     case "teams":
       return (
         <div className="team">
+          <Title>My Teams - AT8</Title>
           {teams.state
             .sort((a, b) => a.id - b.id)
             .map((team, i) => (

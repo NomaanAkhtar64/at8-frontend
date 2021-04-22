@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import useFAQ from "../hooks/useFAQ";
 import parse from "html-react-parser";
 import "./FAQ.scss";
+import Title from "../components/Title";
 
 interface FAQListBoxProps {
   faq: FAQ;
@@ -12,6 +13,7 @@ const FAQListBox: React.FC<FAQListBoxProps> = ({ faq }) => {
   const { images, name, description, slug } = faq;
   return (
     <div className="faq-list-box">
+      <Title>FAQs - AT8</Title>
       <div className="faq-lb-content">
         <div>
           <Link to={"/faq/" + slug} className="faq-lb-title">
