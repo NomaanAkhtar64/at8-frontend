@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import useSite from '../hooks/useSite'
 import parser from 'html-react-parser'
 import useTeams from '../hooks/teams'
@@ -6,18 +6,21 @@ import Field from '../components/Field'
 import TeamCaptain from './TeamCaptain'
 import TeamPlayers from './TeamPlayers'
 import TeamBasic from './TeamBasic'
+import Error from '../components/Error'
 
 interface RegisterProps {
   toPayment: (i: number) => void
   tournament: Tournament
   profile: UserProfile
+  entries: EntryDetail[]
 }
 
-type Active = 'basic' | 'captain' | 'player' | 'tourna' | 'selector'
+type Active = 'basic' | 'captain' | 'player' | 'tourna' | 'selector' | 'stop'
 const Register: React.FC<RegisterProps> = ({
   toPayment,
   tournament,
   profile,
+  entries,
 }) => {
   const [team, setTeam] = useState<Team>({
     captain: { url: '', username: '', is_alternate: false },
@@ -31,7 +34,6 @@ const Register: React.FC<RegisterProps> = ({
   const [teamSelect, setTeamSelect] = useState<number>(null)
   const site = useSite()
   const [isDisabled, setDisabled] = useState(false)
-
   const teams = useTeams()
 
   useEffect(() => {
@@ -44,9 +46,21 @@ const Register: React.FC<RegisterProps> = ({
   }, [teams])
   const game = tournament.game
   const validTeams = teams.state.filter((t) => t.game === tournament.game.id)
-  const [active, setActive] = useState<Active>(
-    validTeams.length === 0 ? 'basic' : 'selector'
+  const validEntries = entries.filter(
+    (e) => e.tournament.id === tournament.id && e.user === profile.user
   )
+  const getActive = useMemo(() => {
+    let out: Active
+    if (validEntries.length === 0) {
+      out = 'stop'
+    } else if (validTeams.length === 0) {
+      out = 'basic'
+    } else {
+      out = 'selector'
+    }
+    return out
+  }, [validEntries.length, validTeams.length])
+  const [active, setActive] = useState<Active>(getActive)
   return (
     <div>
       <div className='register'>
@@ -185,6 +199,11 @@ const Register: React.FC<RegisterProps> = ({
               <h1>Help Text</h1>
               <div>{parser(site.help_team_existing)}</div>
             </div>
+          </div>
+        )}
+        {active === 'stop' && (
+          <div className='register-form'>
+            <Error>You have already entered in this tournament</Error>
           </div>
         )}
       </div>

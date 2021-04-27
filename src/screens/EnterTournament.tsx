@@ -7,6 +7,8 @@ import Register from '../forms/Register'
 import Success from '../forms/Success'
 import useUser from '../hooks/user'
 import useTournaments from '../hooks/tournaments'
+import useEntries from '../hooks/useEntries'
+import Loading from '../components/Loading'
 
 type Active = 'register' | 'payment' | 'success'
 const EnterTournament: React.FC<
@@ -21,7 +23,7 @@ const EnterTournament: React.FC<
   const tournament = useTournaments().find(
     (t) => t.slug === match.params.tournamentSlug
   )
-
+  const entries = useEntries()
   return (
     <>
       <div className='register-page mt-5 container'>
@@ -84,14 +86,19 @@ const EnterTournament: React.FC<
               role='tabpanel'
               aria-labelledby='nav-home-tab'
             >
-              <Register
-                profile={profile}
-                tournament={tournament}
-                toPayment={(id) => {
-                  setActive('payment')
-                  setTeamId(id)
-                }}
-              />
+              {entries.hasLoaded ? (
+                <Register
+                  profile={profile}
+                  tournament={tournament}
+                  toPayment={(id) => {
+                    setActive('payment')
+                    setTeamId(id)
+                  }}
+                  entries={entries.state}
+                />
+              ) : (
+                <Loading />
+              )}
             </div>
           )}
           {active === 'payment' && (

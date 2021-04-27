@@ -60,10 +60,9 @@ const TeamBox: React.FC<TeamBoxProps> = ({ game, team, toEdit, user }) => {
   const getImage = useCallback(
     (player, index) => {
       if (player.steam_profile) return player.steam_profile
-      if (game.type.name === 'valorantUsername') {
-        console.log(index)
+      if (game.type.name === 'valorantUsername')
         return valorantImages[range[index]]
-      }
+
       return SteamDefault
     },
     [game, range]

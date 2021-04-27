@@ -190,6 +190,7 @@ interface EntryDetail {
   image_proof?: string
   has_paid: boolean
   date: string
+  user: number
 }
 interface Home {
   name: string
