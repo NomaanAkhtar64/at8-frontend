@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router'
+import { Link } from 'react-router-dom'
 import useWindowSize from '../hooks/useWindowSize'
 
 interface SidebarProps {
@@ -39,7 +40,12 @@ const Sidebar: React.FC<SidebarProps> = ({ children, closeSidebar }) => {
           </svg>
         </button>
       </div>
-      <div className='sidebar-nav'>{children}</div>
+      <div className='sidebar-nav'>
+        <div className='black-link'>
+          <Link to='/'>Home</Link>
+        </div>
+        {children}
+      </div>
     </div>
   )
 }
