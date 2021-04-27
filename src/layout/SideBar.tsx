@@ -42,7 +42,9 @@ const Sidebar: React.FC<SidebarProps> = ({ children, closeSidebar }) => {
       </div>
       <div className='sidebar-nav'>
         <div className='black-link'>
-          <Link to='/'>Home</Link>
+          <Link to='/' onClick={closeSidebar}>
+            Home
+          </Link>
         </div>
         {children}
       </div>
