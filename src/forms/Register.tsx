@@ -46,12 +46,12 @@ const Register: React.FC<RegisterProps> = ({
   }, [teams])
   const game = tournament.game
   const validTeams = teams.state.filter((t) => t.game === tournament.game.id)
-  const validEntries = entries.filter(
+  const invalidEntries = entries.filter(
     (e) => e.tournament.id === tournament.id && e.user === profile.user
   )
   const getActive = useMemo(() => {
     let out: Active
-    if (validEntries.length === 0) {
+    if (invalidEntries.length > 0) {
       out = 'stop'
     } else if (validTeams.length === 0) {
       out = 'basic'
@@ -59,7 +59,7 @@ const Register: React.FC<RegisterProps> = ({
       out = 'selector'
     }
     return out
-  }, [validEntries.length, validTeams.length])
+  }, [invalidEntries.length, validTeams.length])
   const [active, setActive] = useState<Active>(getActive)
   return (
     <div>
