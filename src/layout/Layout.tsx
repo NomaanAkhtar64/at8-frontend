@@ -52,7 +52,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     )
 
   return (
-    <GamesProvider>
+    <>
       <Header
         isSidebarOpen={isSidebarOpen}
         openSidebar={() => {
@@ -69,7 +69,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </TournamentProvider>
       </main>
       <Footer></Footer>
-    </GamesProvider>
+    </>
   )
 }
 

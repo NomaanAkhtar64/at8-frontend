@@ -24,12 +24,12 @@ const Dropdown: React.FC<DropdownProps> = ({ name, children, variant }) => {
     }
     counter.current++
   }, [location])
-
+  console.log(isOpen, children)
   return (
     <div
       className={`${
         variant && variant === 'purple' ? 'purple-link' : 'black-link'
-      } ddropdown ${isOpen && 'open-link'}`}
+      } ddropdown ${isOpen ? 'open-link' : ''}`}
     >
       <div
         className='dd-title'
