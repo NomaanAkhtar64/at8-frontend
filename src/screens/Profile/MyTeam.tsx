@@ -123,6 +123,7 @@ const TeamBox: React.FC<TeamBoxProps> = ({ game, team, toEdit, user }) => {
               </a>
             )
         )}
+        <div className='game-name-team'>{game.name}</div>
         <div className='edit-team-btn'>
           <div className='team-action-text' onClick={() => toEdit(team.id)}>
             Edit
