@@ -9,7 +9,7 @@ import Sidebar from './SideBar'
 import DropDownItem from '../components/DropDownItem'
 import { SiteProvider } from '../hooks/useSite'
 import { TeamsProvider } from '../hooks/teams'
-import useGames, { GamesProvider } from '../hooks/games'
+import useGames from '../hooks/games'
 import { TournamentProvider } from '../hooks/tournaments'
 
 interface LayoutProps {}

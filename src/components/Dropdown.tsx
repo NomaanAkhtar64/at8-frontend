@@ -24,7 +24,6 @@ const Dropdown: React.FC<DropdownProps> = ({ name, children, variant }) => {
     }
     counter.current++
   }, [location])
-  console.log(isOpen, children)
   return (
     <div
       className={`${
