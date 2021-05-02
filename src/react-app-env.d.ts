@@ -92,6 +92,7 @@ interface Tournament {
   id: number
   name: string
   details: string
+  image: string
   game: Game
   slug: string
   has_free_slot: boolean

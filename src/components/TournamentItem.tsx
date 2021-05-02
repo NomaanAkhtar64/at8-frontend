@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import parse from "html-react-parser";
 import "./TournamentItem.scss";
+import pic from "../assets/AT8.jpg";
 
 interface TournamentItemProps {
   tournament: Tournament;
@@ -13,6 +14,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
     occupied_slots,
     total_slots,
     details,
+    image,
     starting_time,
     ending_time,
     winner,
@@ -32,6 +34,9 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
         <h3 className="tourna-name">
           {name} - {tournament.game.name}
         </h3>
+        <div className="tourna-pic"> 
+          <img src={image} alt="" width="100%" />
+        </div>
         <div className="tourna-body">{parse(details)}</div>
       </div>
       <div className="tourna-bottom">
