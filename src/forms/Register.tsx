@@ -10,7 +10,6 @@ import Error from '../components/Error'
 
 interface RegisterProps {
   toPayment: (i: number) => void
-  toSuccess: () => void
   tournament: Tournament
   profile: UserProfile
   entries: EntryDetail[]
@@ -19,7 +18,6 @@ interface RegisterProps {
 type Active = 'basic' | 'captain' | 'player' | 'tourna' | 'selector' | 'stop'
 const Register: React.FC<RegisterProps> = ({
   toPayment,
-  toSuccess,
   tournament,
   profile,
   entries,
@@ -134,7 +132,7 @@ const Register: React.FC<RegisterProps> = ({
               const t = await teams.action.create({ ...team, players: p })
               setDisabled(false)
               if (t) {
-                tournament.fee !== 0 ? toPayment(t.id) : toSuccess()
+                toPayment(t.id)
               }
             }}
           />

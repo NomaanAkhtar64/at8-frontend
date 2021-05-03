@@ -38,12 +38,16 @@ const Payment: React.FC<PaymentProps> = ({
         createEntry(values).then((en) => {
           if (en) {
             setEntry(en)
-            setHasLoaded(true)
+            if (tournament.fee === 0) {
+              toSuccess()
+            } else {
+              setHasLoaded(true)
+            }
           }
         })
       }
     }
-  }, [teamId, tournament, userId, entry])
+  }, [teamId, tournament, userId, entry, toSuccess])
 
   if (hasLoaded)
     return (
