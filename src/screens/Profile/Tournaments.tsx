@@ -48,6 +48,8 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
                 <td>
                   {entry.has_paid ? (
                     'Paid'
+                  ) : entry.tournament.fee === 0 ? (
+                    'Entered'
                   ) : (
                     <>
                       Pending
