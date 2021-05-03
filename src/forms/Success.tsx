@@ -5,10 +5,10 @@ interface SuccessProps {
   tournamentFee: number;
 }
 
-const Success: React.FC<SuccessProps> = (tournamentFee) => {
+const Success: React.FC<SuccessProps> = ({ tournamentFee }) => {
   return (
     <div className="success-page">
-      {tournamentFee ? (
+      {tournamentFee !== 0 ? (
         <div className="success">
           <h3>Your application is awaiting verification</h3>
           <h6>
@@ -20,7 +20,7 @@ const Success: React.FC<SuccessProps> = (tournamentFee) => {
         <div className="success">
           <h3>Your application is submitted successfully</h3>
           <h6>
-            You see your tournament entry{" "}
+            You can see your tournament entry{" "}
             <Link to="/profile/entries">here</Link>
           </h6>
         </div>
