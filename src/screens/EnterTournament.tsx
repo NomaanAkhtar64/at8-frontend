@@ -94,6 +94,9 @@ const EnterTournament: React.FC<
                     setActive('payment')
                     setTeamId(id)
                   }}
+                  toSuccess={() => {
+                    setActive('success')
+                  }}
                   entries={entries.state}
                 />
               ) : (

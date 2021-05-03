@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import parse from "html-react-parser";
 import "./TournamentItem.scss";
-import pic from "../assets/AT8.jpg";
 
 interface TournamentItemProps {
   tournament: Tournament;
@@ -34,7 +33,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
         <h3 className="tourna-name">
           {name} - {tournament.game.name}
         </h3>
-        <div className="tourna-pic"> 
+        <div className="tourna-pic">
           <img src={image} alt="" width="100%" />
         </div>
         <div className="tourna-body">{parse(details)}</div>
@@ -43,7 +42,12 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
         <div className="tourna-left">
           {!winner && (
             <div style={{ fontSize: "1.25rem" }}>
-              Fees: <span className="grey">{fee}</span>
+              {fee !== 0 && (
+                <>
+                  Fees: <span className="grey">{fee}</span>
+                </>
+              )}
+
               <h5>
                 Slots Available:{" "}
                 <span className="grey">{total_slots - occupied_slots}</span>
@@ -73,9 +77,11 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ tournament }) => {
             </div>
           ) : (
             <>
-              <h4 className="tourna-prize">
-                Prize Pool: <span>{prize}</span>
-              </h4>
+              {prize && (
+                <h4 className="tourna-prize">
+                  Prize Pool: <span>{prize}</span>
+                </h4>
+              )}
 
               {today >= Date.parse(registration_date) &&
               today < Date.parse(starting_time) ? (
