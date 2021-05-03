@@ -125,7 +125,7 @@ const EnterTournament: React.FC<
               role='tabpanel'
               aria-labelledby='nav-contact-tab'
             >
-              <Success />
+              <Success tournamentFee={tournament.fee}  />
             </div>
           )}
         </div>
