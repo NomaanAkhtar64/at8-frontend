@@ -65,7 +65,7 @@ footer {
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 40px;
+  height: 50px;
   width: 100%;
 }
 
@@ -154,7 +154,7 @@ footer {
 
 .site-name {
   img {
-    width: 100px;
+    width: 50px;
   }
 }
 
@@ -167,7 +167,7 @@ footer {
 @media (min-width: 500px) {
   .header-wrapper,
   .header-shadow {
-    height: 68px;
+    height: 110px;
   }
 
   .site-name {

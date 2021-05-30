@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 import backDrop from '../assets/header-backdrop.png'
-import AT8 from '../assets/AT8 logo - Copy.png'
+import AT8 from '../assets/at8-new-logo.png'
 import Dropdown from '../components/Dropdown'
 import DropDownItem from '../components/DropDownItem'
 import defaultProfilePic from '../assets/default-profile-picture.png'
