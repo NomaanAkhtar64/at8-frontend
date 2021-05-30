@@ -18,7 +18,7 @@ const Announcements: React.FC<AnnouncementsProps> = () => {
         {announcements.state.length === 0 && (
           <h3 className="a1-body">No Announcement Found</h3>
         )}
-        {announcements.state.reverse().map((announcement, i) => (
+        {announcements.state.map((announcement, i) => (
           <div className="announcement-parent" key={i}>
             {announcement.image && (
               <div className="announcement-image">
