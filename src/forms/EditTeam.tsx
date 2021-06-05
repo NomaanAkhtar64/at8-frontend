@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+
 import Loading from '../components/Loading'
 import editTeamRegister from '../hooks/editTeamRegister'
 import useGames from '../hooks/games'
@@ -36,6 +38,18 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess }) => {
   )
   const { action: teamActions } = useTeams()
   const [isDisabled, setDisabled] = useState(false)
+  // const [country, setCountry] = useState("");
+  // const [city, setCity] = useState("");
+  // useEffect(() => {
+  //   axios
+  //     .get("https://extreme-ip-lookup.com/json/")
+  //     .then((response) => {
+  //       console.log(response)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [])
   return (
     <form
       className='edit-form'

@@ -21,7 +21,7 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
   const user = useUser()
   const [isDisabled, setDisabled] = useState(false)
   const [team, setTeam] = useState<Team>({
-    captain: { url: '', username: '', is_alternate: false },
+    captain: { url: '', username: '', is_alternate: false, country: '', city: '' },
     logo: '',
     name: '',
     players: [],

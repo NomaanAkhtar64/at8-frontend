@@ -1,4 +1,5 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect } from 'react'
 import Field from '../components/Field'
 
 interface PlayerFieldsProps {
@@ -19,7 +20,16 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
   disabled = false,
 }) => {
   const fieldName = game.type.type === 'url' ? 'url' : 'username'
-
+  useEffect(() => {
+    axios
+      .get("https://extreme-ip-lookup.com/json/")
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [])
   return (
     <div>
       {number !== 0 && (

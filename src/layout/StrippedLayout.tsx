@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Footer from './Footer'
 import './Layout'
 import backDrop from '../assets/header-backdrop.png'
-import AT8 from '../assets/AT8 logo - Copy.png'
+import AT8 from '../assets/at8-new-logo.png'
 
 interface StrippedLayoutProps {}
 

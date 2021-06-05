@@ -159,20 +159,20 @@ footer {
 }
 
 .account .profile-pic {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   padding: 0px !important;
 }
 
 @media (min-width: 500px) {
   .header-wrapper,
   .header-shadow {
-    height: 110px;
+    height: 100px;
   }
 
   .site-name {
     img {
-      width: 125px;
+      width: 100px;
     }
   }
 
@@ -188,8 +188,8 @@ footer {
   }
 
   .account .profile-pic {
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
   }
 }
 

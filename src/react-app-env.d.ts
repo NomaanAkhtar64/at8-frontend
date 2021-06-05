@@ -113,6 +113,7 @@ interface Tournament {
   registration_date: string
   hasFee: boolean
   teams: Teams[]
+  upload_date: string
 }
 
 interface Announcement {
@@ -130,6 +131,8 @@ interface Player {
   is_alternate: boolean
   steam_username?: string
   steam_profile?: string
+  country?: string
+  city?: string
 }
 
 interface Team {
