@@ -23,11 +23,17 @@ const Tournament: React.FC<TournamentProps> = ({ match }) => {
         {tournaments.map((tourna, i) => (
           <>
             <Link
-              style={{ textDecoration: "none" }}
+              style={{
+                textDecoration: "none",
+                width: "100%",
+                textAlign: "left",
+              }}
               key={i}
               to={`/tournament/detail/${tourna.name}`}
             >
-              <div className={`${i === 0 ? "first-tournament" : "tournament-box"}`}>
+              <div
+                className={`${i === 0 ? "first-tournament" : "tournament-box"}`}
+              >
                 <div className="tournament-image">
                   <img src={tourna.image} alt="" width="300px" />
                 </div>
@@ -57,7 +63,7 @@ const Tournament: React.FC<TournamentProps> = ({ match }) => {
                 </div>
               </div>
             </Link>
-
+            <hr />
             {/* <TournamentItem tournament={tourna} key={i} /> */}
           </>
         ))}
