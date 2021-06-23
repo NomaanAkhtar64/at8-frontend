@@ -1,7 +1,8 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
+
 import Title from "../components/Title";
-import TournamentItem from "../components/TournamentItem";
 import useTournaments from "../hooks/tournaments";
 import "./Tournament.scss";
 interface TournamentProps extends RouteComponentProps<{ slug }> {}
@@ -18,9 +19,49 @@ const Tournament: React.FC<TournamentProps> = ({ match }) => {
       {tournaments.length === 0 && (
         <h3 className="a1-body">No Tournaments Found</h3>
       )}
-      {tournaments.map((tourna, i) => (
-        <TournamentItem tournament={tourna} key={i} />
-      ))}
+      <div className="tournament-list">
+        {tournaments.map((tourna, i) => (
+          <>
+            <Link
+              style={{ textDecoration: "none" }}
+              key={i}
+              to={`/tournament/detail/${tourna.name}`}
+            >
+              <div className={`${i === 0 ? "first-tournament" : "tournament-box"}`}>
+                <div className="tournament-image">
+                  <img src={tourna.image} alt="" width="300px" />
+                </div>
+                <div className="tournament-content">
+                  <div>
+                    <h4 className="tournament-title">{tourna.name}</h4>
+                  </div>
+                  <div className="tournament-details">
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                      Slots: <span className="value">{tourna.total_slots}</span>
+                    </div>
+                    {tourna.prize && (
+                      <div className="tournament-prize">
+                        <span>
+                          Fees: <span className="value">{tourna.fee}</span>
+                        </span>
+                        <span>
+                          Prize: <span className="value">{tourna.prize}</span>
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  {/* <div className="tournament-dates">
+                  <span>Registration starting from</span>
+                  <span>{tourna.registration_date}</span>
+                </div> */}
+                </div>
+              </div>
+            </Link>
+
+            {/* <TournamentItem tournament={tourna} key={i} /> */}
+          </>
+        ))}
+      </div>
     </div>
   );
 };

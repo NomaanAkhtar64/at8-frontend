@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react'
 
 import Loading from '../components/Loading'
 import editTeamRegister from '../hooks/editTeamRegister'
@@ -31,7 +30,10 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess }) => {
   const [captain, setCaptain] = useState<Player>({
     url: game.type.type === 'url' ? team.captain.url : '',
     username: game.type.type !== 'url' ? team.captain.username : '',
+    email: "",
     is_alternate: false,
+    country: '',
+    city: '',
   })
   const [players, setPlayers] = useState<PI[]>(
     team.players.map((t, i) => ({ ...t, index: i }))

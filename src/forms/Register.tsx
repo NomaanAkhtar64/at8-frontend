@@ -23,10 +23,13 @@ const Register: React.FC<RegisterProps> = ({
   profile,
   entries,
 }) => {
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
   const [team, setTeam] = useState<Team>({
     captain: {
       url: "",
       username: "",
+      email: "",
       is_alternate: false,
       country: "",
       city: "",
@@ -37,6 +40,8 @@ const Register: React.FC<RegisterProps> = ({
     team_captains_discord_tag: "",
     user: profile.user,
     game: tournament.game.id,
+    country: country,
+    city: city,
   });
   const [teamSelect, setTeamSelect] = useState<number>(null);
   const site = useSite();
@@ -50,6 +55,15 @@ const Register: React.FC<RegisterProps> = ({
         setTeamSelect(teams.state[0].id);
       }
     }
+    axios
+      .get("https://extreme-ip-lookup.com/json/")
+      .then((res) => {
+        setCountry(res.data.country);
+        setCity(res.data.city);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [teams]);
   const game = tournament.game;
   const validTeams = teams.state.filter((t) => t.game === tournament.game.id);

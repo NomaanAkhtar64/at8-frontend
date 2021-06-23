@@ -127,6 +127,7 @@ interface Announcement {
 
 interface Player {
   url: string
+  email?: string
   username: string
   is_alternate: boolean
   steam_username?: string
@@ -146,6 +147,8 @@ interface Team {
   registration_date?: Date
   game?: number
   players: Player[]
+  country: string
+  city: string
 }
 
 // interface Payment {

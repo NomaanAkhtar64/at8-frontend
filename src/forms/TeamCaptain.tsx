@@ -10,8 +10,6 @@ interface TeamCaptainProps {
   onSuccess: (c: {
     captain: Player;
     captainTag: string;
-    country: string;
-    city: string;
   }) => void;
   site: Site;
   game: Game;
@@ -28,6 +26,7 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
   const [captain, setCaptain] = useState<Player>({
     url: "",
     username: "",
+    email: "",
     is_alternate: false,
     country: "",
     city: "",
