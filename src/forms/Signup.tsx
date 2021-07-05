@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-import { useHistory } from 'react-router'
-import Error from '../components/Error'
-import Form from '../components/Form'
-import { Values } from '../func/valueType'
-import * as regex from '../regex'
-import Field from '../components/Field'
-import useUser from '../hooks/user'
-import { __API_URL__ } from '../const'
+import { useHistory } from "react-router";
+import Error from "../components/Error";
+import Form from "../components/Form";
+import { Values } from "../func/valueType";
+import * as regex from "../regex";
+import Field from "../components/Field";
+import useUser from "../hooks/user";
+import Title from "../components/Title";
+import { __API_URL__ } from "../const";
 
 const arrToStr = (a: string[] | string) => {
   if (Array.isArray(a)) {
-    return a.join('&nbsp;')
+    return a.join("&nbsp;");
   }
-  return a
-}
+  return a;
+};
 
 interface FormInf extends Values {
-  username: string
-  email: string
-  password: string
-  confirmPassword: string
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 const Signup: React.FC<{}> = () => {
-  const history = useHistory()
-  const user = useUser()
-  const [serverError, setServerError] = useState<null | string>(null)
+  const history = useHistory();
+  const user = useUser();
+  const [serverError, setServerError] = useState<null | string>(null);
   // useEffect(() => {
   //   if (error) {
   //     if (axios.isAxiosError(error)) {
@@ -38,25 +39,21 @@ const Signup: React.FC<{}> = () => {
   //   }
   // }, [error])
 
-  useEffect(() => {
-    document.title = 'Signup - AT8'
-  }, [])
-
   return (
     <Form
-      formClass='form'
-      submitClass='btn btn-secondary signup-btn'
+      formClass="form"
+      submitClass="btn btn-secondary signup-btn"
       initialValues={{
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       }}
       disable={user.loading}
       validate={{
         username: { required: true },
         email: { required: true, regex: regex.EMAIL },
-        password: { required: true, equal: 'confirmPassword', minLength: 8 },
+        password: { required: true, equal: "confirmPassword", minLength: 8 },
         confirmPassword: { required: true },
       }}
       onSubmit={(
@@ -68,7 +65,7 @@ const Signup: React.FC<{}> = () => {
         }: FormInf,
         e
       ) => {
-        setServerError(null)
+        setServerError(null);
         axios
           .post(`${__API_URL__}/check-user/`, {
             username: username,
@@ -80,36 +77,37 @@ const Signup: React.FC<{}> = () => {
               email,
               password1,
               password2,
-            })
-            history.push('/login')
+            });
+            history.push("/login");
           })
           .catch((err) => {
             if (axios.isAxiosError(err)) {
-              let data = err.response.data
-              if ('email' in data) {
-                setServerError(arrToStr(data.email))
+              let data = err.response.data;
+              if ("email" in data) {
+                setServerError(arrToStr(data.email));
               }
-              if ('username' in data) {
-                setServerError(arrToStr(data.username))
+              if ("username" in data) {
+                setServerError(arrToStr(data.username));
               }
             }
-          })
+          });
       }}
     >
+      <Title>Signup - AT8</Title>
       {serverError && <Error>{serverError}</Error>}
-      <legend className='mb-4'>Signup</legend>
-      <Field name='username' type='text' placeholder />
-      <Field name='email' type='email' placeholder />
-      <Field name='password' type='password' placeholder>
+      <legend className="mb-4">Signup</legend>
+      <Field name="username" type="text" placeholder />
+      <Field name="email" type="email" placeholder />
+      <Field name="password" type="password" placeholder>
         <small>
           <ul>
             <li>Password must contain alteast 8 characters.</li>
           </ul>
         </small>
       </Field>
-      <Field name='confirmPassword' type='password' placeholder />
+      <Field name="confirmPassword" type="password" placeholder />
     </Form>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;
