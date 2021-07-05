@@ -142,7 +142,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ match }) => {
                 </div>
               </>
             ) : (
-              <h3 className="a1-body">No Teams registered</h3>
+              <h3 className="a1-heading">No teams registered</h3>
             )}
           </>
         ))}

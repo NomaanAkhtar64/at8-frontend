@@ -22,47 +22,50 @@ const Tournament: React.FC<TournamentProps> = ({ match }) => {
       <div className="tournament-list">
         {tournaments.map((tourna, i) => (
           <>
-            <Link
-              style={{
-                textDecoration: "none",
-                width: "100%",
-                textAlign: "left",
-              }}
-              key={i}
-              to={`/tournament/detail/${tourna.name}`}
+            <div
+              className={`${i === 0 ? "first-tournament" : "tournament-box"}`}
             >
-              <div
-                className={`${i === 0 ? "first-tournament" : "tournament-box"}`}
-              >
-                <div className="tournament-image">
-                  <img src={tourna.image} alt="" width="300px" />
+              <div className="tournament-image">
+                <img src={tourna.image} alt="" width="300px" />
+              </div>
+              <div className="tournament-content">
+                <div>
+                  <h4 className="tournament-title">{tourna.name}</h4>
                 </div>
-                <div className="tournament-content">
-                  <div>
-                    <h4 className="tournament-title">{tourna.name}</h4>
+                <div className="tournament-details">
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    Slots: <span className="value">{tourna.total_slots}</span>
                   </div>
-                  <div className="tournament-details">
-                    <div style={{ display: "flex", flexDirection: "row" }}>
-                      Slots: <span className="value">{tourna.total_slots}</span>
+                  {tourna.prize && (
+                    <div className="tournament-prize">
+                      <span>
+                        Fees: <span className="value">{tourna.fee}</span>
+                      </span>
+                      <span>
+                        Prize: <span className="value">{tourna.prize}</span>
+                      </span>
                     </div>
-                    {tourna.prize && (
-                      <div className="tournament-prize">
-                        <span>
-                          Fees: <span className="value">{tourna.fee}</span>
-                        </span>
-                        <span>
-                          Prize: <span className="value">{tourna.prize}</span>
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  {/* <div className="tournament-dates">
+                  )}
+                </div>
+                <button className="view-details">
+                  <Link
+                    style={{
+                      textDecoration: "none",
+                      width: "100%",
+                      textAlign: "left",
+                    }}
+                    key={i}
+                    to={`/tournament/detail/${tourna.name}`}
+                  >
+                    View Details
+                  </Link>
+                </button>
+                {/* <div className="tournament-dates">
                   <span>Registration starting from</span>
                   <span>{tourna.registration_date}</span>
                 </div> */}
-                </div>
               </div>
-            </Link>
+            </div>
             <hr />
             {/* <TournamentItem tournament={tourna} key={i} /> */}
           </>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Field from "../components/Field";
 
 interface PlayerFieldsProps {
@@ -18,7 +18,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
   game,
   disabled = false,
 }) => {
-  const [email, setEmail] = useState("");
+  const email = "email";
   const fieldName = game.type.type === "url" ? "url" : "username";
   
   return (
@@ -45,9 +45,9 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
         type="email"
         name="email"
         placeholderText=""
-        value={email}
+        value={player[email]}
         onChange={(v: string, e) => {
-          setEmail(v);
+          updatePlayer({ ...player, [email]: v });
         }}
         required={!isAlternate}
         disable={disabled}

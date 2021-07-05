@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useSite from "../hooks/useSite";
 import "../screens/EnterTournament.scss";
 import TeamCaptain from "./TeamCaptain";
@@ -8,7 +8,6 @@ import TeamGame from "./TeamGame";
 import useTeams from "../hooks/teams";
 import useUser from "../hooks/user";
 import useGames from "../hooks/games";
-import axios from "axios";
 
 interface CreateTeamProps {
   onCancel: () => void;
@@ -16,13 +15,11 @@ interface CreateTeamProps {
 }
 
 type Active = "selector" | "basic" | "captain" | "player";
-const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
+const CreateTeam: React.FC<CreateTeamProps> = ({ onSuccess }) => {
   const [active, setActive] = useState<Active>("selector");
   const site = useSite();
   const user = useUser();
   const [isDisabled, setDisabled] = useState(false);
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
   const [team, setTeam] = useState<Team>({
     captain: {
       url: "",
@@ -38,22 +35,11 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
     team_captains_discord_tag: "",
     user: user.state.profile.user,
     game: 0,
-    country: "",
-    city: "",
+    stream_url: "",
   });
   const games = useGames();
   const teams = useTeams();
-  useEffect(() => {
-    axios
-      .get("https://extreme-ip-lookup.com/json/")
-      .then((res) => {
-        setCountry(res.data.country);
-        setCity(res.data.city);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+
   return (
     <div className="create-team-form" style={{ width: "100%" }}>
       <div className="register">
@@ -84,11 +70,13 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
             site={site}
             game={games.find((g) => g.id === team.game)}
             onBack={() => setActive("basic")}
-            onSuccess={({ captain, captainTag }) => {
+            stream_required={false}
+            onSuccess={({ captain, captainTag, stream_url }) => {
               setTeam({
                 ...team,
                 captain,
                 team_captains_discord_tag: captainTag,
+                stream_url
               });
               setActive("player");
             }}
@@ -103,12 +91,9 @@ const CreateTeam: React.FC<CreateTeamProps> = ({ onCancel, onSuccess }) => {
             onBack={() => setActive("captain")}
             onSuccess={async (p: Player[]) => {
               setDisabled(true);
-              // console.log(country, city)
               const createdTeam = await teams.action.create({
                 ...team,
                 players: p,
-                country: country,
-                city: city,
               });
               setDisabled(false);
               if (createdTeam) {

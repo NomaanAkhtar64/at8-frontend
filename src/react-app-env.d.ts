@@ -114,6 +114,7 @@ interface Tournament {
   hasFee: boolean
   teams: Teams[]
   upload_date: string
+  stream_url_required: boolean
 }
 
 interface Announcement {
@@ -136,6 +137,10 @@ interface Player {
   city?: string
 }
 
+interface PI extends Player {
+  index?: number
+}
+
 interface Team {
   id?: number
   user: number
@@ -147,8 +152,7 @@ interface Team {
   registration_date?: Date
   game?: number
   players: Player[]
-  country: string
-  city: string
+  stream_url: string
 }
 
 // interface Payment {
@@ -202,9 +206,6 @@ interface EntryDetail {
 interface Home {
   name: string
   video: string
-}
-interface PI extends Player {
-  index?: number
 }
 interface LoginFields {
   email: string

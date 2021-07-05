@@ -10,9 +10,11 @@ interface TeamCaptainProps {
   onSuccess: (c: {
     captain: Player;
     captainTag: string;
+    stream_url: string;
   }) => void;
   site: Site;
   game: Game;
+  stream_required: boolean;
 }
 
 const TeamCaptain: React.FC<TeamCaptainProps> = ({
@@ -20,8 +22,11 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
   onSuccess,
   site,
   game,
+  stream_required,
 }) => {
   const [errors, setErrors] = useState<string[]>([]);
+  const streamRequired = stream_required;
+  const [streamUrl, setStreamUrl] = useState("");
   const [captainTag, setCaptainTag] = useState("");
   const [captain, setCaptain] = useState<Player>({
     url: "",
@@ -65,6 +70,19 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
           isAlternate={captain.is_alternate}
           number={0}
         />
+        {streamRequired && (
+          <div className="form-group">
+            <label>Game stream link</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Any channel or stream link"
+              value={streamUrl}
+              onChange={(e) => setStreamUrl(e.target.value)}
+            />
+          </div>
+        )}
+
         <FormError errors={errors} />
         <button
           type="button"
@@ -99,7 +117,7 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
             setErrors(errs);
 
             if (isValid) {
-              onSuccess({ captain, captainTag });
+              onSuccess({ captain, captainTag, stream_url: streamUrl });
             }
           }}
         >

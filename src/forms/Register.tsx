@@ -7,7 +7,7 @@ import TeamCaptain from "./TeamCaptain";
 import TeamPlayers from "./TeamPlayers";
 import TeamBasic from "./TeamBasic";
 import Error from "../components/Error";
-import axios from "axios";
+import Title from "../components/Title";
 
 interface RegisterProps {
   toPayment: (i: number) => void;
@@ -23,8 +23,6 @@ const Register: React.FC<RegisterProps> = ({
   profile,
   entries,
 }) => {
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
   const [team, setTeam] = useState<Team>({
     captain: {
       url: "",
@@ -40,32 +38,22 @@ const Register: React.FC<RegisterProps> = ({
     team_captains_discord_tag: "",
     user: profile.user,
     game: tournament.game.id,
-    country: country,
-    city: city,
+    stream_url: "",
   });
   const [teamSelect, setTeamSelect] = useState<number>(null);
-  const site = useSite();
   const [isDisabled, setDisabled] = useState(false);
+  const site = useSite();
   const teams = useTeams();
 
   useEffect(() => {
-    document.title = "Register Team - AT8";
     if (teams.state.length > 0) {
       if (teams.state[0].id) {
         setTeamSelect(teams.state[0].id);
       }
     }
-    axios
-      .get("https://extreme-ip-lookup.com/json/")
-      .then((res) => {
-        setCountry(res.data.country);
-        setCity(res.data.city);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }, [teams]);
   const game = tournament.game;
+  const stream_required = tournament.stream_url_required;
   const validTeams = teams.state.filter((t) => t.game === tournament.game.id);
   const invalidEntries = entries.filter(
     (e) => e.tournament.id === tournament.id && e.user === profile.user
@@ -86,6 +74,7 @@ const Register: React.FC<RegisterProps> = ({
   const [active, setActive] = useState<Active>(getActive);
   return (
     <div>
+      <Title>Register Team - AT8</Title>
       <div className="register">
         {active === "selector" && (
           <div className="register-team-btns">
@@ -131,12 +120,14 @@ const Register: React.FC<RegisterProps> = ({
           <TeamCaptain
             site={site}
             game={game}
+            stream_required={stream_required}
             onBack={() => setActive("basic")}
-            onSuccess={({ captain, captainTag }) => {
+            onSuccess={({ captain, captainTag, stream_url }) => {
               setTeam({
                 ...team,
                 captain,
                 team_captains_discord_tag: captainTag,
+                stream_url,
               });
               setActive("player");
             }}

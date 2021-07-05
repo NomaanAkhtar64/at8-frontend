@@ -1,0 +1,20 @@
+.tournament-slot-confirm {
+    background-color: #444;
+    margin: 50px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.slot-confirm-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h3 {
+        color: #fff;
+        text-decoration: dotted;
+    }
+}

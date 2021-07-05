@@ -9,6 +9,7 @@ import Redirecter from './screens/Redirecter'
 import './style.scss'
 import useUser from './hooks/user'
 import TournamentItem from './components/TournamentItem'
+import TournamentConfirm from './screens/TournamentConfirm'
 const Home = lazy(() => import('./screens/Home'))
 const Account = lazy(() => import('./screens/Account'))
 const Announcements = lazy(() => import('./screens/Announcements'))
@@ -87,6 +88,7 @@ const App: React.FC<AppProps> = () => {
           component={user.isLogin ? VerifyEntry : Redirecter}
         />
         <Route exact path="/tournament/detail/:slug" component={TournamentItem} />
+        <Route exact path="/tournamentslot/confirm/:id" component={TournamentConfirm} />
       </Suspense>
     </Layout>
   )
