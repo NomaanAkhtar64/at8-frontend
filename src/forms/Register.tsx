@@ -27,7 +27,7 @@ const Register: React.FC<RegisterProps> = ({
     captain: {
       url: "",
       username: "",
-      email: "",
+      // email: "",
       is_alternate: false,
       country: "",
       city: "",

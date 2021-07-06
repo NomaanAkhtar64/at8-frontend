@@ -41,7 +41,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
         required={!isAlternate}
         disable={disabled}
       />
-      <Field
+      {/* <Field
         type="email"
         name="email"
         placeholderText=""
@@ -51,7 +51,7 @@ const PlayerFields: React.FC<PlayerFieldsProps> = ({
         }}
         required={!isAlternate}
         disable={disabled}
-      />
+      /> */}
     </div>
   );
 };

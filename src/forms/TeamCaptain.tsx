@@ -31,7 +31,7 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
   const [captain, setCaptain] = useState<Player>({
     url: "",
     username: "",
-    email: "",
+    // email: "",
     is_alternate: false,
     country: "",
     city: "",
@@ -76,7 +76,7 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
             <input
               type="text"
               className="form-control"
-              placeholder="Any channel or stream link"
+              placeholder="Channel where you will stream"
               value={streamUrl}
               onChange={(e) => setStreamUrl(e.target.value)}
             />
