@@ -38,9 +38,12 @@ const Tournament: React.FC<TournamentProps> = ({ match }) => {
                   </div>
                   {tourna.prize && (
                     <div className="tournament-prize">
-                      <span>
-                        Fees: <span className="value">{tourna.fee}</span>
-                      </span>
+                      {tourna.hasFee && (
+                        <span>
+                          Fees: <span className="value">{tourna.fee}</span>
+                        </span>
+                      )}
+
                       <span>
                         Prize: <span className="value">{tourna.prize}</span>
                       </span>
