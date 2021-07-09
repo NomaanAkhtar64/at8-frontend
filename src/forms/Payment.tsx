@@ -1,5 +1,5 @@
-import parse from 'html-react-parser'
 import React, { useEffect, useState } from 'react'
+import parse from 'html-react-parser'
 import { useHistory } from 'react-router'
 import Loading from '../components/Loading'
 import checkCreateEntryData from '../errors/check/checkCreateEntryData'

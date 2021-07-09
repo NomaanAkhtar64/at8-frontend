@@ -1,6 +1,6 @@
 .tournament-slot-confirm {
-    background-color: #444;
-    margin: 50px;
+    background-color: #333;
+    margin: 100px, 0;
     padding: 20px;
     display: flex;
     flex-direction: row;
@@ -13,8 +13,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    h3 {
-        color: #fff;
-        text-decoration: dotted;
+    color: #fff;
+    
+}
+
+@media (min-width: "768px") {
+    .tournament-slot-confirm {
+        margin: 100px;
     }
 }

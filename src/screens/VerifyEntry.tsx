@@ -1,9 +1,12 @@
 import React, { FormEvent, useEffect, useState } from "react";
+import parse from 'html-react-parser'
 import { RouteComponentProps } from "react-router";
+
 import Loading from "../components/Loading";
 import Title from "../components/Title";
 import { checkEntryVerify } from "../errors/check/entry";
 import { useEntry, editEntry } from "../hooks/entry";
+import useSite from "../hooks/useSite";
 import djTimeToRT from "../utils/djTimeToRT";
 import imgToBase64 from "../utils/imgToBase64";
 import "./VerifyEntry.scss";
@@ -22,6 +25,7 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
   const [time, setTime] = useState(null);
   const [image, setImage] = useState<File>(null);
   const [imageB64, setimageB64] = useState<string>(null);
+  const site = useSite();
 
   useEffect(() => {
     if (entry.hasLoaded) {
@@ -71,7 +75,9 @@ const VerifyEntry: React.FC<RouteComponentProps<{ id: string }>> = ({
         <div className="verify-form-container container">
           <Title>Verifiy Payment - AT8</Title>
           <form className="verify-form" onSubmit={onSubmit}>
-            <legend>Verify your payment transaction.</legend>
+            <legend className="a1-heading">Verify your payment transaction.</legend>
+            <div className="payment-details">{parse(site.payment_details)}</div>
+            <br />
             <select
               className="form-select form-select-lg mb-3 payment-select"
               aria-label=".form-select-lg example"
