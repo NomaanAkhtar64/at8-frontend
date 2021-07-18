@@ -20,6 +20,7 @@ const TournamentConfirm: React.FC<TournamentConfirmProps> = ({ match }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [dataUploaded, setDataUploaded] = useState(true);
   const [dataExist, setDataExist] = useState(false);
+  const [error, setError] = useState(false);
 
   const confirm = () => {
     setDataUploaded(false);
@@ -27,6 +28,7 @@ const TournamentConfirm: React.FC<TournamentConfirmProps> = ({ match }) => {
       .put(
         `${__API_URL__}/api/players/${match.params.id}/`,
         {
+          id: match.params.id,
           city,
           country,
           is_alternate: isAlt,
@@ -37,7 +39,10 @@ const TournamentConfirm: React.FC<TournamentConfirmProps> = ({ match }) => {
         setDataUploaded(true);
         setDataExist(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setError(true);
+      });
   };
   useEffect(() => {
     axios
@@ -46,7 +51,12 @@ const TournamentConfirm: React.FC<TournamentConfirmProps> = ({ match }) => {
         setIsAlt(res.data.is_alternate);
         setUsername(res.data.username);
         setIsLoaded(true);
-        if (res.data.city !== null && res.data.country !== null) {
+        if (
+          res.data.city !== "" &&
+          res.data.city !== null &&
+          res.data.country !== "" &&
+          res.data.country !== null
+        ) {
           setDataExist(true);
         }
       })
@@ -66,30 +76,41 @@ const TournamentConfirm: React.FC<TournamentConfirmProps> = ({ match }) => {
       <div className="tournament-slot-confirm">
         {isLoaded ? (
           <div className="slot-confirm-page">
-            <h2>Hey {username},</h2>
-            {dataExist === false ? (
-              <>
-                <h3>Click on the button to confirm your slot</h3>
-                {dataUploaded ? (
-                  <button
-                    className="btn btn-success"
-                    onClick={confirm}
-                    disabled={!dataUploaded}
-                  >
-                    Confirm
-                  </button>
-                ) : (
-                  <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                )}
-              </>
+            <h2>Hi {username},</h2>
+            {error ? (
+              <div className="alert alert-danger text-center">
+                <strong>Oh snap!</strong> Try reloading the page and try again. <br />
+                If still doesn't work then try contacting us on our discord
+                server.
+              </div>
             ) : (
               <>
-                <h4>Your slot is successfully confirmed</h4>
-                <p>
-                  Now you can continue to the website <Link to="/">AT8</Link>
-                </p>
+                {dataExist === false ? (
+                  <>
+                    <h3>Click on the button to confirm your slot</h3>
+                    {dataUploaded ? (
+                      <button
+                        className="btn btn-success"
+                        onClick={confirm}
+                        disabled={!dataUploaded}
+                      >
+                        Confirm
+                      </button>
+                    ) : (
+                      <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <h4>Your player is successfully confirmed</h4>
+                    <p>
+                      Now you can continue to the website{" "}
+                      <Link to="/">AT8</Link>
+                    </p>
+                  </>
+                )}
               </>
             )}
           </div>

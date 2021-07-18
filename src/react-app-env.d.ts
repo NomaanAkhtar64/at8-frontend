@@ -135,6 +135,7 @@ interface Player {
   steam_profile?: string
   country?: string
   city?: string
+  is_verified?: boolean
 }
 
 interface PI extends Player {

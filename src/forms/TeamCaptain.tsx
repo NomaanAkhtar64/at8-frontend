@@ -4,6 +4,8 @@ import FormError from "../components/FormError";
 import * as regex from "../regex";
 import PlayerFields from "./PlayerFields";
 import camelToWords from "../utils/camelToWords";
+import { useEffect } from "react";
+import axios from "axios";
 
 interface TeamCaptainProps {
   onBack: () => void;
@@ -28,14 +30,24 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
   const streamRequired = stream_required;
   const [streamUrl, setStreamUrl] = useState("");
   const [captainTag, setCaptainTag] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
   const [captain, setCaptain] = useState<Player>({
     url: "",
     username: "",
-    // email: "",
     is_alternate: false,
     country: "",
     city: "",
   });
+  useEffect(() => {
+    axios
+      .get("https://geolocation-db.com/json/")
+      .then((res) => {
+        setCity(res.data.city);
+        setCountry(res.data.country_name);
+      })
+      .catch((err) => console.log(err));
+  }, [])
   return (
     <div className="register-form">
       <div className="back-btn ml-3">
@@ -66,7 +78,11 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
         <PlayerFields
           game={game}
           player={captain}
-          updatePlayer={(p) => setCaptain(p)}
+          updatePlayer={(p) => {
+            p.city = city;
+            p.country = country;
+            setCaptain(p);
+          }}
           isAlternate={captain.is_alternate}
           number={0}
         />

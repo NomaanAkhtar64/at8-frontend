@@ -142,6 +142,9 @@ const Register: React.FC<RegisterProps> = ({
             onSuccess={async (p: Player[]) => {
               setDisabled(true);
               const t = await teams.action.create({ ...team, players: p });
+              alert(
+                "Emails are sent to every player, do tell every player to confirm and then your slot in the tournament will get confirm."
+              );
               setDisabled(false);
               if (t) {
                 toPayment(t.id);
@@ -167,6 +170,9 @@ const Register: React.FC<RegisterProps> = ({
               className="form"
               onSubmit={(e) => {
                 e.preventDefault();
+                alert(
+                  "Emails are sent to every player, do tell every player to confirm and then your slot in the tournament will get confirm."
+                );
                 toPayment(teamSelect);
               }}
             >
