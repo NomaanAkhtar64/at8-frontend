@@ -32,8 +32,7 @@ const Form: React.FC<FormProps> = ({ team, onCancel, onSucess }) => {
     username: game.type.type !== 'url' ? team.captain.username : '',
     email: "",
     is_alternate: false,
-    country: '',
-    city: '',
+    location: '',
   })
   const [players, setPlayers] = useState<PI[]>(
     team.players.map((t, i) => ({ ...t, index: i }))

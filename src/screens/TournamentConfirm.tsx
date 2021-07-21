@@ -14,8 +14,7 @@ interface TournamentConfirmProps extends RouteComponentProps<{ id }> {}
 const TournamentConfirm: React.FC<TournamentConfirmProps> = ({ match }) => {
   const headers = useHeaders();
   const [username, setUsername] = useState("");
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
+  const [location, setLocation] = useState("");
   const [isAlt, setIsAlt] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [dataUploaded, setDataUploaded] = useState(true);
@@ -29,8 +28,7 @@ const TournamentConfirm: React.FC<TournamentConfirmProps> = ({ match }) => {
         `${__API_URL__}/api/players/${match.params.id}/`,
         {
           id: match.params.id,
-          city,
-          country,
+          location,
           is_alternate: isAlt,
         },
         { headers }
@@ -52,20 +50,19 @@ const TournamentConfirm: React.FC<TournamentConfirmProps> = ({ match }) => {
         setUsername(res.data.username);
         setIsLoaded(true);
         if (
-          res.data.city !== "" &&
-          res.data.city !== null &&
-          res.data.country !== "" &&
-          res.data.country !== null
+          res.data.location !== "" &&
+          res.data.location !== null
         ) {
           setDataExist(true);
         }
       })
       .catch((err) => console.log(err));
     axios
-      .get("https://geolocation-db.com/json/")
+      .get("https://extreme-ip-lookup.com/json/")
       .then((res) => {
-        setCity(res.data.city);
-        setCountry(res.data.country_name);
+        setLocation(
+          res.data.continent + "," + res.data.country + "," + res.data.city
+        );
       })
       .catch((err) => console.log(err));
   }, [headers, match.params.id]);

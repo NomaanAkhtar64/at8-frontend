@@ -133,8 +133,7 @@ interface Player {
   is_alternate: boolean
   steam_username?: string
   steam_profile?: string
-  country?: string
-  city?: string
+  location?: string
   is_verified?: boolean
 }
 

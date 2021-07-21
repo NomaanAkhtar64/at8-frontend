@@ -30,24 +30,23 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
   const streamRequired = stream_required;
   const [streamUrl, setStreamUrl] = useState("");
   const [captainTag, setCaptainTag] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
+  const [location, setLocation] = useState("");
   const [captain, setCaptain] = useState<Player>({
     url: "",
     username: "",
     is_alternate: false,
-    country: "",
-    city: "",
+    location: "",
   });
   useEffect(() => {
     axios
-      .get("https://geolocation-db.com/json/")
+      .get("https://extreme-ip-lookup.com/json/")
       .then((res) => {
-        setCity(res.data.city);
-        setCountry(res.data.country_name);
+        setLocation(
+          res.data.continent + "," + res.data.country + "," + res.data.city
+        );
       })
       .catch((err) => console.log(err));
-  }, [])
+  }, []);
   return (
     <div className="register-form">
       <div className="back-btn ml-3">
@@ -79,8 +78,7 @@ const TeamCaptain: React.FC<TeamCaptainProps> = ({
           game={game}
           player={captain}
           updatePlayer={(p) => {
-            p.city = city;
-            p.country = country;
+            p.location = location;
             setCaptain(p);
           }}
           isAlternate={captain.is_alternate}

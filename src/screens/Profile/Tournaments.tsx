@@ -101,8 +101,7 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
                   <tr key={i}>
                     <td>
                       {team.captain.username}{" "}
-                      {team.captain.city !== "" &&
-                      team.captain.country !== "" ? (
+                      {team.captain.location !== "" ? (
                         <span style={{ color: "skyblue" }}>Confirmed</span>
                       ) : (
                         <span
@@ -116,10 +115,8 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
                     {team.players.map((player, i) => (
                       <td key={i}>
                         {player.username}{" "}
-                        {player.city !== null &&
-                        player.city !== "" &&
-                        player.country !== "" &&
-                        player.country !== null ? (
+                        {player.location !== null &&
+                        player.location !== "" ? (
                           <span style={{ color: "skyblue" }}>Confirmed</span>
                         ) : (
                           <span
