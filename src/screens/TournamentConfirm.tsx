@@ -49,14 +49,14 @@ const TournamentConfirm: React.FC<TournamentConfirmProps> = ({ match }) => {
         setIsAlt(res.data.is_alternate);
         setUsername(res.data.username);
         setIsLoaded(true);
-        if (
-          res.data.location !== "" &&
-          res.data.location !== null
-        ) {
+        if (res.data.location !== "" && res.data.location !== null) {
           setDataExist(true);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setError(true);
+      });
     axios
       .get("https://extreme-ip-lookup.com/json/")
       .then((res) => {
@@ -71,49 +71,60 @@ const TournamentConfirm: React.FC<TournamentConfirmProps> = ({ match }) => {
     <>
       <Title>Slot Confirm - AT8</Title>
       <div className="tournament-slot-confirm">
-        {isLoaded ? (
-          <div className="slot-confirm-page">
-            <h2>Hi {username},</h2>
-            {error ? (
-              <div className="alert alert-danger text-center">
-                <strong>Oh snap!</strong> Try reloading the page and try again. <br />
-                If still doesn't work then try contacting us on our discord
-                server.
-              </div>
-            ) : (
-              <>
-                {dataExist === false ? (
-                  <>
-                    <h3>Click on the button to confirm your slot</h3>
-                    {dataUploaded ? (
-                      <button
-                        className="btn btn-success"
-                        onClick={confirm}
-                        disabled={!dataUploaded}
-                      >
-                        Confirm
-                      </button>
-                    ) : (
-                      <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                      </div>
-                    )}
-                  </>
+        {!error ? (
+          <>
+            {isLoaded ? (
+              <div className="slot-confirm-page">
+                <h2>Hi {username},</h2>
+                {error ? (
+                  <div className="alert alert-danger text-center">
+                    <strong>Oh snap!</strong> Try reloading the page and try
+                    again. <br />
+                    If still doesn't work then try contacting us on our discord
+                    server.
+                  </div>
                 ) : (
                   <>
-                    <h4>Your player is successfully confirmed</h4>
-                    <p>
-                      Now you can continue to the website{" "}
-                      <Link to="/">AT8</Link>
-                    </p>
+                    {dataExist === false ? (
+                      <>
+                        <h3>Click on the button to confirm your slot</h3>
+                        {dataUploaded ? (
+                          <button
+                            className="btn btn-success"
+                            onClick={confirm}
+                            disabled={!dataUploaded}
+                          >
+                            Confirm
+                          </button>
+                        ) : (
+                          <div className="spinner-border" role="status">
+                            <span className="sr-only">Loading...</span>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <h4>Your player is successfully confirmed</h4>
+                        <p>
+                          Now you can continue to the website{" "}
+                          <Link to="/">AT8</Link>
+                        </p>
+                      </>
+                    )}
                   </>
                 )}
-              </>
+              </div>
+            ) : (
+              <div className="spinner-border text-light" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
             )}
-          </div>
+          </>
         ) : (
-          <div className="spinner-border text-light" role="status">
-            <span className="sr-only">Loading...</span>
+          <div className="alert alert-danger text-center">
+            Please login first to confirm your slot!
+            <br />
+            <span>Login and then again open the link from the email.</span>
           </div>
         )}
       </div>
