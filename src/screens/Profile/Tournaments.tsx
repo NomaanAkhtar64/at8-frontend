@@ -97,7 +97,7 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
                     </td>
                   )}
                 </tr>
-                {teams.state.map((team, i) => (
+                {/* {teams.state.map((team, i) => (
                   <tr key={i}>
                     <td>
                       {team.captain.username}{" "}
@@ -130,7 +130,7 @@ const Tournaments: React.FC<TournamentsProps> = ({ entries }) => {
                     ))}
                     <hr />
                   </tr>
-                ))}
+                ))} */}
               </>
             ))}
           </tbody>

@@ -141,9 +141,9 @@ const Register: React.FC<RegisterProps> = ({
             onSuccess={async (p: Player[]) => {
               setDisabled(true);
               const t = await teams.action.create({ ...team, players: p });
-              alert(
-                "Emails are sent to every player, do tell every player to confirm and then your slot in the tournament will get confirm."
-              );
+              // alert(
+              //   "Emails are sent to every player, do tell every player to confirm and then your slot in the tournament will get confirm."
+              // );
               setDisabled(false);
               if (t) {
                 toPayment(t.id);
